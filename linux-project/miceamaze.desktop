@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=MiceAmaze
+Type=Application
+Comment=video game with mice in a maze
+Exec=miceamaze
+Terminal=false
+Categories=Game;ArcadeGame;
+Icon=miceamaze
+Keywords=Game;Maze;Mice;Snake;

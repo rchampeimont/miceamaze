@@ -1,0 +1,28 @@
+New in version 1.8:
+  * New "How to play" screen
+  * Windows version: Now an installer is provided instead of a ZIP file
+
+New in version 1.7.2:
+  * Linux version: Makefile fixes
+
+New in version 1.7:
+  * New eagle SVG images
+
+New in version 1.6.2:
+  * Linux version: Add ChangeLog
+  * Linux version: Remove SOIL directory
+
+New in version 1.6.1
+  * Linux version: Render fonts at runtime using libglc
+  * Linux version: Depend on ttf-dejavu-core instead of providing the font
+  * Linux version: Install Debian menu and Freedesktop menu entries
+  * Linux version: Depdend on libsoil package instead of compiling it
+  * Linux version: Fix Makefile
+  * Linux version: Remove useless data files
+  * Clarify data file licenses and add license to all source files
+  * Linux version: Support getpwuid() for getting home directory
+  * Linux version: Add watch file
+
+New in version 1.5
+  * Windows version: Render fonts at runtime using Windows font outlines
+

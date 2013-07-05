@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Mon, 18 Mar 2013 15:45:40 +0100
+Source: miceamaze
+Binary: miceamaze
+Architecture: source amd64
+Version: 1.8-2
+Distribution: unstable
+Urgency: low
+Maintainer: Raphael Champeimont <almacha@almacha.org>
+Changed-By: Raphael Champeimont <almacha@almacha.org>
+Description: 
+ miceamaze  - video game with mice in a maze
+Changes: 
+ miceamaze (1.8-2) unstable; urgency=low
+ .
+   * Change priority to extra
+Checksums-Sha1: 
+ c22f3a79e17ab66482236f7ec2c5aa4d343bdb97 894 miceamaze_1.8-2.dsc
+ 80d90ce9235e60da3e557852375d86770a1b534d 2401 miceamaze_1.8-2.debian.tar.gz
+ 650ef5356bc3d49b266b8828fe8b925109f6758b 262496 miceamaze_1.8-2_amd64.deb
+Checksums-Sha256: 
+ ae4d34b24a54c03c2c34c26bbe5ff3a872c449cd768fd2030ec31a2549f3c1c4 894 miceamaze_1.8-2.dsc
+ caab80a214043a8271a1234d3c203d35ae42d4df6f6f501c0599d6bd683df02b 2401 miceamaze_1.8-2.debian.tar.gz
+ 969a8125f8dd5baefd6e5cd07fbec7ff3c6bc8688927ec9cf23bb28e8f72923b 262496 miceamaze_1.8-2_amd64.deb
+Files: 
+ 8c15821112eaeedad82b09d1d48ad3b3 894 games extra miceamaze_1.8-2.dsc
+ b0dc0a75bc32e9b5c999892535780f91 2401 games extra miceamaze_1.8-2.debian.tar.gz
+ ac29002997846c94d4175879e332f9c5 262496 games extra miceamaze_1.8-2_amd64.deb

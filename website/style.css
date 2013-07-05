@@ -1,0 +1,54 @@
+body {
+	background-color: rgb(20%, 10%, 0%);
+	color: white;
+	font-family: Arial, DejaVu Sans, sans-serif;
+}
+h1 {
+	font-family: Times New Roman, DejaVu Serif, serif;
+	text-align: center;
+	font-size: 72px;
+	font-weight: normal;
+	margin: 0
+}
+h2 {
+	color: white;
+	font-family: Times New Roman;
+}
+a:link {
+  color: orange;
+  background: transparent;
+  text-decoration: underline;
+}
+a:visited {
+  color: orange;
+  background: transparent;
+  text-decoration: underline;
+}
+a:link:hover {
+  color: orange;
+  background: purple;
+  text-decoration: underline;
+}
+a:visited:hover {
+  color: orange;
+  background: purple;
+  text-decoration: underline;
+}
+a:link:active {
+  color: orange;
+  background: purple;
+  text-decoration: underline;
+}
+a:visited:active {
+  color: orange;
+  background: purple;
+  text-decoration: underline;
+}
+.osicon {
+	width: 30px;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+img {
+	border: none;
+}

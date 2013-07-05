@@ -1,0 +1,6 @@
+?package(miceamaze): \
+ needs="X11" \
+ section="Games/Action" \
+ title="MiceAmaze" \
+ command="/usr/games/miceamaze" \
+ icon="/usr/share/pixmaps/miceamaze.xpm"

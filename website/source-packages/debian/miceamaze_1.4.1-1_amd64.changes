@@ -1,0 +1,32 @@
+Format: 1.8
+Date: Mon, 20 Nov 2012 22:00:00 +0100
+Source: miceamaze
+Binary: miceamaze
+Architecture: source amd64
+Version: 1.4.1-1
+Distribution: UNRELEASED
+Urgency: low
+Maintainer: Raphael Champeimont <almacha@almacha.org>
+Changed-By: Raphael Champeimont <almacha@almacha.org>
+Description: 
+ miceamaze  - video game with mice in a maze
+Changes: 
+ miceamaze (1.4.1-1) UNRELEASED; urgency=low
+ .
+   * Switch to DejaVu fonts instead of Liberation fonts
+     (to avoid license issues).
+Checksums-Sha1: 
+ 9540527ea57861253b93bb605020a1ea0d79ac9d 862 miceamaze_1.4.1-1.dsc
+ 50da76f2599ce47753412f0a4e4bedfd8cbc46be 1137848 miceamaze_1.4.1.orig.tar.gz
+ 219424a3471f45968b6a63b6498c6ac2ff882276 2865 miceamaze_1.4.1-1.debian.tar.gz
+ 3a1b3964ed0343c44198a457eabd9b7af7de2604 792510 miceamaze_1.4.1-1_amd64.deb
+Checksums-Sha256: 
+ fbf0aad33ff0f40044791da56d2d43a9f64a198f0607ef4185876698c674a661 862 miceamaze_1.4.1-1.dsc
+ 8577b88d601fffa37420cc42a158d68d3e21ff8553f666c4ae058ea74e921f76 1137848 miceamaze_1.4.1.orig.tar.gz
+ 1d921ed79830ec64eafbd23398aa27bf0930b2881a956c28e178442153dfc7a9 2865 miceamaze_1.4.1-1.debian.tar.gz
+ d45b180001a2adad1d404bb43619e188aec8df10c2eeae8b25e93e63ef3fa884 792510 miceamaze_1.4.1-1_amd64.deb
+Files: 
+ a3792ba720aaf14509b2803f39c4980a 862 games optional miceamaze_1.4.1-1.dsc
+ b6936ffcdc845bdf6bb82f587837a535 1137848 games optional miceamaze_1.4.1.orig.tar.gz
+ b59d2e73c29832f57ea20d564b456261 2865 games optional miceamaze_1.4.1-1.debian.tar.gz
+ d9ebaa39747a82c7757e4314018b4015 792510 games optional miceamaze_1.4.1-1_amd64.deb
