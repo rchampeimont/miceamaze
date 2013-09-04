@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+# Specific files
+linux-project/data/images/eagle.png
+linux-project/data/images/eagle2.png
+linux-project/miceamaze
+linux-project/miceamaze.6.gz
+linux-project/miceamaze.png
+linux-project/miceamaze.xpm
+
