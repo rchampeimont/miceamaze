@@ -1,1 +1,5 @@
-Like linux-project, but instead of depending on SOIL, we compile it and link it statically.
+Like linux-project, but with as few dependencies as possible.
+Removed dependecies:
+- rsvg, convert (images are pre-rendered)
+- gzip (man pages removed)
+- SOIL (compiled and linked statically)
