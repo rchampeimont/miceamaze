@@ -1,4 +1,4 @@
-CXXFLAGS+=-Wall -DDATAPATH=\"${DATAPATH}\" $(shell sdl-config --cflags)
+CXXFLAGS+=-Wall -DDATAPATH=\"${DATAPATH}\" $(shell sdl-config --cflags) -I.
 LDLIBS=-Wall -lGLC $(shell sdl-config --libs) -lGL -lm
 
 OBJS := $(patsubst src/%.cpp,src/%.o,$(wildcard src/*.cpp)) SOIL/lib/libSOIL.a
