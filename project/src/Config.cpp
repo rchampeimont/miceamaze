@@ -134,8 +134,8 @@ void Config::load() {
 		if (strcasecmp(argv[i], "-h") == 0 || strcasecmp(argv[i], "-help") == 0 || strcasecmp(argv[i], "--help") == 0 || strcasecmp(argv[i], "/?") == 0) {
 			cout << Functions::getAppName() << " " << Functions::getVersion() << endl;
 			cout << "Command-line options:" << endl;
-			cout << "--window: start in window mode (not fullscreen)" << endl;
-			cout << "--fullscreen: start in fullscreen mode" << endl;
+			cout << "--window (or -w): start in window mode (not fullscreen)" << endl;
+			cout << "--fullscreen (or -f): start in fullscreen mode" << endl;
 			cout << "--powersave: limit number of FPS to save energy" << endl;
 			cout << "--maxfps: run in max FPS even if on battery" << endl;
 			exit(0);
