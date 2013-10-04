@@ -96,6 +96,8 @@ public:
 		return instance;
 	}
 
+	static void mainLoopIteration();
+
 	void glCoordsFromWindowCoords(int x, int y, float *xgl, float *ygl) {
 		if (xgl != NULL) *xgl = (float) (x-screenOffsetX) / screenWidth * 2 - 1;
 		if (ygl != NULL) *ygl = - ((float) (y-screenOffsetY) / screenHeight * 2 - 1);

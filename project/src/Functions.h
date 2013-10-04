@@ -48,6 +48,10 @@
 #include <vector>
 #include <algorithm>
 
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#endif
+
 #ifdef _WIN32
 // Windows
 #include <windows.h>
@@ -82,10 +86,12 @@
 #include "SOIL.h"
 #endif
 
+#ifndef EMSCRIPTEN
 #ifdef _WIN32
 #define FONT_WIN
 #else
 #define FONT_GLC
+#endif
 #endif
 
 #ifdef FONT_GLC

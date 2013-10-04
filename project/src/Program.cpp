@@ -97,36 +97,36 @@ void Program::loadAllTextures() {
 
 // Taken from SDL man page
 SDL_Cursor *Program::init_system_cursor(const char *image[]) {
-  int i, row, col;
-  Uint8 data[4*32];
-  Uint8 mask[4*32];
-  int hot_x, hot_y;
+	int i, row, col;
+	Uint8 data[4*32];
+	Uint8 mask[4*32];
+	int hot_x, hot_y;
 
-  i = -1;
-  for ( row=0; row<32; ++row ) {
-    for ( col=0; col<32; ++col ) {
-      if ( col % 8 ) {
-        data[i] <<= 1;
-        mask[i] <<= 1;
-      } else {
-        ++i;
-        data[i] = mask[i] = 0;
-      }
-      switch (image[4+row][col]) {
-        case 'X':
-          data[i] |= 0x01;
-          mask[i] |= 0x01;
-          break;
-        case '.':
-          mask[i] |= 0x01;
-          break;
-        case ' ':
-          break;
-      }
-    }
-  }
-  sscanf(image[4+row], "%d,%d", &hot_x, &hot_y);
-  return SDL_CreateCursor(data, mask, 32, 32, hot_x, hot_y);
+	i = -1;
+	for ( row=0; row<32; ++row ) {
+		for ( col=0; col<32; ++col ) {
+			if ( col % 8 ) {
+				data[i] <<= 1;
+				mask[i] <<= 1;
+			} else {
+				++i;
+				data[i] = mask[i] = 0;
+			}
+			switch (image[4+row][col]) {
+			case 'X':
+			data[i] |= 0x01;
+			mask[i] |= 0x01;
+			break;
+			case '.':
+				mask[i] |= 0x01;
+				break;
+			case ' ':
+				break;
+			}
+		}
+	}
+	sscanf(image[4+row], "%d,%d", &hot_x, &hot_y);
+	return SDL_CreateCursor(data, mask, 32, 32, hot_x, hot_y);
 }
 
 // Called on video init or re-init
@@ -214,12 +214,12 @@ int Program::loadTexture(string path) {
 
 int Program::loadTexture(string path, IntXY *wh) {
 	int texture = SOIL_load_OGL_texture
-		(
-		path.c_str(),
-		SOIL_LOAD_AUTO,
-		SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_INVERT_Y
-		);
+			(
+					path.c_str(),
+					SOIL_LOAD_AUTO,
+					SOIL_CREATE_NEW_ID,
+					SOIL_FLAG_INVERT_Y
+			);
 
 	Functions::verify(texture != 0, "could not load texture from", path.c_str());
 
@@ -272,9 +272,14 @@ void Program::run() {
 	}
 
 	// request video hardware information
+#ifndef EMSCRIPTEN
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
 	nativeResolution.x = videoInfo->current_w;
 	nativeResolution.y = videoInfo->current_h;
+#else
+	nativeResolution.x = 1024;
+	nativeResolution.y = 768,
+#endif
 
 	// initialize display
 	SDL_WM_SetCaption(Functions::getAppName().c_str(), Functions::getAppName().c_str());
@@ -282,8 +287,10 @@ void Program::run() {
 	SDL_Surface *icon = SDL_LoadBMP((Program::getInstance()->dataPath + "/images/icon32.bmp").c_str());
 	SDL_WM_SetIcon(icon, NULL);
 
+#ifndef EMSCRIPTEN
 	char s[] = "SDL_VIDEO_CENTERED=center";
 	SDL_putenv(s);
+#endif
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
@@ -298,51 +305,54 @@ void Program::run() {
 	loadAllTextures();
 	RenderFlatText::init();
 
+#ifndef EMSCRIPTEN
 	const char *arrow2[] = {
-	  /* width height num_colors chars_per_pixel */
-	  "    32    32        3            1",
-	  /* colors */
-	  "X c #000000",
-	  ". c #ffffff",
-	  "  c None",
-	  /* pixels */
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "                                ",
-	  "0,0"
+			/* width height num_colors chars_per_pixel */
+			"    32    32        3            1",
+			/* colors */
+			"X c #000000",
+			". c #ffffff",
+			"  c None",
+			/* pixels */
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"                                ",
+			"0,0"
 	};
 	emptyCursor = init_system_cursor(arrow2);
 
 	SDL_SetCursor(Program::getInstance()->emptyCursor);
+
+#endif
 
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -354,6 +364,12 @@ void Program::run() {
 	srand(SDL_GetTicks());
 
 	scene = 0;
+
+#ifdef EMSCRIPTEN
+
+  emscripten_set_main_loop(mainLoopIteration, 0, 1);
+
+#else
 
 	while (true) {
 		switch (scene) {
@@ -408,42 +424,48 @@ void Program::run() {
 		}
 		}
 	}
+
+#endif
 }
 
 // General event handling valid in any situation:
 // Alt+F4 pressed, windows close clicked, fullscreen, ...
 void Program::generalEventHandler(SDL_Event *event) {
 	switch (event->type) {
-		case SDL_QUIT:
-			// User clicked on the close window button.
-			exit(0);
-			break;
-		case SDL_KEYDOWN:
-			if ((event->key.keysym.sym == SDLK_F4
-					&& (event->key.keysym.mod & KMOD_LALT))
+	case SDL_QUIT:
+		// User clicked on the close window button.
+		exit(0);
+		break;
+	case SDL_KEYDOWN:
+		if ((event->key.keysym.sym == SDLK_F4
+				&& (event->key.keysym.mod & KMOD_LALT))
 				|| (event->key.keysym.sym == SDLK_F4
-					&& (event->key.keysym.mod & KMOD_RALT))
-				|| (event->key.keysym.sym == SDLK_F12)
-					) {
-				// Alt+F4 was pressed, so exit.
-				exit(0);
-			} else if ((event->key.keysym.sym == SDLK_RETURN
-					&& (event->key.keysym.mod & KMOD_LALT))
+						&& (event->key.keysym.mod & KMOD_RALT))
+						|| (event->key.keysym.sym == SDLK_F12)
+		) {
+			// Alt+F4 was pressed, so exit.
+			exit(0);
+		} else if ((event->key.keysym.sym == SDLK_RETURN
+				&& (event->key.keysym.mod & KMOD_LALT))
 				|| (event->key.keysym.sym == SDLK_RETURN
-					&& (event->key.keysym.mod & KMOD_RALT))
-				|| (event->key.keysym.sym == SDLK_F11)
-					) {
-				// Switch between window / full screen
-				Program::getInstance()->toggleFullscreen();
-			}
-			break;
-			/*
+						&& (event->key.keysym.mod & KMOD_RALT))
+						|| (event->key.keysym.sym == SDLK_F11)
+		) {
+			// Switch between window / full screen
+			Program::getInstance()->toggleFullscreen();
+		}
+		break;
+		/*
 		case SDL_VIDEORESIZE:
 			resizedWindow.x = event->resize.w;
 			resizedWindow.y = event->resize.h;
 			reinitVideo();
 			break;
-			*/
+		 */
 	}
 }
 
+
+void Program::mainLoopIteration() {
+	Functions::drawStupidTriangle();
+}

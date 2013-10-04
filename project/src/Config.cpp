@@ -38,6 +38,7 @@ Config::Config() {
 }
 
 void Config::load() {
+#ifndef EMSCRIPTEN
 #ifdef _WIN32
 	char appDataPath[MAX_PATH];
 	Functions::verify(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, appDataPath) == S_OK);
@@ -67,6 +68,9 @@ void Config::load() {
 		}
 	}
 #endif
+
+	path = ".";
+
 	if (!path.empty()) {
 		ifstream f;
 		f.open(configFilePath().c_str(), ios::in | ios::binary);
@@ -114,6 +118,12 @@ void Config::load() {
 			f.close();
 		}
 	}
+#else
+	// Emscripten mode
+	fpsBehaviour = 1;
+	Program::getInstance()->fullscreen = true;
+	showFPS = true;
+#endif
 
 	// Command-line options overwrite config file options
 	char **argv = Program::getInstance()->argv;
@@ -145,6 +155,7 @@ void Config::load() {
 }
 
 void Config::save() {
+#ifndef EMSCRIPTEN
 	if (path.empty()) {
 		Functions::error("could not save config");
 		return;
@@ -161,4 +172,5 @@ void Config::save() {
 	f << "showfps=" << (showFPS ? 1 : 0) << "\r\n";
 
 	f.close();
+#endif
 }
