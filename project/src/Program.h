@@ -70,7 +70,7 @@ public:
 	Config config;
 	IntXY nativeResolution;
 	int initVideoCounter;
-	int scene;
+	int scene, runningScene;
 	string mazeToLoad;
 	IntXY resizedWindow;
 	FPS *fps;

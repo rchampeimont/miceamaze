@@ -364,6 +364,7 @@ void Program::run() {
 	srand(SDL_GetTicks());
 
 	scene = 0;
+	runningScene = -1;
 
 #ifdef EMSCRIPTEN
 
@@ -467,5 +468,10 @@ void Program::generalEventHandler(SDL_Event *event) {
 
 
 void Program::mainLoopIteration() {
-	Functions::drawStupidTriangle();
+	/*
+	Program *program = Program::getInstance();
+	if (runningScene ! scene) {
+
+	}
+	*/
 }
