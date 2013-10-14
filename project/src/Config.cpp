@@ -69,8 +69,6 @@ void Config::load() {
 	}
 #endif
 
-	path = ".";
-
 	if (!path.empty()) {
 		ifstream f;
 		f.open(configFilePath().c_str(), ios::in | ios::binary);
