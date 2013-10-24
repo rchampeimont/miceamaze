@@ -1,0 +1,118 @@
+These are the instructions to build QuesoGLC on POSIX platforms. If you want to
+build QuesoGLC on Windows, see INSTALL.win
+
+1. What do you need in order to build QuesoGLC :
+================================================
+
+1.1 Tools/headers/libraries that are mandatory :
+------------------------------------------------
+
+QuesoGLC depends on tools and libraries that are now widely used in the
+Open Source world, and which might already be installed on your favorite
+platform. If not, you can get them on Internet and build them on your system.
+
+* OpenGL, GLU (www.opengl.org/documentation/implementations.html)
+	QuesoGLC is supposed to provide a character rendering service for
+	OpenGL. Hence you definitely need OpenGL ;-)
+* FreeType2 (www.freetype.org)
+	This is the core lib that manage fonts files and datas. QuesoGLC heavily
+	uses its functionnalities.
+* Fontconfig (www.fontconfig.org)
+	Fontconfig is a library for font customization and configuration. It is
+	used by QuesoGLC to automagically detect the fonts that are available
+	on your system.
+* POSIX threads
+	GLC is designed with core support for multi-threading. However,
+	QuesoGLC only supports POSIX threads. 'pthread' lib and headers are
+	mandatory in order to build QuesoGLC.
+* GNU Make tool (www.gnu.org/software/make/make.html)
+	QuesoGLC's build process heavily rely on this tool. You must install it
+	first.
+
+1.2 Tools/headers/libraries that are optional :
+-----------------------------------------------
+
+QuesoGLC can be safely built and used without GLUT. However, some test programs
+need GLUT in order to display OpenGL graphics : if GLUT is not installed on your
+system, the examples will not build.
+Doxygen is a tool to generate the docs, you need it if you want to generate the
+documentation yourself; otherwise you can get the reference manual of QuesoGLC
+by either downloading it from SourceForge or browsing it on-line on the QuesoGLC
+web site (http://quesoglc.sourceforge.net).
+
+* Mark Kilgard's GLUT (www.opengl.org/resources/libraries/glut.html)
+	It provides platform independant support for OpenGL.
+* Doxygen (www.stack.nl/~dimitri/doxygen)
+	A documentation system for several language (including C) that
+	generates the on-line documentation (in HTML) and the off-line
+	reference manual (in Latex/PDF/HTML) of QuesoGLC
+
+2. OK, all those libs and headers are installed on my machine.
+What shall I do now ?
+==============================================================
+
+2.1. Build the library and the examples :
+-----------------------------------------
+
+Simply type
+
+  ./configure
+  make
+  make install
+
+on the command line to configure, build and install QuesoGLC on your
+system. Note that the default installation path is "/usr/local". If you want to
+install QuesoGLC to another location, use the --prefix option of configure :
+
+  ./configure --prefix=/another/location
+
+By default, both the static and the dynamic library are built, but if you only
+want the static library you can use the --disable-shared option of the
+configure script :
+
+  ./configure --disable-shared
+
+For more informations about the options of the configure script, just type :
+
+  ./configure --help
+
+2.2 Build the docs (optional) :
+-------------------------------
+
+You may also want to build the documentation; QuesoGLC uses Doxygen that does
+the job nicely. In order to get the docs, go to the docs/ directory and run
+Doxygen:
+
+  cd docs
+  doxygen
+
+This should build the docs in HTML and Latex/PDF (the later needs latex and
+pdflatex to be installed on your system).
+
+3. Is that all ?
+================
+
+When the library has been successfully built, you might define the environment
+variable GLC_PATH in order to indicate QuesoGLC where to find fonts. This step
+is optional since QuesoGLC uses Fontconfig to locate the fonts on your system.
+You can however add some additional directories to those detected by Fontconfig.
+
+GLC_PATH is a colon-separated list of directories similar to the PATH
+environment variable. Depending on your shell the command is either
+
+export GLC_PATH=/usr/lib/X11/fonts/Type1:/path/to/another/font/directory
+
+or
+
+setenv GLC_PATH /usr/lib/X11/fonts/Type1:/path/to/another/font/directory
+
+Note : the path /usr/lib/X11/fonts/Type1 usually leads to Type1 fonts on almost
+all X-window flavor.
+
+4. Is that really all ?
+=======================
+
+You should have a look at the README file and at the documentation, especially
+at the tutorials. You can also get the specifications of GLC from
+www.opengl.org/documentation/specs/glc/glcspec.ps. You should also try the tests
+and example programs too.

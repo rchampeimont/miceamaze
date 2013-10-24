@@ -1,0 +1,137 @@
+These are the instructions to build QuesoGLC on Windows, if you want to build
+QuesoGLC on POSIX platforms, see INSTALL. If you just want the binaries, DLL,
+headers and import files, a precompiled package is available at
+http://sourceforge.net/projects/quesoglc.
+
+1. What do you need in order to build QuesoGLC :
+================================================
+
+1.1 Tools/headers/libraries that are mandatory :
+------------------------------------------------
+
+QuesoGLC depends on tools and libraries that are now widely used in the
+Open Source world, and which might already be installed on your favorite
+platform. If not, you can get them on Internet or build them on your system.
+
+* OpenGL, GLU (www.opengl.org/documentation/implementations.html)
+	QuesoGLC is supposed to provide a character rendering service for
+	OpenGL. Hence you definitely need OpenGL ;-) You must check that
+	opengl32.dll and glu32.dll are installed in your system directory (which
+	may be either C:\Windows\System, C:\Winnt\System32 or
+	C:\Windows\System32)
+	otherwise you must download them at
+	http://download.microsoft.com/download/win95upg/info/1/w95/en-us/opengl95.exe
+* FreeType2 (www.freetype.org)
+	This is the core lib that manage fonts files and datas. QuesoGLC heavily
+	uses its functionnalities. You can find a precompiled DLL at
+	http://gnuwin32.sourceforge.net/packages/freetype.htm
+* Fontconfig (www.fontconfig.org)
+	Fontconfig is a library for font customization and configuration. It is
+	used by QuesoGLC to automagically detect the fonts that are available
+	on your system. You can find a precompiled DLL at
+	http://www.gimp.org/~tml/gimp/win32/downloads.html
+	Fontconfig needs expat (http://expat.sourceforge.net) which an XML
+	parser. You can download it at the sourceforge site but for some reason
+	the authors decided to change the name of the DLL, so fontconfig may
+	complain that it can not find 'xmlparse.dll'. Just rename expat.dll to
+	xmlparse.dll will do the trick.
+* MinGW32 tools including the make tool (www.mingw.org)
+	The package name MinGW 5.0.3 or likely contains all you need. Download
+	it and install it.
+
+1.2 Tools/headers/libraries that are optional :
+-----------------------------------------------
+
+QuesoGLC can be safely built and used without GLUT. However, some test programs
+need GLUT in order to display OpenGL graphics : if GLUT is not installed on your
+system, the examples will not build.
+Doxygen is a tool to generate the docs, you need it if you want to generate the
+documentation yourself; otherwise you can get the reference manual of QuesoGLC
+by either downloading it from SourceForge or browsing it on-line on the QuesoGLC
+web site (http://quesoglc.sourceforge.net).
+
+* Mark Kilgard's GLUT (www.opengl.org/resources/libraries/glut.html)
+	It provides platform independant support for OpenGL. The DLL, lib and
+	headers can be downloaded at http://www.xmission.com/~nate/glut.html.
+	Do not forget to read cautiously the instruction about GLUT at the MinGW
+	site (http://www.mingw.org/MinGWiki/index.php/Glut).
+* Doxygen (www.stack.nl/~dimitri/doxygen)
+	A documentation system for several language (including C) that
+	generates the on-line documentation (in HTML) and the off-line
+	reference manual (in Latex/PDF/HTML) of QuesoGLC
+
+2. OK, all those libs and headers are installed on my machine.
+What shall I do now ?
+==============================================================
+
+2.1 First make sure that the MinGW binaries are in your PATH :
+--------------------------------------------------------------
+
+If you installed MinGW in the directory C:\MinGW then you must check that
+C:\MinGW\bin is in your PATH. Type :
+
+  echo %PATH%
+
+and if C:\MinGW\bin is not listed in the PATH, then you must add it :
+
+  set PATH=%PATH%;C:\MinGW\bin
+
+Of course, if you installed MinGW elsewhere then you must change C:\MinGW\bin
+in the command above by the relevant path.
+
+2.2 Edit the makefile in order to make it suit your needs :
+-----------------------------------------------------------
+
+You may need to change some of the parameters depending on your installation of
+the above mentionned tools and libraries. The parameters are prepended by
+comments that are self explanatory, let them guide you. The makefile is named
+'makefile.mgw' (without the quotes as usual).
+
+2.3 Build the library and the examples :
+----------------------------------------
+
+At least, you have reached the point where you can build the whole stuff.
+Just run the makefile :
+
+  mingw32-make -f makefile.mgw
+
+It should build everything. Before you try to run the tests, make sure that the
+DLLs (including QuesoGLC's) are either in the same directory than your
+executables or in the system directory (C:\Windows\System or similar).
+
+2.4 Build the docs (optional) :
+-------------------------------
+
+You may also want to build the documentation; QuesoGLC uses Doxygen that does
+the job nicely. In order to get the docs, go to the docs/ directory and run
+Doxygen:
+
+  cd docs
+  doxygen.exe
+
+This should build the docs in HTML and Latex/PDF (the later needs latex and
+pdflatex to be installed on your system).
+
+3. Is that all ?
+================
+
+When the library has been successfully built, you might define the environment
+variable GLC_PATH in order to indicate QuesoGLC where to find fonts. This step
+is optional since QuesoGLC uses Fontconfig to locate the fonts on your system.
+You can however add some additional directories to those detected by Fontconfig.
+
+GLC_PATH is a semicolon-separated list of directories similar to the PATH
+environment variable. Depending on your shell the command is either
+
+set GLC_PATH=C:\Windows\fonts;C:\whatever\path\to\another\font\directory
+
+Note : the path C:\Windows\fonts usually leads to every fonts installed on your
+system.
+
+4. Is that really all ?
+=======================
+
+You should have a look at the README file and at the documentation, especially
+at the tutorials. You can also get the specifications of GLC from
+www.opengl.org/documentation/specs/glc/glcspec.ps. You should also try the tests
+and example programs too.

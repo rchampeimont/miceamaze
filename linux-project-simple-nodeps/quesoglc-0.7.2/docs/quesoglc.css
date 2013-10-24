@@ -1,0 +1,485 @@
+/* QuesoGLC
+ * A free implementation of the OpenGL Character Renderer (GLC)
+ * Copyright (c) 2002, 2004-2007, Bertrand Coconnier
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+/* $Id: quesoglc.css 632 2007-10-20 17:23:54Z bcoconni $ */
+
+A {font-size: 12px;}
+
+TD, CAPTION { font-size: 14px;}
+
+A:link, a:visited {
+text-decoration : none;
+color : #314e96;
+}
+
+A:hover {
+text-decoration: none;
+color : #fe7405;	
+}
+
+BODY {	
+background-color: #ffffff;	
+margin-top: 10px;	
+font-family: Verdana, Arial, sans-serif;
+/*font-size: 14px;*/
+}
+
+HR { height: 1px; border: solid #fe7405 0px; border-top-width: 1px;}
+
+/* QuesoGLC */
+TABLE.qmenu {
+text-decoration: none;
+width: 160px;
+margin-top: 0px;
+padding-left: 2px;
+padding-right: 2px;
+background: #f5f5f5;
+border: 1px #cccccc solid;
+}
+
+TABLE.qsubmenu {
+border: 0px #cccccc solid;
+background: #f5f5f5;
+}
+
+TD.qtitle {
+text-decoration: none;
+text-align: center;
+color: #fe7405;
+padding-bottom: 4px;
+padding-left: 0px;
+padding-top: 0px;
+padding-right: 0px;
+margin: 0px;
+font-size: 14px;
+}
+
+TD.qglobal {
+padding: 0px;
+margin: 0px;
+}
+
+TD.qitem a {
+text-decoration: none;
+display: block;
+background: #ffffff;
+color: #314e96;
+margin: 0px;
+padding: 4px;
+padding-left: 10px;
+border: 1px #cccccc solid;
+font-size: 12px;
+}
+
+TD.qitem a:hover {
+text-decoration: none;
+display: block;
+color: #fe7405;
+border: 1px #cccccc solid;
+text-decoration: none;
+}
+
+TABLE.qicons {
+border: 0px;
+background: #ffffff;
+padding-top: 20px;
+}
+
+TD.qicons {
+padding-bottom: 10px;
+padding-top: 0px;
+padding-left: 0px;
+padding-right: 0px;
+text-align: center;
+}
+
+TD.qmain {
+border: 0px #cccccc solid;
+background: #ffffff;
+padding: 4px;
+font-size: 14px;
+}
+
+UL.qmenu LI UL{
+display:none;
+}
+
+UL.qmenu LI:hover>UL{
+display:block;
+}
+
+UL.qmenu{
+float:left;
+}
+
+UL.qmenu,
+UL.qmenu UL{
+list-style:none;
+width: 100%;
+padding:0px;
+margin:0px;
+margin-bottom:2px;
+}
+
+UL.qmenu UL{
+position:absolute;
+top:-1px;
+left:152px;
+border: 1px #cccccc solid;
+background: #fbfbfb;
+}
+
+UL.qmenu LI.mainmenu{
+text-decoration: none;
+/*  display: block; */
+background: #ffffff;
+color: #314e96;
+margin: 2px;
+margin-left: 1px;
+margin-right: 1px;
+padding: 2px;
+border: 1px #cccccc solid;
+font-size: 12px;
+position:relative;
+}
+
+UL.qmenu A{
+text-decoration: none;
+display: block;
+color: #314e96;
+padding: 2px;
+padding-left: 10px;
+font-size: 12px;
+}
+
+UL.qmenu A:hover{
+color: #fe7405;
+}
+
+/* Doxygen */
+A.anchor, A.anchor:hover {
+text-align: center;
+color: #000000;
+font-size: 20px;
+}
+
+H1 {
+text-align: center;
+color: #000000;
+}
+
+H1 A.anchor, H1 A.anchor:hover {
+font-size: 28px;
+}
+
+H3 A.anchor, H3 A.anchor:hover {
+font-size: 16px;
+}
+
+A.el {
+font-size: 14px;
+}
+
+A.code {
+font-size: 14px;
+}
+
+P, DL {
+font-size: 14px;
+}
+
+H2 {
+text-decoration: none;
+border: 1px #cccccc solid;
+padding: 4px;
+background: #f5f5f5;
+color: #555555;
+font-size: 20px;
+}
+
+TABLE.mdTable {
+border: 1px solid #e8e0d8;
+background-color: #fff4e0;
+color: #555555;
+font-size: 14px;
+width: 100%;
+}
+
+TD.mdRow {
+padding: 8px 20px;
+color: #555555;
+font-size: 14px;
+}
+
+TD.md {
+background-color: #fff4e0;
+font-weight: bold;
+color: #555555;
+font-size: 14px;
+}
+
+TD.mdname1 {
+background-color: #fff4e0;
+font-weight: bold;
+color: #A03030;
+}
+
+TD.mdname {
+background-color: #fff4e0;
+font-weight: bold;
+color: #A03030;
+width: 600px;
+font-size: 14px;
+}
+
+DIV.fragment {
+width: 80%;
+border: 1px solid #f0f0d0;
+background-color: #ffffe8;
+padding-left: 3%;
+margin: 4px;
+margin-left: 10%;
+}
+
+SPAN.keyword       { color: #008000 }
+SPAN.keywordtype   { color: #604020 }
+SPAN.keywordflow   { color: #e08000 }
+SPAN.comment       { color: #800000 }
+SPAN.preprocessor  { color: #806020 }
+SPAN.stringliteral { color: #008020 }
+SPAN.charliteral   { color: #008080 }
+
+CAPTION { font-weight: bold }
+
+/* Style for detailed member documentation Doxygen 1.4.7 */
+.memtemplate {
+  font-size: 80%;
+  color: #606060;
+  font-weight: normal;
+} 
+.memnav { 
+  background-color: #e8eef2;
+  border: 1px solid #84b0c7;
+  text-align: center;
+  margin: 2px;
+  margin-right: 15px;
+  padding: 2px;
+}
+.memitem {
+  padding: 4px;
+  background-color: #eef3f5;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dedeee;
+  -moz-border-radius: 8px 8px 8px 8px;
+}
+.memname {
+  white-space: nowrap;
+  font-weight: bold;
+}
+.memdoc{
+  padding-left: 10px;
+}
+.memproto {
+  background-color: #d5e1e8;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #84b0c7;
+  font-weight: bold;
+  -moz-border-radius: 8px 8px 8px 8px;
+}
+.paramkey {
+  text-align: right;
+}
+.paramtype {
+  white-space: nowrap;
+}
+TD.paramname {
+  color: #602020;
+  font-style: italic;
+}
+/* End Styling for detailed member documentation for Doxygen 1.4.7 */
+
+/* RedBlog */
+INPUT:hover, SELECT:hover {
+border: 1px #c67000 solid;
+}
+
+TEXTAREA, SELECT, INPUT {
+background-color: #ffffff;
+color: #314e96;
+font-family: Verdana, Arial, sans-serif;
+font-size: 12px;
+font-weight: normal;	
+border: 1px #314e96 solid;
+}
+
+UL.ng_list {
+margin: 20px;
+padding: 0px;
+}
+
+LI.ng_list_item {
+list-style-type: disc;
+/*color: #fe7405;*/
+}
+
+.menuitem {
+border: 1px #cccccc solid;
+background-color: #ffffff;
+padding: 0px;
+text-align: left;
+}
+
+A.menuitem {
+border: 0px;
+/*font-size: 12px;
+font-weight: bold;*/
+}
+
+TD.menuitem A {
+background-color: #ffffff;
+display: block;
+margin: 0;
+padding: 4px;
+padding-left: 10px;
+}
+
+TD.menuitem A:hover {
+background-color: #ffffff;
+color: #fe7405;
+}
+
+A.menuitem2:link, A.menuitem2:visited {
+border-top: 1px solid #fe7405;
+border-bottom: 1px solid #fe7405;
+}
+
+A.menuitem2:hover {
+border-top: 1px solid #317c76;
+border-bottom: 1px solid #317c76;
+}
+
+A.title2 {
+font-size: 15px;
+font-weight: bold;
+}
+
+.backg { background-color:#ffffff; }
+
+.panel {
+background-color: #f8f8f8; border: 0px #003366 solid; width: 100px;
+}
+
+.panel2 { background-color: #e6ebf7; border: solid #555599 2px; }
+.small_text {font-family: Verdana, Arial, sans-serif; font-size: 11px; color: #555555;}
+A.small_text {font-family: Verdana, Arial, sans-serif; font-size: 11px;}
+
+.module { border: 1px solid #cccccc; background-color: #ffffff;  }
+.module2 { border: 1px solid #cccccc; background-color: #f8f8f8;}
+.menu { border: 1px solid #cccccc; background-color: #ffffff; }
+.redblog { font-size: 32px; color: #555555; }
+
+.title2 { font-size: 13px; color : #fe7405; font-weight: bold;}
+
+.title {
+font-size: 15px;
+color : #fe7405;
+text-indent : 10px;
+background-color: #f5f5f5;
+}
+
+.mark {
+background-color: #fafafa ; border: 1px #667799 solid;
+}
+
+/* currently used for calendar */
+.mark2 {
+background-color: #e6ebf7;
+border: solid #555599 1px;
+}
+/* currently used for posts */
+.mark3 {
+border: solid 1px #cccccc;
+padding: 2px;
+}
+.mark4 {
+background-color: #fafafa ; border: 0px #667799 solid;
+padding: 4px;
+}
+
+/* used for ...*/
+.mark5 {
+background-color:#617ec6; border: 0px #667799 solid;
+color: white;
+}
+
+.search {
+background-color: #ffffff;
+border: 0px #003366 solid;
+}
+
+.search_result {
+background-color: #fe9425;
+}
+input.search {
+background-color: #ffffff;
+color: #fe7405;
+font-family: Verdana, Arial, sans-serif;
+font-size: 12px;
+font-weight: normal;	
+border: 1px #fe7405 solid;
+}
+
+.light { font-family: Verdana, Arial, sans-serif; font-size: 12px; color: #555555;}
+
+.gen { font-size: 12px;}
+.gen2 { background-color: #fefefe; font-size: 11px; color: #555555; font-weight: bold; }
+TR.gen2 TD {
+font-size: 11px;
+}
+.gen3 { font-size: 11px; color: #555555; font-weight: normal; }
+
+.text_form {
+background-color: #f6f6f6;
+}
+
+.top_right {
+background: url("images/ad.jpg") no-repeat;
+width: 20px;
+height: 20px;
+}
+
+.top_left {
+background: url("images/as.jpg") no-repeat;
+width: 20px;
+height: 20px;
+}
+
+.bottom_left {
+background: url("images/bs.jpg") no-repeat;
+width: 20px;
+height: 20px;
+}
+
+.bottom_right {
+background: url("images/bd.jpg") no-repeat;
+width: 20px;
+height: 20px;
+}

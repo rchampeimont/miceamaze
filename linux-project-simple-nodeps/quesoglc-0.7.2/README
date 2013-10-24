@@ -1,0 +1,115 @@
+This file contains general informations about QuesoGLC. For installation
+instructions, see the INSTALL file if you run a POSIX platform and INSTALL.win
+if you run Windows.
+
+QuesoGLC is a free implementation of SGI's OpenGL Character Renderer (GLC).
+QuesoGLC is based on the FreeType library, provides Unicode support and is
+designed to be easily ported on any platform that supports both FreeType and
+OpenGL.
+
+The most authoritative documentation on GLC is the GLC specification document,
+which is available in Postscript form at www.opengl.org
+
+Overview of GLC
+---------------
+
+The OpenGL Character Renderer (GLC) is a subroutine library that provides
+OpenGL programs with character rendering services.
+
+A GLC context is an instantiation of the GLC state machine. A GLC client
+is a program that uses both OpenGL (henceforth, "GL") and GLC.  When a
+client thread issues a GLC command, the thread's current GLC context
+executes the command.
+
+To render a character, a GLC client issues the command
+
+    glcRenderChar(GLint inCode);
+
+GLC then goes through these steps:
+
+1.  GLC finds a font that maps inCode to a character such as LATIN
+    CAPITAL LETTER A.
+
+2.  GLC uses one or more glyphs from the font to create a graphical
+    layout that represents the character.
+
+3.  GLC issues a sequence of GL commands to draw the layout.
+
+A font is a stylistically consistent set of glyphs that can be used to
+render some set of characters. Each font has a family name (e.g. Palatino)
+and a state variable that selects one of the faces (e.g. Regular, Bold,
+Italic, Bold Italic) that the font contains. A typeface is the combination
+of a family and a face (e.g.  Palatino Bold).
+
+A font is an instantiation of a master. A master is a representation of the
+font that is stored outside of GLC in a standard format such as Type 1.
+
+A catalog is a file containing a list of master file names. A list of catalog
+names (GLC_CATALOG_LIST) defines the list of masters that can be instantiated
+in a GLC context.
+
+By default, GLC interprets all character codes as elements of the Unicode
+Character Database (UCD) defined by Unicode 4.0.1.
+
+The interpretation of arrays of character codes of type GLCchar in the
+GLC API is determined by the value of the GLC context state variable
+GLC_STRING_TYPE. The values GLC_UCS1, GLC_UCS2, GLC_UCS4 and GLC_UTF8 specify
+that each array element is either a Unicode code point of type GLubyte,
+GLushort, GLint, or GLubyte respectively. The initial value of GLC_STRING_TYPE
+is GLC_UCS1.
+
+Before issuing a GLC rendering command, a client must issue GL commands
+directly to establish a GL state such that the GL commands issued by GLC
+produce the desired result. For example, before issuing a glcRenderChar
+command, a client may issue glColor and glRasterPos commands to establish
+the color and origin of the resulting layout.
+
+Before issuing any GLC commands, the client must create a GL context and
+make it current.
+
+Glyph coordinates are defined in em units and are transformed during
+rendering to produce the desired mapping of the glyph shape into the GL
+window coordinate system.
+
+In addition to commands for rendering, the GLC API includes measurement
+commands that return certain metrics (currently the bounding box and the
+baseline) for the layout.
+
+Since the focus of GLC is on rendering and not modeling, the GLC API does
+not provide access to glyph shape data.
+
+EXAMPLES
+--------
+
+The following ISO C code fragment uses GL and GLC to render the character
+LATIN CAPITAL LETTER A in red at (100, 100) using a default typeface at a
+scale of 24 pixels per em. In this example, GLC issues a glBitmap command
+to draw the layout.
+
+    glcContext(glcGenContext());
+    glcScale(24.f, 24.f);
+    glColor3f(1.f, 0.f, 0.f);
+    glRasterPos2f(100.f, 100.f);
+    glcRenderChar(`A');
+
+In the following example, GLC renders the string "Hello, world!" in red
+24 pixel Palatino Bold at a rotation of 30 degrees, starting at (100,
+100).
+
+    glcContext(glcGenContext());
+    glcFont (glcNewFontFromFamily(1, "palatino"));
+    glcFontFace(1, "bold");
+    glcScale(24.f, 24.f);
+    glcRotate(30.f);
+    glColor3f(1.f, 0.f, 0.f);
+    glRasterPos2f(100.f, 100.f);
+    glcRenderString("Hello, world!");
+
+More examples can be found in the directory 'tests' of QuesoGLC.
+
+More info on QuesoGLC
+---------------------
+
+Although the GLC specs are the authoritative doc, some details are left
+implementation dependant. Read the file 'specific.txt' for more info about
+that topic concerning QuesoGLC.

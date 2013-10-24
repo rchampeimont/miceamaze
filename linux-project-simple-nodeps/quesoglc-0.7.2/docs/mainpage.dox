@@ -1,0 +1,1257 @@
+/* QuesoGLC
+ * A free implementation of the OpenGL Character Renderer (GLC)
+ * Copyright (c) 2002, 2004-2007, Bertrand Coconnier
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+/* $Id: mainpage.dox 730 2008-02-10 12:24:33Z bcoconni $ */
+
+/** \file mainpage.dox
+ * General documentation : this file contains documentation used to introduce
+ * the source documentation. It also serves for the web site.
+ */
+ 
+/** \mainpage QuesoGLC
+\section whatisglc What is GLC ?
+The OpenGL Character Renderer (GLC) is a state machine that provides OpenGL
+programs with character rendering services via an application programming
+interface (API).
+
+\image html screenshot.png "The glclogo example by Gerard Lanois rendered with QuesoGLC"
+\image latex screenshot.eps "The glclogo example by Gerard Lanois rendered with QuesoGLC" width=10cm
+
+The character rendering services provided by GLC has some significant
+advantages over platform specific interface such as GLX or WGL :
+-# The GLC API is platform independent. Since most nontrivial GL applications
+   render characters, GLC is an important step toward the goal of truly
+   portable GL applications.
+-# The GLC is simpler to use. Only two lines of GLC commands are required to
+   prepare for rendering characters.
+-# GLC provides more ways to exploit the rendering power of OpenGL. For
+   example, a glyph can be drawn as a bitmap, a set of lines, a set of
+   triangles, or a textured rectangle.
+-# GLC provides better support for glyph transformations. For example, GLC
+   supports rotated text, which is unavailable in GLX.
+-# GLC provides better support for the large coded character set defined by the
+   standards ISO/IEC 10646:2003 and <a href="http://www.unicode.org">Unicode</a>
+   4.0.1
+
+GLC is a library that has been designed by SGI and that was only available on
+SGI workstations under IRIX 6.2 and later. The draft of the GLC specifications
+can be downloaded <a href="http://www.opengl.org/documentation/spec.html">
+here</a>. As far as I know, SGI dropped the development of GLC and the draft of
+its specifications has not evolved since late 1996.
+
+\section whatisqglc What is QuesoGLC ?
+QuesoGLC is a free (as in free speech) implementation of the OpenGL Character
+Renderer (GLC). QuesoGLC is based on the FreeType library, provides Unicode
+support and is designed to be easily ported to any platform that supports both
+FreeType and the OpenGL API.
+
+QuesoGLC is free software; you can redistribute it and/or modify it under the
+terms of the GNU Lesser General Public License as published by the Free
+Software Foundation; either version 2.1 of the License, or (at your option)
+any later version.
+
+QuesoGLC is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the
+<a href="http://www.gnu.org/copyleft/lesser.html">GNU Lesser General Public
+License</a> for more details.
+
+Its development platform is Linux.
+\section requirements Requirements
+QuesoGLC is written in ANSI C and should compile with any C compiler that is
+compliant with ANSI C standards. QuesoGLC has been successfully compiled and
+used under Linux, Windows and Mac OSX.
+
+<a href="http://www.opengl.org">OpenGL</a>,
+<a href="http://www.freetype.org">FreeType 2</a> and
+<a href="http://www.fontconfig.org">Fontconfig</a> are the only external
+dependencies.
+
+So far, Fontconfig is mandatory in order to build and run the QuesoGLC library.
+However, it is expected that the Fontconfig dependency will be removed in the
+future for Windows and Mac OSX platforms.
+\section qusers QuesoGLC users
+QuesoGLC users are :
+
+-# <a href="http://sourceforge.net/projects/yogur">Yogur</a> an add-on to the
+   OpenGL Character renderer. It provides additional GLC measurement metrics,
+   convertion between string encodings and generic selection of font properties.
+-# <a href="http://sourceforge.net/projects/glguia/">GlGuiA</a> a set of
+   packages for Ada 2006 that can be used to create Graphical User Interfaces,
+   relaying (almost) only on OpenGL. Hence should be rather
+   platform-independant.
+-# <a href="http://navit.sourceforge.net/">NavIt</a> a modular touch screen
+   friendly car navigation system with GPS tracking, realtime routing engine and
+   support for various vector map formats. There's a GTK+ and a SDL user
+   interface and also a GL accelerated 3D view.
+-# The <a href="http://wz2100.net/">Warzone Resurrection Project</a> which aims
+   to make Warzone 2100 one of the top free software games available. Warzone
+   2100 was one of the first 3D RTS games ever. It was released commercially by
+   Pumpkin Studios in 1999, and released in 2004 under the GPL.
+
+If you know other projects that use QuesoGLC please let
+<a href="mailto:bcoconni@users.sourceforge.net">me</a> know.
+\n
+*/
+/** \page tutorial First Steps
+
+\section general General description
+
+GLC is a library that provides font services for OpenGL applications.
+When using GLC, there is no need for you to look for font directories, manage
+the font files, load and interpret glyphs data, tesselate polygons, antialias
+characters and issue GL commands to render text, since GLC takes care of that
+for you.
+
+Although GLC is very easy to use, there are a few steps to follow in order
+to be ready to render text in your OpenGL application. This tutorial will
+guide you through the basic commands of GLC and will expose you a few
+concepts that GLC relies on.
+
+\warning Since GLC uses OpenGL, a GL context must be bound
+to the current thread before any GLC command can be issued. This task must be
+done by the GLC client (i.e. the application that uses GLC). GLC does not verify
+if this has been done. If you try to issue GLC commands while no GL context is
+current, the result of the commands is undefined.
+
+\section setupcontext Setting up a GLC context
+
+Just like OpenGL, GLC relies on the concept of context. A context is an
+entity that stores the state machine of GLC, that is, an entity that stores
+the font that is currently used, the type of rendering, the string encoding
+and so on.
+
+\subsection ctxcreation Context creation
+
+Unlike OpenGL, the GLC context commands are machine independant. The commands
+to create, manage and bind a context to the current thread are the same for
+every platform that supports GLC.
+
+The first step to use GLC is to create a context which is simply done by the
+code below :
+
+\code
+GLint ctx;
+
+ctx = glcGenContext();
+\endcode
+
+When glcGenContext() is executed, the variable \c ctx contains the ID of the
+context that has been created. This ID is unique and must be used each time
+a GLC command needs to identify a context.
+
+\subsection ctxbind Context binding
+
+You can create just as many contexts as you want, but one and only one context
+can be used at a given time. Therefore, you must tell GLC which context you
+plan to use, even if you have created only one context. This operation is said
+to "make a context current" or to "bind a context to the current thread". This
+is achieved by calling glcContext() :
+
+\code
+glcContext(ctx);
+\endcode
+
+At this stage, whenever a GLC command is issued, the context \c ctx will
+execute the command.
+
+You can change the current GLC context at any time by re-issuing a glcContext()
+command with a new context ID and if you want to release the current context
+without making a new context current, you just need to call \c glcContext(0);
+\note If your application is multi-threaded, you can bind a different context
+to each thread. However a context can only be bound to one thread at a time.
+
+\section fontdir Adding font directories
+
+GLC grabs font files from directories that are called "catalogs" in the GLC
+specifications. Depending on the implementation, a GLC context may or may not
+have default directories where to look for font files and may or may not
+provide some default fonts. 
+
+QuesoGLC uses the Fontconfig library to automagically find the fonts that are
+available on your system. Moreover, the environment variable \c GLC_PATH can be
+used to set up some more default fonts. You may however want GLC to search for
+fonts in additional directories, especially if your application comes with its
+own fonts. This can be achieved with the command glcAppendCatalog() :
+
+\code
+// For many Unixes (included Linux), /usr/lib/X11/fonts/Type1/ is a standard
+// directory where X windows stores fonts in Adobe's Type1 format.
+
+glcAppendCatalog("/usr/lib/X11/fonts/Type1/");
+\endcode
+
+You can call glcAppendCatalog() as much as needed, to add several directories
+to the catalog list of GLC.
+
+\note
+GLC internally manages a list of catalogs (that is, of directories) where it
+will look for directories that contains the font files. You can inspect this
+list with the command glcGetListc() as in the following code :
+
+\code
+GLint count, i;
+
+// Get the number of entries in the catalog list
+count = glcGeti(GLC_CATALOG_COUNT);
+
+// Print the path to the catalogs
+for (i = 0; i \< count; i++)
+	printf("%s\n", glcGetListc(GLC_CATALOG_LIST, i));
+\endcode
+
+\section choosefont Choosing a font
+
+Now, you may want to choose the font that will be used to render your text.
+In GLC, fonts are managed in a very similar way than contexts are : fonts
+are identified by a unique integer ID, and they need to be made current to
+the context before they are used. Hence, we need first to get an identifier
+which is not used by another font :
+
+\code
+GLint myFont;
+
+myFont = glcGenFontID();
+\endcode
+
+The font ID \c myFont is unique and will be used thereafter to designate our
+font.
+
+Each font has a \e family name (e.g. Palatino, Courier, Helvetica, ...) and a
+state variable that select one of the \e faces (e.g. Regular, Italic, Bold,
+Bold Italic, ...) that the font contains.
+
+In our example, we want to use "Palatino Bold" to render the text. This is
+done with the following code :
+
+\code
+glcNewFontFromFamily(myFont, "Palatino"); // Select the family of my font
+glcFontFace(myFont, "Bold"); // Select the face of my font
+\endcode
+
+At this stage, a new font "Palatino Bold" which is identified by \c myFont has
+been created in the current GLC context. We now want GLC to use \c myFont
+to render the text :
+
+\code
+glcFont(myFont);
+\endcode
+
+\section rendertext Rendering the text
+
+We have now reached the final step : we are now able to render some text. First,
+we need to tell OpenGL (yes, OpenGL not GLC !!!) where the characters will be
+rendered. Indeed, when the glcRenderString() command will be executed, GLC
+will issue some GL commands but nothing will be displayed if we do not tell
+OpenGL where to render the string.
+
+By default, QuesoGLC renders fonts at a size of 1 point. If we want our text
+to be readable, we must scale it :
+
+\code
+// Render the text at a size of 100 points
+glcScale(100.f, 100.f);
+\endcode
+
+If we decide to render text in bitmap mode (which is the default render style
+of GLC), we need to give the raster position and (why not ?) the color of the
+text to OpenGL :
+
+\code
+glColor3f(1.f, 0.f, 0.f);
+glRasterPos2f(50.f, 50.f);
+\endcode
+
+Now, our text will be rendered at coordinates (50, 50) in red color. 
+
+It is time now to render the famous <em>"Hello world!"</em> string :
+
+\code
+glcRenderString("Hello world!");
+\endcode
+
+That's it ! With a few lines of code, GLC allows to render some text in an
+OpenGL window.
+
+\image html tutorial.png
+\image latex tutorial.eps "'Hello world!' example" width=10cm
+
+\n
+As a reminder, the complete code is given below :
+
+\code
+GLint ctx, myFont;
+
+// Set up and initialize GLC
+ctx = glcGenContext();
+glcContext(ctx);
+glcAppendCatalog("/usr/lib/X11/fonts/Type1/");
+
+// Create a font "Palatino Bold"
+myFont = glcGenFontID();
+glcNewFontFromFamily(myFont, "Palatino");
+glcFontFace(myFont, "Bold");
+glcFont(myFont);
+
+// Render the text at a size of 100 points
+glcScale(100.f, 100.f);
+
+// Render "Hello world!"
+glColor3f(1.f, 0.f, 0.f);
+glRasterPos2f(50.f, 50.f);
+glcRenderString("Hello world!");
+\endcode
+
+Most of the code above is executed once in a program : the GLC setup and the
+font creation are done at the beginning of the program, only the rendering
+part of the code (that is 3 lines !) may be located in the main loop of the
+application.
+\note If the rendering style of the text is not \b GLC_BITMAP, then you should
+use \c glTranslate() and \c glScale() instead of \c glRasterPos() and glcScale().
+
+\section whatmore What more ?
+
+This is a basic tutorial which has shown you the basic steps to render some text
+with GLC. However, for the sake of clarity, no error has been checked in the
+example above. In GLC some functions returns a value and this value must be
+checked in order to verify that no error has occured. Nevertheless, the prefered
+way in GLC to check errors is to use glcGetError().
+
+If you want to change the code above in order to fit it to your needs, the
+first place to look at is the <a href="overview.html">reference documentation
+</a> which is provided with QuesoGLC.
+
+GLC also provides a nice set of functions (all of them beginning with
+\c glcGet* ) to introspect a context and see, for instance, which fonts are
+available.
+
+The \ref measure have not been used in the example above but you may use them
+to get some basic metrics of a string in order to precisely locate it on the
+screen (see the \ref tutorial2  for instance).
+
+The \ref transform can be used with \b GLC_BITMAP rendering to obtain fancy
+effects (rotation and scaling) which are not available in GLX.
+
+Finally, you can have a look at the tests and examples of QuesoGLC to learn
+how to use some GLC commands and which are their effect.
+ */
+
+/** \page tutorial2 Measurement tutorial
+
+\section preamble Preamble
+
+In this tutorial we will see how to use the \ref measure of GLC and what they
+are intended for. It is assumed that you have a basic knowledge of the GLC API
+(the \ref tutorial tutorial is a good place to start with) and that you have
+read the \ref glyph so that you know what a <em>bounding box</em> and a
+<em>baseline</em> are.
+
+Basically, in order to display some text an application have to go through the
+following stages :
+-# The <b>text layout</b> determines where and how the text must be layed out :
+this task can be as simple as computing the location of the word
+<em>"Score"</em> so that it appears in the upper left corner of the screen or
+as complex as laying out a complete document with titles, fonts, styles,
+paragraphs and chapters; just like word processors do.
+-# The <b>text rendering</b> draws the text that has been layed out in the
+previous stage : the application determines which glyphs of which fonts it
+should use in order to obtain the desired result, eventually converts data into
+graphic primitives, and finally sends the required commands to the output
+device which can be either a screen or a printer.
+
+The GLC API only covers the later stage and provides no layout services : it
+has no concept of sentence, line break or paragraph. GLC only manipulates
+\e strings that it views as a succession of characters that has to be rendered
+on the screen in a row. So in order to be able to handle complex text layout the
+client application has to decompose text in several strings that can be
+rendered by GLC. This can be done by <em>rendering engines</em> like
+<a href="http://www.pango.org">Pango</a> or
+<a href="http://www-306.ibm.com/software/globalization/icu/index.jsp">ICU</a>.
+
+For instance, when a sentence is larger than the width of the output device, it
+has to be broken into two or more lines before being rendered so that it can be
+read. In order to determine where to put the line break(s), the layout engine
+needs to know the width of the output device as well as the size of the
+characters used to render the text (actually it also needs to understand the
+exact structure of the sentence to prevent the line break to take place in the
+middle of a word or between a word and a comma for example). This is where
+\ref measure take place.
+
+<em>General layout management is far beyond the scope of this tutorial but you
+can find some more informations at the <a href="http://www.unicode.org">Unicode
+web site</a></em>.
+
+Another application of the bounding boxes is the visibility test. For example,
+one can get the bouding box of a letter or a string, tranform it into the screen
+coordinates and test the result against the viewport. If the bounding box is
+located out of the viewport then there is no need to render the string. Such a
+test may help to speed up a program.
+
+\section baseelements Base elements
+
+In this tutorial we will see how to render the string <em>Hello world!</em>
+with a bounding box around the capital letter \e "H" and another bounding box
+around the 4 last letters of the word <em>"Hello"</em> as shown in the image
+below.
+
+\image html tutorial2.png "Figure 1 - The result of the tutorial"
+\image latex tutorial2.eps "The result of the tutorial" width=10cm
+
+The code presented in the \ref tutorial tutorial is the starting point of the
+current example. Notice however that it has been slightly changed : a call to
+the function glcRotate() has been added in order to rotate the text of 10
+degrees counterclockwise. The call to glcAppendCatalog() has also been commented
+out : it is not needed if <a href="http://www.fontconfig.org">Fontconfig</a> has
+been carefully installed (which is the case on most of the recent Linux
+distributions).
+
+\code
+GLint ctx, myFont;
+
+// Set up and initialize GLC
+ctx = glcGenContext();
+glcContext(ctx);
+//glcAppendCatalog("/usr/lib/X11/fonts/Type1");
+
+// Create a font "Palatino Bold"
+myFont = glcGenFontID();
+glcNewFontFromFamily(myFont, "Palatino");
+glcFontFace(myFont, "Bold");
+glcFont(myFont);
+
+// Render the text at a size of 100 points
+glcScale(100.f, 100.f);
+glcRotate(10.f); // Rotate the text of 10 degrees counterclockwise
+
+// Render "Hello world!"
+glColor3f(1.f, 0.f, 0.f);
+glRasterPos2f(50.f, 50.f);
+glcRenderString("Hello world!");
+\endcode
+
+\section hbbox Drawing the bounding box of a single letter
+
+GLC defines the geometry of a bounding box by the coordinates [ x<sub>lb</sub>
+y<sub>lb</sub> x<sub>rb</sub> y<sub>rb</sub> x<sub>rt</sub> y<sub>rt</sub>
+x<sub>lt</sub> y<sub>lt</sub> ] of its corners. Each point is given in 2D
+coordinates : \e z is always assumed to be \e 0 and \e w to be \e 1. They are
+<em>object coordinates</em> which means that they are affected by both the
+\b GL_MODELVIEW and the \b GL_PROJECTION transformations. Moreover if the value
+of the variable \b GLC_RENDER_STYLE is \b GLC_BITMAP then each point is
+transformed by the 2x2 \b GLC_BITMAP_MATRIX.
+
+\image html measure.png "Figure 2 - Metrics coordinates"
+\image latex measure.eps "Metrics coordinates" width=7cm
+
+Since there are 4 corners, we need to define an array of 8 floating point
+numbers which will contain the <em>(x, y)</em> coordinates of the bounding box.
+
+\code
+GLfloat bbox[8] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
+\endcode
+
+The bounding box of the letter \e "H" is stored in the \e bbox array by calling
+glcGetCharMetric() :
+
+\code
+glcGetCharMetric('H', GLC_BOUNDS, bbox);
+\endcode
+
+GLC assumes that the origin of the layout is \e (0,0) but in our example the
+string <em>"Hello world!"</em> has been rendered from the coordinates \e (50,50)
+so we need to translate the bounding box before it is rendered :
+
+\code
+// Translate the bbox to the origin of the layout
+glTranslatef(50.f, 50.f, 0.f);
+// Render the bounding box
+glBegin(GL_LINE_LOOP);
+for (i = 0; i < 4; i++)
+  glVertex2fv(&bbox[2*i]);
+glEnd();
+\endcode
+
+\note <em>We do not need to rotate the bounding box of 10 degrees since it has
+already been done by GLC. If we were using a \b GLC_RENDER_STYLE that were not
+\b GLC_BITMAP, we would need to add a call to <tt>glRotatef(0., 0., 1.,
+10.);</tt></em>
+
+
+\section ellobbox Drawing the bounding box of a string
+
+We now want to draw the bounding box of the 4 last letters of the word \e Hello.
+Although this can be achieved by computing the bounding box of the bounding boxes of each character, this would be rather tedious, so GLC provides a
+function that does the work for us : glcMeasureString().
+
+Actually, glcMeasureString() is designed to measure the whole string metrics
+and can also store on demand the metrics of each character of the string.
+Here we only want the \e "ello" string metrics so we set the first parameter
+of glcMeasureString() to \b GL_FALSE :
+
+\code
+glcMeasureString(GL_FALSE, "ello");
+\endcode
+
+At this stage, the metrics are computed and stored in the GLC state machine so
+we now have to call glcGetStringMetric() to get the bounding box of the string :
+
+\code
+glcGetStringMetric(GLC_BOUNDS, bbox);
+\endcode
+
+If we would render the bounding box now, it would be drawn at the wrong
+location since we do not have taken the advance of the character \e "H" into
+account :
+
+\image html tutorial2_wrong.png "Figure 3 - The bounding box of 'ello' is misplaced"
+\image latex tutorial2_wrong.eps "The bounding box of 'ello' is misplaced" width=10cm
+
+Hence we need first to translate the bounding box of the advance of the
+character \e "H". Since the advance of a character is equal to the length of its
+\e baseline, the translation must be equal to the vector \f$ \left (
+\begin {array}{ll} x_r-x_l \\ y_r-y_l \\ \end{array} \right ) \f$ according to
+the notations of the Figure 2.
+
+\note <em>It must be stressed that this formula assumes that the string is
+rendered in left-to-right order. If you intend to render strings in
+right-to-left order you must use the opposite of the vector defined above</em>.
+
+An array of 4 floating point numbers must be used in order to store the
+coordinates [ x<sub>l</sub> y<sub>l</sub> x<sub>r</sub> y<sub>r</sub> ] of the
+baseline :
+\code
+GLfloat baseline[4] = {0.f, 0.f, 0.f, 0.f};
+\endcode
+
+Then the baseline of \e "H" is obtained by calling glcGetCharMetric() with the
+second parameter set to \b GLC_BASELINE. The advance of the character is then
+computed and added to the \b GL_MODELVIEW matrix :
+
+\code
+// Get the baseline of the character "H"
+glcGetCharMetric('H', GLC_BASELINE, baseline);
+// Translate the bounding box of the advance of "H"
+glTranslatef(baseline[2] - baseline[0], baseline[3] - baseline[1], 0.f);
+\endcode
+
+Afterwards the bounding box of \e "ello" is rendered at the right place :
+
+\code
+// Render the bounding box
+glBegin(GL_LINE_LOOP);
+for (i = 0; i < 4; i++)
+  glVertex2fv(&bbox[2*i]);
+glEnd();
+\endcode
+
+\section conclusion Conclusion
+
+In this tutorial, the basic concepts of character metrics available in GLC have
+been presented. Although the chosen example is somewhat artificial since there
+are few chances that you need to display the bounding boxes of a character or a
+string, it illustrates how the character metrics are handled by GLC and how
+they should be manipulated.
+
+Character metrics are primarily intended for layout management, although this
+topic is far beyond the scope of this tutorial, the concepts exposed here are sufficient to handle basic cases like processing the location of a centered
+string on the screen.
+
+Finally, a program that display the bounding boxes of a character and a string
+has been elaborated in this tutorial. Its listing is shown hereafter (the
+commands that bind a GL context to the current thread are not included) :
+
+\code
+GLint ctx, myFont, i;
+GLfloat bbox[8] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
+GLfloat baseline[4] = {0.f, 0.f, 0.f, 0.f};
+
+// Set up and initialize GLC
+ctx = glcGenContext();
+glcContext(ctx);
+//glcAppendCatalog("/usr/lib/X11/fonts/Type1");
+
+// Create a font "Palatino Bold"
+myFont = glcGenFontID();
+glcNewFontFromFamily(myFont, "Palatino");
+glcFontFace(myFont, "Bold");
+glcFont(myFont);
+
+// Render the text at a size of 100 points
+glcScale(100.f, 100.f);
+glcRotate(10.f); // Rotate the text of 10 degrees counterclockwise
+
+// Render "Hello world!"
+glColor3f(1.f, 0.f, 0.f);
+glRasterPos2f(50.f, 50.f);
+glcRenderString("Hello world!");
+
+glColor3f(0.f, 1.f, 1.f);
+
+// Render the bounding box of "H"
+glcGetCharMetric('H', GLC_BOUNDS, bbox);
+// Translate the bbox to the origin of the layout
+glTranslatef(50.f, 50.f, 0.f);
+// Render the bounding box
+glBegin(GL_LINE_LOOP);
+for (i = 0; i < 4; i++)
+  glVertex2fv(&bbox[2*i]);
+glEnd();
+
+// Translate the origin in order to take the width of "H" into account
+// Get the baseline of the character "H"
+glcGetCharMetric('H', GLC_BASELINE, baseline);
+// Translate the bounding box of the advance of "H"
+glTranslatef(baseline[2] - baseline[0], baseline[3] - baseline[1], 0.f);
+
+// Render the bounding box of "ello"
+glcMeasureString(GL_FALSE, "ello");
+glcGetStringMetric(GLC_BOUNDS, bbox);
+// Render the bounding box
+glBegin(GL_LINE_LOOP);
+for (i = 0; i < 4; i++)
+  glVertex2fv(&bbox[2*i]);
+glEnd();
+\endcode
+ */
+
+/** \page overview Documentation overview
+
+\section preamble Preamble
+
+The documentation of QuesoGLC is based on the
+<a href="http://www.opengl.org/documentation/spec.html">GLC specs</a>.
+Therefore, the principles, functions, and generally speaking the API described
+hereafter apply to every implementation of GLC.
+
+If you are new to GLC, may be you should begin with the \ref tutorial tutorial ?
+
+\section theoverview Overview
+
+A GLC \e client is a program that uses OpenGL (henceforth, "GL") and GLC. A GLC
+\e library is a subroutine library that implements GLC. Like the GL Utilities
+(GLU), GLC is implemented  on the client side of the GL client-server
+connection and performs all of its rendering by issuing GL commands.
+
+A GLC \e context is an instantiation of GLC. When a client thread issues a GLC
+command, the thread's \e current GLC context executes the command.
+
+A client can render a character by issuing the command glcRenderChar(). GLC
+finds a \e font that \e maps the character code to a character such as LATIN
+CAPITAL LETTER A, then uses one or more glyphs from the font to create a
+graphical \e layout that represents the character. Finally, GLC issues a
+sequence of GL commands to draw the layout. Glyph coordinates are defined in
+\e em \e units and are transformed during rendering to produce the desired
+mapping of the glyph state into the GL window coordinate system.
+
+In addition to commands for rendering, the GLC API includes measurement
+commands that return certain \e metrics (e.g. bounding box) for a layout.
+Since the focus of GLC is on \e rendering and not \e modeling, the GLC API
+does not provide access to glyph shape data.
+
+A font is a stylistically consistent set of glyphs that can be used to render
+some set of characters. Each font has a \e family name (e.g. Palatino) and a
+state variable that selects one of the \e faces (e.g. Regular, Italic, Bold,
+Bold Italic) that the font contains. A \e typeface is the combination of a
+family and a face (e.g. Palatino Bold).
+
+A font is an instantiation of a \e master, which is a representation of the
+font that is stored outside of GLC in a standard format such as \e TrueType or
+\e Type1. A \e catalog is a named list of masters, which may be implemented as
+a file system directory containing master files. A list of catalog names
+defines the list of masters that can be instantiated in a GLC context.
+
+Before issuing a GLC rendering command a client must issue GL commands directly
+to establish a GL state such that the GL commands issued by GLC produce the
+desired result. For example, before issuing a glcRenderChar() command a client
+may issue \c glColor() and \c glRasterPos() commands to establish the color and
+origin of the resulting layout.
+*/
+
+/**\page glyph Glyph Conventions
+
+\section preamble Preamble
+This document discusses in great details the definition of various concepts
+related to digital typography, as well as the core conventions used within
+QuesoGLC library to manage font and glyph data. It also explains the ways
+typographic information, like glyph metrics, kerning distances, etc.. is to be
+managed and used. It relates to the layout and display of text strings, either
+in a conventional (i.e. Roman) layout, or with right-to-left or vertical ones.
+Some aspects like rotation and transformation are explained too.
+
+It is a \e must-read for all developers who need to understand digital
+typography, especially if you want to use the QuesoGLC library in your projects.
+
+This document is largely inspired of the FreeType documentation which has been
+slightly modified in order to give valuable informations to QuesoGLC users. For
+instance, parts dealing with outline and bitmap management has been removed
+since this does not concern the GLC library.
+
+The original document
+<a href="http://www.freetype.org/freetype2/docs/glyphs/index.html">FreeType
+Glyph Conventions</a> is copyright 1998-2000 David Turner and copyright
+2000 The FreeType Development Team.
+
+\section basic Basic Typographic Concepts
+
+\subsection format Font files, format and information
+
+A font is a collection of various character images that can be used to display
+or print text. The images in a single font share some common properties,
+including look, style, serifs, etc. Typographically speaking, one has to
+distinguish between a <em>font family</em> and its multiple <em>font faces</em>,
+which usually differ in style though come from the same template.
+
+For example, "Palatino Regular" and "Palatino Italic" are two distinct \e faces
+from the same famous \e family, called "Palatino" itself.
+
+The single term \e font is nearly always used in ambiguous ways to refer to
+either a given family or given face, depending on the context. For example, most
+users of word-processors use "font" to describe a font family (e.g. "Courier",
+"Palatino", etc.); however most of these families are implemented through
+several data files depending on the file format: for TrueType, this is usually
+one per face (i.e. \c arial.ttf for "Arial Regular", \c ariali.ttf for "Arial
+Italic", etc.). The file is also called a "font" but really contains a font
+face.
+
+A digital font is thus a data file that may contain <em>one or more font
+faces</em>. For each of these, it contains character images, character metrics,
+as well as other kind of information important to the layout of text and the
+processing of specific character encodings. In some awkward formats, like
+Adobe's Type 1, a single font face is described through several files (i.e. one
+contains the character images, another one the character metrics). We will
+ignore this implementation issue in most parts of this document and consider
+digital fonts as single files, though QuesoGLC is able to support
+multiple-files fonts correctly.
+
+As a convenience, a font file containing more than one face is called a <em>font
+collection</em>. This case is rather rare but can be seen in many Asian fonts,
+which contain images for two or more representation forms of a given scripts
+(usually for horizontal and vertical layout).
+
+\subsection character Character images and mappings
+
+The character images are called \e glyphs. A single character can have several
+distinct images, i.e. several glyphs, depending on script, usage or context.
+Several characters can also take a single glyph (good examples are Roman
+ligatures like "fi" and "fl" which can be represented by a single glyph). The
+relationships between characters and glyphs can be very complex, but won't be
+discussed in this document. Moreover, some formats use more or less awkward
+schemes to store and access glyphs. For the sake of clarity, we only retain the
+following notions when working with QuesoGLC :
+
+- A font file contains a set of glyphs; each one can be stored as a bitmap, a
+vector representation or any other scheme (most scalable formats use a
+combination of mathematical representation and control data/programs). These
+glyphs can be stored in any order in the font file, and is typically accessed
+through a simple glyph index.
+
+- The font file contains one or more tables, called a \e character \e map (or
+charmap in short), which is used to convert character codes for a given encoding
+(e.g. ASCII, Unicode, DBCS, Big5, etc..) into glyph indices relative to the font
+file. A single font face may contain several charmaps. For example, most
+TrueType fonts contain an Apple-specific charmap as well as a Unicode charmap,
+which makes them usable on both Mac and Windows platforms.
+
+\subsection metrics Character and font metrics
+
+Each glyph image is associated with various metrics which are used to describe
+how must be placed and managed when rendering text. These are described in more
+details in \ref glyphmetrics, they relate to glyph placement, cursor advances as
+well as text layout. They are extremely important to compute the flow of text
+when rendering a string of text.
+
+Each scalable format also contains some global metrics, expressed in notional
+units, to describe some properties of all glyphs in the same face. Examples for
+global metrics are the maximum glyph bounding box, the ascender, descender and
+text height for the font.
+
+Though these metrics also exist for non-scalable formats, they only apply for a
+set of given character dimensions and resolutions, and are usually expressed in
+pixels then.
+
+\section outlines Glyph outlines
+
+This section describes the way scalable representations of glyph images, called
+\e outlines, are used by QuesoGLC as well as client applications.
+
+\subsection resolution Pixels, points and device resolutions
+
+Though it is a very common assumption when dealing with computer graphics
+programs, the physical dimensions of a given pixel (be it for screens or
+printers) are not squared. Often, the output device, be it a screen or printer,
+exhibits varying resolutions in both horizontal and vertical direction, and this
+must be taken care of when rendering text.
+
+It is thus common to define a device's characteristics through two numbers
+expressed in dpi (dots per inch). For example, a printer with a resolution of
+300x600 dpi has 300 pixels per inch in the horizontal direction, and 600 in the
+vertical one. The resolution of a typical computer monitor varies with its size
+(15" and 17" monitors don't have the same pixel sizes at 640x480), and of course
+the graphics mode resolution.
+
+As a consequence, the size of text is usually given in \e points, rather than
+device-specific pixels. Points are a simple \e physical unit, where
+1&nbsp;point&nbsp;=&nbsp;1/72th of an inch, in digital typography. As an
+example, most Roman books are printed with a body text whose size is somewhere
+between 10 and 14 points.
+
+It is thus possible to compute the size of text in pixels from the size in
+points with the following formula:
+
+<center><dfn>pixel_size = point_size * resolution / 72</dfn></center>
+
+The resolution is expressed in \e dpi. Since horizontal and vertical resolutions
+may differ, a single point size usually defines a different text width and
+height in pixels.
+
+<em>Unlike what is often thought, the "size of text in pixels" is not directly
+related to the real dimensions of characters when they are displayed or printed.
+The relationship between these two concepts is a bit more complex and relate to
+some design choices made by the font designer. This is described in more detail
+in the next sub-section (see the explanations on the EM square).</em>
+
+\subsection vectorial Vectorial representation
+
+The source format of outlines is a collection of closed paths called
+\e contours. Each contour delimits an outer or inner \e region of the glyph, and
+can be made of either <em>line segments</em> or <em>Bezier arcs</em>.
+
+The arcs are defined through <em>control points</em>, and can be either
+second-order (these are \e conic Beziers) or third-order (\e cubic Beziers)
+polynomials, depending on the font format. Note that conic Beziers are usually
+called \e quadratic Beziers in the literature. Hence, each point of the outline
+has an associated flag indicating its type (normal or control point). And
+scaling the points will scale the whole outline.
+
+Each glyph's original outline points are located on a grid of indivisible units.
+The points are usually stored in a font file as 16-bit integer grid coordinates,
+with the grid origin's being at (0,0); they thus range from -16384 to 16383.
+(Even though point coordinates can be floats in other formats such as Type 1,
+we will restrict our analysis to integer values for simplicity).
+
+<em>The grid is always oriented like the traditional mathematical
+two-dimensional plane, i.e., the X axis from the left to the right, and the Y
+axis from bottom to top.</em>
+
+In creating the glyph outlines, a type designer uses an imaginary square called
+the <em>EM square</em>. Typically, the EM square can be thought of as a tablet
+on which the characters are drawn. The square's size, i.e., the number of grid
+units on its sides, is very important for two reasons:
+
+- It is the reference used to scale the outlines to a given text dimension. For
+example, a size of 12pt at 300x300 dpi corresponds to 12*300/72 = 50 pixels.
+This is the size the EM square would appear on the output device if it was
+rendered directly. In other words, scaling from grid units to pixels uses the
+formula:
+
+<center><dfn>pixel_size = point_size * resolution / 72</dfn></center>
+<center><dfn>pixel_coord = grid_coord * pixel_size / EM_size</dfn></center>
+
+- The greater the EM size is, the larger resolution the designer can use when
+digitizing outlines. For example, in the extreme example of an EM size of 4
+units, there are only 25 point positions available within the EM square which
+is clearly not enough. Typical TrueType fonts use an EM size of 2048 units; Type
+1 PostScript fonts have a fixed EM size of 1000 grid units but point coordinates
+can be expressed as floating values.
+
+Note that glyphs can freely extend beyond the EM square if the font designer
+wants so. The EM is used as a convenience, and is a valuable convenience from
+traditional typography.
+
+Grid units are very often called font units or EM units.
+
+<em>As said before, <dfn>pixel_size</dfn> computed in the above formula does
+not relate directly to the size of characters on the screen. It simply is the
+size of the EM square if it was to be displayed. Each font designer is free to
+place its glyphs as it pleases him within the square. This explains why the
+letters of the following text have not the same height, even though they are
+displayed at the same point size with distinct fonts:</em>
+
+\image html body_comparison.png
+\image latex body_comparison.eps "Body comparison" width=9cm
+
+As one can see, the glyphs of the Courier family are smaller than those of Times
+New Roman, which themselves are slightly smaller than those of Arial, even
+though everything is displayed or printed at a size of 16 points. This only
+reflects design choices.
+
+\subsection hinting Hinting and Bitmap rendering
+
+The outline as stored in a font file is called the "master" outline, as its
+points coordinates are expressed in font units. Before it can be converted into
+a bitmap, it must be scaled to a given size/resolution. This is done through a
+very simple transformation, but always creates undesirable artifacts, e.g. stems
+of different widths or heights in letters like "E" or "H".
+
+As a consequence, proper glyph rendering needs the scaled points to be aligned
+along the target device pixel grid, through an operation called
+<em>grid-fitting</em> (often called \e hinting). One of its main purposes is to
+ensure that important widths and heights are respected throughout the whole font
+(for example, it is very often desirable that the "I" and the "T" have their
+central vertical line of the same pixel width), as well as to manage features
+like stems and overshoots, which can cause problems at small pixel sizes.
+
+\section glyphmetrics Glyph metrics
+
+\subsection basline_pens_layouts Baseline, pens and layouts
+
+The baseline is an imaginary line that is used to "guide" glyphs when rendering
+text. It can be horizontal (e.g. Roman, Cyrillic, Arabic, etc.) or vertical
+(e.g. Chinese, Japanese, Korean, etc). Moreover, to render text, a virtual
+point, located on the baseline, called the <em>pen position</em> or \e origin,
+is used to locate glyphs.
+
+Each layout uses a different convention for glyph placement:
+
+- With horizontal layout, glyphs simply "rest" on the baseline. Text is
+  rendered by incrementing the pen position, either to the right or to the
+  left.\n\n
+  The distance between two successive pen positions is glyph-specific and is
+  called the <em>advance width</em>. Note that its value is \e always positive,
+  even for right-to-left oriented alphabets, like Arabic. This introduces some
+  differences in the way text is rendered.\n\n
+  <em>The pen position is always placed on the baseline.</em>
+
+\image html Image1.png
+\image latex Image1.eps "Glyph positioning" width=9cm
+
+- With a vertical layout, glyphs are centered around the baseline:
+
+\image html Image2.png
+\image latex Image2.eps "Vertical layout" width=3cm
+
+\subsection typographic Typographic metrics and bounding boxes
+
+A various number of face metrics are defined for all glyphs in a given font.
+
+- \e Ascent \n\n
+  The distance from the baseline to the highest/upper grid coordinate used to
+  place an outline point. It is a positive value, due to the grid's orientation
+  with the Y axis upwards.
+
+- \e Descent \n\n
+  The distance from the baseline to the lowest grid coordinate used to place an
+  outline point. This is a negative value, due to the grid's orientation.
+
+- \e Linegap \n\n
+  The distance that must be placed between two lines of text. The
+  baseline-to-baseline distance should be computed as: \n\n
+  <center><dfn>ascent - descent + linegap</dfn></center> \n
+  if you use the typographic values.
+
+Other, simpler metrics are:
+
+- <em>The glyph's bounding box</em>, also called \e bbox \n\n
+  This is an imaginary box that encloses all glyphs from the font, usually as
+  tightly as possible. It is represented by four fields, namely \p xMin,
+  \p yMin, \p xMax, and \p yMax, that can be computed for any outline. Their
+  values can be in font units (if measured in the original outline) or in
+  fractional/integer pixel units (when measured on scaled outlines).\n\n
+  Note that if it wasn't for grid-fitting, you wouldn't need to know a box's
+  complete values, but only its dimensions to know how big is a glyph
+  outline/bitmap. However, correct rendering of hinted glyphs needs the
+  preservation of important grid alignment on each glyph translation/placement
+  on the baseline.
+
+- <em>Internal leading</em> \n\n
+  This concept comes directly from the world of traditional typography. It
+  represents the amount of space within the \e leading which is reserved for
+  glyph features that lay outside of the EM square (like accentuation). It
+  usually can be computed as: \n\n
+  <center><dfn>internal leading = ascent - descent - EM_size</dfn></center>
+
+- <em>External leading</em> \n\n
+  This is another name for the line gap.
+
+\subsection bearings Bearings and advances
+
+Each glyph has also distances called \e bearings and \e advances. Their
+definition is constant, but their values depend on the layout, as the same glyph
+can be used to render text either horizontally or vertically:
+
+- <em>Left side bearing</em> or \e bearingX \n\n
+  The horizontal distance from the current pen position to the glyph's left bbox
+  edge. It is positive for horizontal layouts, and in most cases negative for
+  vertical ones.
+
+- <em>Top side bearing</em> or \e bearingY \n\n
+  The vertical distance from the baseline to the top of the glyph's bbox. It is
+  usually positive for horizontal layouts, and negative for vertical ones.
+
+- <em>Advance width</em> or \e advanceX \n\n
+  The horizontal distance the pen position must be incremented (for
+  left-to-right writing) or decremented (for right-to-left writing) by after
+  each glyph is rendered when processing text. It is always positive for
+  horizontal layouts, and null for vertical ones.
+
+- <em>Advance height</em> or \e advanceY \n\n
+  The vertical distance the pen position must be decremented by after each glyph
+  is rendered. It is always null for horizontal layouts, and positive for
+  vertical layouts.
+
+- <em>Glyph width</em> \n\n
+  The glyph's horizontal extent. For unscaled font coordinates, it is
+  <tt>bbox.xMax-bbox.xMin</tt>. For scaled glyphs, its computation requests
+  specific care, described in the grid-fitting chapter below.
+
+- <em>Glyph height</em> \n\n
+  The glyph's vertical extent. For unscaled font coordinates, it is
+  <tt>bbox.yMax-bbox.yMin</tt>. For scaled glyphs, its computation requests
+  specific care, described in the grid-fitting chapter below.
+
+- <em>Right side bearing</em> \n\n
+  Only used for horizontal layouts to describe the distance from the bbox's
+  right edge to the advance width. It is in most cases a non-negative number:
+  \n\n
+  <center><tt>advance_width - left_side_bearing - (xMax-xMin)</tt></center>
+
+Here is a picture giving all the details for horizontal metrics:
+
+\image html Image3.png
+\image latex Image3.eps "Horizontal metrics" width=7cm
+
+And here is another one for the vertical metrics:
+
+\image html Image4.png
+\image latex Image4.eps "Vertical metrics" width=5cm
+
+\subsection gridfitting_effect The effects of grid-fitting
+
+Because hinting aligns the glyph's control points to the pixel grid, this
+process slightly modifies the dimensions of character images in ways that differ
+from simple scaling.
+
+For example, the image of the lowercase "m" letter sometimes fits a square in
+the master grid. However, to make it readable at small pixel sizes, hinting
+tends to enlarge its scaled outline in order to keep its three legs distinctly
+visible, resulting in a larger character bitmap.
+
+The glyph metrics are also influenced by the grid-fitting process: 
+
+- The image's width and height are altered. Even if this is only by one pixel,
+  it can make a big difference at small pixel sizes.
+- The image's bounding box is modified, thus modifying the bearings.
+- The advances must be updated. For example, the advance width must be
+  incremented if the hinted bitmap is larger than the scaled one, to reflect the
+  augmented glyph width.
+
+This has some implications:
+
+- Because of hinting, simply scaling the font ascent or descent might not give
+  correct results. A possible solution is to keep the ceiling of the scaled
+  ascent, and floor of the scaled descent.
+- There is no easy way to get the hinted glyph and advance widths of a range of
+  glyphs, as hinting works differently on each outline. The only solution is to
+  hint each glyph separately and record the returned values. Some formats, like
+  TrueType, even include a table of pre-computed values for a small set of
+  common character pixel sizes.
+- Hinting depends on the final character width and height in pixels, which means
+  that it is highly resolution-dependent. This property makes correct WYSIWYG
+  layouts difficult to implement.
+
+<em>Performing 2D transformations on glyph outlines is very easy with FreeType.
+However, when using translation on a hinted outlines, one should aways take care
+of <b>exclusively using integer pixel distances</b>.
+
+Otherwise, the translation will simply ruin the hinter's work, resulting in a
+very low quality bitmaps!</em>
+
+\subsection text_width_bbox Text widths and bounding box
+
+As seen before, the "origin" of a given glyph corresponds to the position of
+the pen on the baseline. It is not necessarily located on one of the glyph's
+bounding box corners, unlike many typical bitmapped font formats. In some cases,
+the origin can be out of the bounding box, in others, it can be within it,
+depending on the shape of the given glyph.
+
+Likewise, the glyph's "advance width" is the increment to apply to the pen
+position during layout, and is not related to the glyph's "width", which really
+is the glyph's bounding width.
+
+The same conventions apply to strings of text. This means that: 
+
+- The bounding box of a given string of text doesn't necessarily contain the
+  text cursor, nor is the latter located on one of its corners.
+- The string's advance width isn't related to its bounding box dimensions.
+  Especially if it contains beginning and terminal spaces or tabs.
+- Finally, additional processing like kerning creates strings of text whose
+  dimensions are not directly related to the simple juxtaposition of individual
+  glyph metrics. For example, the advance width of "VA" isn't the sum of the
+  advances of "V" and "A" taken separately.
+*/
+
+/**\page machinedef Machine definition
+
+\section datatypes Data types
+
+GLC uses GL data types and defines additional types, which are listed in the
+table below :
+
+<center>
+<table>
+<caption>GLC data types</caption>
+  <tr>
+    <td>Type</td> <td>Definition</td>
+  </tr>
+  <tr>
+    <td><b>GLCchar</b></td> <td>Character code array element</td>
+  </tr>
+  <tr>
+    <td><b>GLCenum</b></td> <td>32 bits enumerant</td>
+  </tr>
+  <tr>
+    <td><b>GLCfunc</b></td> <td>Callback function pointer</td>
+  </tr>
+</table>
+</center>
+
+\section errors Errors
+
+Like OpenGL, GLC detects only a subset of those conditions that could be
+considered errors. This is because in many cases error checking would adversely
+impact the performance of an error-free program. The command glcGetError() is
+used to obtain error information.
+
+Each client thread has a private GLC error code variable of type \b GLCenum.
+The initial value of this variable is \b GLC_NONE. If a GLC command raises an
+error, and the value of this variable is \b GLC_NONE, the command stores the
+error's code in the variable. Hence, after an error has been detected, no new
+error code is recorded until glcGetError() is called.
+
+If a GLC command raises an error, the command will have no effect except the
+possible storing of the error's code. If the generating command returns a value,
+it returns zero. If the generating command modifies values through a pointer
+argument, no change is made to these values.
+
+GLC error semantics apply only to GLC errors and not to GL errors or system
+errors (e.g. memory access errors) that occur during GLC command execution. If
+GL errors occur during the execution of a GLC command, they are left unchanged
+to the user. GLC errors and GL errors are orthogonal, that is no GLC error
+depends on the occurence of a GL error. Especially, the GL_OUT_OF_MEMORY error
+may occur during the execution of a GLC command while no GLC_RESOURCE_ERROR may
+be raised.
+
+Every GLC command execution begins with a test to determine if the command
+parameters are valid. If this test fails, the command raises
+\b GLC_PARAMETER_ERROR. Otherwise, GLC performs a test to determine if its
+state is such that the command is valid. If this test fails, the command
+raises \b GLC_STATE_ERROR. Otherwise, command execution proceeds. If at any
+point during command execution a needed resource (e.g. memory) is unavailable,
+the command raises \b GLC_RESOURCE_ERROR.
+
+Finally, if memory is exhausted during the execution of a command, QuesoGLC
+tries to recover from such a critical error, but the result is undefined.
+
+\section contexts Contexts
+
+A GLC \e context is an instantiation of GLC. When a client thread issues a GLC
+command, the thread's \e current GLC context executes the command.
+
+Each GLC context has a nonzero ID of type \b GLint. When a client is linked
+with a GLC library, the library maintains a list of IDs that contains one entry
+for each of the client's GLC contexts. This list is initially empty.
+
+Each client thread has a private GLC context ID variable that always contains
+either the value zero, indicating that the thread has no current GLC context, or
+the ID of the thread's current GLC context. The initial value of this variable
+is zero.
+
+When the ID of a GLC context is stored in the GLC context ID variable of a
+client thread, the context is said to be current to the thread. It is not
+possible for a GLC context to be current simultaneously to multiple threads.
+
+With the exception of the per-thread GLC error code and context ID variables,
+all of the GLC state variables that are used during execution of a GLC command
+are stored in the issuing thread's current GLC context.
+
+Each GLC command belongs to one of the following categories : Global, Context,
+Master, Font, Transformation, Rendering and Measurement. Global commands do
+not use GLC context state variables and can therefore be executed successfully
+if the issuing thread has no current GLC context. All other GLC commands raise
+\b GLC_STATE_ERROR if the issuing thread has no current GLC context.
+
+This document identifies explicitly the situations in which GLC may issue GL
+commands. In some GL implementations, the execution behavior of a GL command
+is defined only if the GL client has previously created a GL context and made
+it current to the issuing thread. It is the responsability of the GLC client to
+set up the underlying GL implementation such that whenever GLC issues a GL
+command, the execution behavior of that command is defined.
+
+The behavior of GLC depends on the extension set and version of the underlying
+GL implementation. When a GLC context is made current to a thread, GLC issues
+the commands
+\code
+glGetString(GL_VERSION);
+glGetString(GL_EXTENSIONS);
+\endcode
+
+and stores the returned strings.
+
+\section charcodes Character codes
+
+Except where otherwise specified, every character code in GLC is an element
+of the Unicode Character Database (UCD) defined by the standards Unicode 4.0.1
+and ISO/IEC 10646:2003. A Unicode code point is denoted as U+<em>hexcode</em>,
+where \e hexcode is a sequence of hexadecimal digits. Each Unicode code point
+corresponds to a character that has a unique name string. For example, the code
+U+41 corresponds to the character LATIN CAPITAL LETTER A.
+
+\section strings Strings
+
+Except where otherwise specified, every character string used in the GLC API is
+represented as a zero terminated array of Unicode code point values. The type of
+these values is declared statically as \b GLCchar, but the actual type of these
+values is determined dynamically by the value of the variable
+\b GLC_STRING_TYPE. The values \b GLC_UCS1, \b GLC_UCS2, \b GLC_UCS4 and
+\b GLC_UTF8 specify how GLC should interpret the character codes and that each
+value is of type \b GLubyte, \b GLushort, \b GLuint, or \b GLushort,
+respectively. The initial value of \b GLC_STRING_TYPE is \b GLC_UCS1.
+
+Some GLC commands return strings. The return value of these commands is a
+pointer to a string return buffer in the issuing thread's current GLC context.
+This pointer is valid until the next GLC command is issued. The pointer may be
+used as a parameter to the next GLC command. The client must copy the returned
+string to a client provided buffer if the value of the string will be needed
+after the next GLC command is issued.
+
+The value of a character code in a returned string may exceed the range of the
+character encoding selected by \b GLC_STRING_TYPE. In this case, the returned
+character is converted to a character sequence \e \\\<hexcode>, where \ is the
+character REVERSE SOLIDUS (U+5C), < is the character LESS-THAN SIGN (U+3C), >
+is the character GREATER-THAN SIGN (U+3E), and \e hexcode is the original
+character code represented as a sequence of hexadecimal digits. The sequence has
+no leading zeros, and alphabetic digits are in upper case.
+
+\section  constants Constants
+
+GLC defines a set of implementation specific constants. The integer constants
+\b GLC_VERSION_MAJOR and \b GLC_VERSION_MINOR identify the version of GLC
+that the implementation supports. These constants correspond to a version
+<em>A.B</em> of the GLC specification. If a new version breaks compatibility,
+the major version number \e A will be incremented by one. Otherwise, the minor
+version number \e B will be incremented by one.
+
+The string constant \b GLC_VENDOR identifies the vendor of the implementation.
+
+The string constant \b GLC_EXTENSIONS lists in alphabetical order the names of
+the GLC extensions that are supported by the implementation. One space (U+20)
+separates each pair of adjacent names. Example: "GLC_EXT_kern GLC_SGI_ligature".
+
+The string constant \b GLC_RELEASE identifies the vendor specific software
+release that contains the implementation.
+*/

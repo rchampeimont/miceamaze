@@ -1,0 +1,16 @@
+# @configure_input@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: quesoglc
+Description: An implementation of SGI's OpenGL Character Renderer (GLC). The OpenGL Character Renderer (GLC) is a state machine that provides OpenGL programs with character rendering services via an application programming interface (API).
+URL: http://quesoglc.sourceforge.net
+Version: @VERSION@
+Requires: fontconfig, freetype2, @PKGCONFIG_REQUIREMENTS@
+Conflicts:
+Libs: -L${libdir} -lGLC
+Libs.private: @PKGCONFIG_LIBS_PRIVATE@
+Cflags: -I${includedir} @PKGCONFIG_INCLUDE@

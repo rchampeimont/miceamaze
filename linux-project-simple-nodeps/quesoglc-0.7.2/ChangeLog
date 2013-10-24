@@ -1,0 +1,553 @@
+Changes made from the "0.7.1" release to the "0.7.2" release:
+-----------------------------------------------------------
+
+* Bertrand Coconnier:
+
+- Fixed bug #2019450 (added a workaround for open source drivers of the Intel
+  chipsets : a bug in the drivers prevent a character to be displayed).
+- Fixed a bug which caused some memory leaks when memory allocation failed
+  during the update of the masters.
+- Updated the demo in the examples: extrusion and ligthing have been added.
+- Fixed glcGetFontMap() and glcGetMasterMap() so that their return is not null
+  when a character is mapped in the font/master but its Unicode name is not
+  stored in QuesoGLC database.
+- Character codes out of range are now rejected when GLC_UCS1 or GLC_UCS2 are
+  enabled. GLC_PARAMETER_ERROR is then raised.
+- Fixed a bug that crashed QuesoGLC when trying to call glcGetFontMap() with a
+  character not mapped in the font.
+- Fixed a bug which caused the measurement caches not to be updated when
+  GLC_RESOLUTION was changed by the users.
+- Fixed a memory leak in the management of the texture atlas: when a font was
+  deleted, the memory allocated to this font in the atlas was definitely lost
+  instead of being given back to the texture allocator.
+- Fixed a bug which did not include trailing spaces in the calculation of
+  bounding boxes.
+- Fixed a bug which caused artifacts when rendering glyphes that extend beyond
+  the EM square.
+- Fixed a bug which prevented letters l and i to be displayed at small scales
+  when GLC_HINTING_QSO and GLC_TEXTURE were enabled.
+- Side effect of the above bug fix : the antialiasing is improved for most
+  characters since they are no longer located against the edges of the texture.
+- Fixed a bug in glcGenFontID() which could return the ID of an existing font.
+- Fixed a race condition in glcGenContext()
+- Function glcGetStringCharMetric() now returns metrics in global string
+  coordinates (otherwise the kerning can not be measured)
+- Fixed bug #1987563 (Kerning does not work when GLC_GL_OBJECTS is enabled)
+  Thanks to GenPFault for the bug report.
+- Fixed bug #2012579 (Mac OSX Leopard compiling bug) - Thanks to Michael Strobel
+  and Tim Baumgartner for the bug report and the patch.
+- Negative values passed to glcResolution() now raise GLC_PARAMETER_ERROR
+- Fixed bug #1980982 (Checks for MinGW in the configure script are incomplete)
+- Feature request #1947346 : added files for pkg-config (thanks to Giel
+  van Shijndel and Dennis Schridde for providing them)
+- Fixed bug #1947464 (Warnings are generated when compiling with gcc option
+  -Wstrict-prototypes)
+- Fixed bug #1935557 (Fonts are not rendered correctly when the resolution is
+  changed using glcResolution).
+
+Changes made from the "0.7.0" release to the "0.7.1" release:
+-----------------------------------------------------------
+
+* Bertrand Coconnier:
+
+- Fixed the bugs #1852883 and #1890660 (VBOs had an erratic behaviour on some
+  Mac OS X platforms and Intel X3100 gfx cards under Linux).
+- Removed the workaround for bug #1852883
+
+Changes made from the "0.6.5" release to the "0.7.0" release:
+-----------------------------------------------------------
+
+* Bertrand Coconnier:
+
+- Added a workaround for bug #1852883 : VBOs are disabled on Mac OSX platforms
+- Fixed a bug in the measurement routines which caused the advance vector of
+  strings to be wrongly computed.
+- Simplified a bit the GL state management (enabling of GL_TEXTURE_2D should now
+  be done by the user when the rendering style is GLC_TEXTURE)
+- Updated GLEW source code to release 1.5.0
+- glcGetFontMap() and glcGetMasterMap() now return GLC_NONE if the font/master
+  does not map 'inCode'.
+- Updated test7 in order not to report an error when testing fonts which defines
+  a space character with no width.
+- glcGenFontID() now creates an empty font in order to reserve the ID for a
+  future use. The new ID can be freed by deleting it with glcDeleteFont().
+- Measurement datas of glyphes are now cached in order to accelerate the
+  measurement commands when GLC_GL_OBJECTS is enabled.
+- Fonts which belong to the same family are now grouped in the same master.
+- Added project files for Microsoft Visual C++ 2005
+- Fixed bug #1856336 (glcFontFace reports GLC_RESOURCE_ERROR on Windows when
+  selecting the "Arial Regular" font face).
+- Removed explicit calls to glGetString(GL_VERSION) and
+  glGetString(GL_EXTENSIONS) in glcContext() since GLEW already takes care of
+  that.
+- Fixed bug #1843710 (Code to handle missing FTC_Manager_* is broken).
+- GLC_LINE mode now uses Vertex Buffer Objects (VBO) whenever the gfx card
+  supports them
+- Added extension GLC_QSO_buffer_object to report the use of VBOs and PBOs
+  through glcGeti(GLC_BUFFER_OBJECT_COUNT_QSO) and its corresponding call to
+  glcGetListi(GLC_BUFFER_OBJECT_LIST_QSO, int).
+- GLC_TEXTURE mode now uses Vertex Buffer Objects (VBO) whenever the gfx card
+  supports them
+- Fixed bug #1834256 (part II) : The configure script now guesses the correct
+  flags to use in order to cross-compile QuesoGLC for MinGW32
+- Fixed bug #1834256 (part I) : An option has been added to the build scripts
+  in order to disable the build of tests and examples 
+- Fixed bug #1640256 (RTL scripts were wrongly supported and the fix introduced
+  for release 0.6 was actually a partial fix).
+- Improved tests coverage (all GLC functions are now tested at least once with
+  all its legal attributes)
+- Spacing characters have now their own caching system when GLC_GL_OBJECTS is
+  enabled.
+- Code refactoring between glcRenderString() and glcRenderCountedString() in
+  order to maximize common code for easier maintenance.
+- Display lists are now called earlier in glcRenderChar() in order to minimize
+  useless overhead.
+
+Changes made from the "0.6" release to the "0.6.5" release:
+-----------------------------------------------------------
+
+* Bertrand Coconnier:
+
+- Rendering and measuring routines now skip control characters instead of
+  having a random behavior about them.
+- Fixed bug #1820546 (glcRenderString("") displayed the last rendered string
+  minus its first character)
+- Fixed bug #1821219 (Blank characters (i.e. spaces) were wrongly transformed
+  into null characters)
+- Removed the use of FcStrSet and FcStrList objects for the catalog list. Use
+  object __GLCarray instead.
+- Fixed bug #1814773 (QuesoGLC uses the system library GLEW whenever
+  possible. Otherwise a copy of GLEW is automagically built and embedded with
+  QuesoGLC)
+- Fixed bug #1812058 (QuesoGLC uses the system library FriBiDi whenever
+  possible. Otherwise a copy of FriBiDi is automagically built and embedded with
+  QuesoGLC)
+- Fixed bug #1754660 (actually a partial fix. See explanations on bug #1754660
+  on SourceForge.net)
+- Renamed some type names (FT_ULong, FcChar8, ...) in order to make them more
+  portable.
+- Minimized the use of pthread_get_specific()/TlsGetValue() when only one thread
+  is used and when ELF TLS is not available, since calls to those functions are
+  expansive.
+- Removed the useless QUESOGLC_STATIC_LIBRARY
+- Modified QuesoGLC threading implementation in order to use ELF TLS when
+  available. This allows to discard the expansive calls to pthread_get_specific.
+- Removed the useless QUESOGLC_VERSION macro
+- Removed __glcFaceDescGetCharMap() which were buggy for some fonts. Now uses
+  Fontconfig patterns instead. This fixes a bug which created a new font for
+  each newly rendered glyph.
+
+Changes made from the "0.5" release to the "0.6" release:
+-----------------------------------------------------------
+
+* Bertrand Coconnier:
+
+- Fixed bug #1640256 : the advance vector now supports RTL strings
+- Fixed a bug by disabling kerning when two successive characters of a string
+  are not rendered with the same font.
+- Modified __glcFaceDescGetFontFormat() to use FT_Get_X11_Font_Format(),
+  whenever available, to detect the font format.
+- Fixed a bug which caused a character that was not mapped to any font to be
+  rendered wrongly the second time it is displayed when GLC_KERNING_QSO is
+  enabled (bug reported by Brandon Casey).
+- Added a test in the tests directory that checks if empty strings are
+  correctly handled by the functions of QuesoGLC (no crash, no unexpected
+  errors, no memory leaks).
+- Modified the texture routines so that QuesoGLC tries several sizes of texture
+  before giving up when rendering in GLC_TEXTURE mode with GLC_GL_OBJECTS
+  disabled.
+- Fixed global commands so that they can not execute GL commands since we can
+  not make sure that the relevant GL context is bound to the current thread
+  when a global GLC command is executed.
+- Changed __glcSaveGLState() and __glcRestoreGLState() so that only a minimal
+  part of the GL state is saved before the rendering commands are issued.
+- Removed redundancy in the calls to glBindTexture() when the GLC_TEXTURE
+  rendering mode is used.
+- Removed the visibility test based on bounding boxes since it slowed down
+  everything and the user can perform this test himself by using measurement
+  commands.
+- Modified immediate texture rendering to take advantage of pixel buffer
+  objects (PBO) whenever the gfx card supports them.
+- Optimized the rendering code so that the conversion from 26.6 fixed point
+  coordinates to GLfloat is partially done by the GPU by using glScalef().
+- Cleaned up some internal transactions between private functions in order to
+  prevent back and forth translation between a font ID and its corresponding
+  structure __GLCfont.
+- Code cleanup :
+  * Fixed the signed/unsigned comparisons
+  * Removed unused function parameters
+  * Renamed the structure __GLC* instead of __glc* for more consistency with
+    Mesa.
+  * Added some comments
+- Fixed the computing of the bounding box of a glyph when GLC_EXTRUDE_QSO is
+  enabled.
+- Optimized the de Casteljau algorithm by splitting it into 2 specialized
+  subroutines (one for conic Bezier curves and the other for cubic Bezier
+  curves).
+- glcDeleteContext() does not destroy GL objects anymore. This is done because
+  we can not be sure that the GL context that is current (if any) is the one
+  that contains the GL objects associated to the GLC context that we are
+  destroying. Documentation is updated accordingly. (Issue pointed out by
+  Brandon Casey).
+- Removed some calls to __glcGetCurrent() that could cause operations to be
+  performed on the wrong context or to fail when they should succeed (issue
+  pointed out by Brandon Casey).
+- Removed glPush/PopClientAttrib() and use glIsEnabled() instead since that is
+  much faster.
+- Vertex arrays are now used to render characters in GLC_TRIANGLE mode.
+- QuesoGLC now uses GLEW, the OpenGL Extension Wrangler, to manage OpenGL
+  extensions.
+- Removed the master object, uses FontConfig API instead. This allows to not
+  load all the masters in memory : masters are now loaded "just in time" which
+  reduces the memory footprint of QuesoGLC. Furthermore, when GLC_AUTO_FONT is
+  enabled, QuesoGLC takes into account the user preferences for FontConfig.
+
+* Brandon Casey:
+
+- Declared unused arguments with compiler attributes in order to fix compiler
+  warnings and allow some optimization.
+- Rearranged glcGenContext() to avoid unlikely race.
+- Moved the call to __glcConvertGLintToUcs4() before the GL state is saved in
+  RenderChar(). This saves much GL work if the conversion of the character
+  fails.
+- Avoided strlen call by using return value of snprintf/sprintf_s in unicode.c
+- Fixed __glcCtxQueryBuffer() so that it leaves the context unchanged on
+  failure.
+- Fixed calls to __glcCtxQueryBuffer() so that GLC_RESOURCE_ERROR is not raised
+  twice on failure.
+- Added header unistd.h to master.c since it is needed by access()
+- Fixed test4 by supplying a valid directory for AppendCatalog/PrependCatalog
+- Modified __glcConvertUcs4ToGLint() so that a variable that is only used for
+  debugging is now conditionally compiled
+- Simplified __glcRaiseError() testing of current error state
+- Ensured at least one texture level is created by using a do {} while,
+  otherwise when hinting is enabled and Xscale or Yscale are too small,
+  sometimes no new texture is created and we render a portion of the previous
+  image.
+- Avoided free'ing NULL buffer in texture routines
+- Fixed scalable rendering when using external display list
+- Fixed the character measurement buffer which was not reset at each call of
+  glcMeasureString() or glcMeasureCountedString(). So newly measured characters
+  were continually appended to measurement array.
+- Removed the call to __glcGetScale() in measuring routines since it is not
+  necessary and breaks if hinting is enabled and rendering bitmap.
+- Fixed kerning adjustment in __glcGetCharMetric().
+- Moved point size adjustments into ofacedesc.c functions to mimic
+  __glcFaceDescGetBoundingBox() 
+- Replaced __glcFree() by free() when glc allocation functions didn't allocate
+  the memory.
+- Fixed glcExtensions string in test6.c
+- Changed glScalef() call in unicode.c so that z dimension is not zeroed which
+  breaks hinting.
+- Fixed parameter type of __glcTextureGetImmediate() (GLsizei instead of
+  GLuint).
+- Replaced floating point multiplication by bits shifting.
+- Enabled FT_OUTLINE_HIGH_PRECISION when building mipmaps.
+- Avoided signed/unsigned comparison.
+- Arranged extension strings in GLC_EXTENSIONS alphabetically (as per Section
+  2.5 of GLC Specification Version 0.2 - 27 Oct 1996).
+- Fixed Unicode functions (strlen() does not take into account the trailing
+  '\0' character and a pointer was not dereferenced).
+- Merged pitch and width rounding calculations.
+- Fixed kerning measurement and rendering calculations
+- Modified autoconf files so they build with version 2.57.
+- Made QuesoGLC compile with Freetype library older than 2.1.8.
+- Changed __glcFindIndexList() semantics to return address of separator
+  occurrence.
+- Fixed a test so that the GLC_CATALOG_LIST environment variable is now taken
+  into account.
+- Prevented advance past end of string during conversion between logical order
+  and visual order so that zero length strings are handled properly.
+- Removed NULL dereference after FcPatternGetString().
+- Fixed texture atlas coordinate calculation.
+- Improved texture rendering by optimizing the bounding box coordinates
+  calculation.
+
+Changes made from the "0.4" release to the "0.5" release:
+-----------------------------------------------------------
+
+- Fixed the #include so that QuesoGLC can be built with MSVC++
+- Added an attribute stack to save and restore the GLC state variables.
+- Added a matrix stack for GLC_BITMAP_MATRIX.
+- Added support for kerning.
+- Added support for the FreeType cache sub-system.
+- Force thread-safety for included libraries.
+- Fixed a bug where glcGetMasterc() returned silly values for
+  GLC_FULL_NAME_SGI and GLC_VERSION attributes.
+- QuesoGLC is now compliant with the Unicode Bidirectional Algorithm (UAX#9)
+  thanks to Fribidi.
+- Added the ability to extrude the characters.
+- A texture atlas is now used for GLC_TEXTURE rendering style.
+- Improved the speed for display list rendering by moving out some stuff that is
+  only needed for immediate mode rendering.
+- QuesoGLC now tries to re-use as much as possible the texture generated for
+  immediate mode rendering.
+- The OpenGL version is now checked and the texture rendering behaves
+  accordingly.
+- Environment variables GLC_LIST_SEPARATOR and GLC_CATALOG_LIST are now read by
+  QuesoGLC. They supersedes GLC_PATH if defined otherwise GLC_PATH is parsed.
+  (suggestion by Brandon Casey).
+- Blank Unicode characters (that is character which are expected to be blank
+  when drawn) are now managed according to the Unicode standards.
+- Thomas Zimmermann greatly improved the building scripts.
+
+Changes made from the "0.3" release to the "0.4" release:
+-----------------------------------------------------------
+
+- Modified the GLC_PATH parser code in order to use semicolon-separated lists
+  for Win32 and colon-separated for POSIX platforms.
+- Added a makefile so that QuesoGLC can be built under Win32
+- Removed the pthread dependency for Win32
+- Added a new __glcGlyph object that allow to cache the display list, the
+  texture, the bouding box of a glyph. Those objects are managed by
+  __glcFaceDescriptor which allow to keep the glyphes as long as the face exists
+- Revamped the code in order to better encapsulate FT_Face in
+  __glcFaceDescriptor and FcCharSet in _glcCharMap.
+- The thread local storage is now released when QuesoGLC is unloaded
+- Modified the python script that builds the character names database : the
+  number of character names can be given as a command-line parameter.
+- The master object (defined in omaster.h) now uses __glcCharMap instead of
+  FcCharSet.
+- Brandon Casey fixed the rendering commands so that the character sequence
+  \<0> is not issued when glcRenderString is called with a zero length string
+  (i.e. a string that only contains the null terminator) 
+- Brandon Casey fixed the measurement commands so that they give correct values
+  for the minimum y coordinate
+- Brandon Casey changed the GL_TEXTURE_ENV_MODE to GL_MODULATE instead of
+  GL_REPLACE in order to allow the user to change the transparency of the text
+  by setting the alpha component with glColor4*()
+- Brandon Casey fixed the GLC_BITMAP and GLC_TEXTURE rendering styles so that
+  the complete set of GL_UNPACK parameters are set before the picture is
+  uploaded in order not to depend on the user setting of those parameters
+- Brandon Casey provided a patch to allow QuesoGLC to compile with FreeType libs
+  older than 2.1.8 (winfonts were not supported before 2.1.8)
+- Pablo Barbáchano provided a patch to allow QuesoGLC to use FreeType 2.2.x
+  (const-ness added to some parameters of the callbak functions of
+  FT_Outline_Decompose)
+- Removed the stupid limit that generated GLC_PARAMETER_ERROR whenever some
+  functions were called when the string type was GLC_UTF8_QSO (see below).
+  Indeed a Unicode codepoint can be no higher than 0x10ffff and can thus be
+  stored in a 32 bits integer in UTF-8 format.
+- Uses GNU extensions of gcc where possible to implement the constructor and the
+  destructor of the library (instead of _init and _fini)
+- Fixed the crashes due to the removal of the combine callback of the GLU
+  tesselator. The callback is now restored and compatible with the arrays of
+  variable size (__glcArray)
+- Quesoglc now uses autotools to build
+- Thomas Zimmermann fixed the string measurement commands that did not return
+  results that were consistent with those returned by glcCharMetric().
+- Fixed a bug in glcDeleteFont() where the face was not closed before the font
+  was deleted.
+- Display lists are now managed at the charmap level instead of being handled by
+  the masters. This allows a better management and optimizes the GPU memory
+  management by deleting display lists and textures as soon as the corresponding
+  glyph is removed.
+- Charmaps now use binary search instead of linear search
+- Texture mipmap levels in GLC_TEXTURE style are now built directly by QuesoGLC
+  instead of using GLU. It should provide better rendering quality at small
+  pixel sizes
+- The z coordinate of bounding boxes is now also used to determine if a Bezier
+  curve lies outside the viewport
+- Calculations now use GLfloat instead of GLdouble
+- Removed the useless third coordinate of the vertex array used for GLC_LINE
+  and GLC_TRIANGLE styles
+- Fixed a bug where the advance of a glyph that is skipped because it lies
+  outside the viewport were not taken into account
+- Unified the behaviour of the rendering and measuring routines so that the
+  later now take into account the state of GLC_HINTING_QSO.
+- Removed the file 'constant.h'
+- Added the enumerant GLC_HINTING_QSO to the glEnable()/glDisable() functions
+  to allow the user to activate hinting when glyphs are rendered at small pixel
+  sizes. By default, hinting is disabled because it creates visual artifacts
+  when the glyphs are animated.
+- In order to accelerate the rendering of characters, glyphs which bounding box
+  lies outside the viewport are now skipped.
+- In GLC_TEXTURE mode, no mipmap is built anymore if the glyph is rendered in
+  immediate mode (that is if GLC_GL_OBJECTS is disabled and the user is not
+  building a display list).
+- Fixed a bug in glcRenderChar() where the texture used in GLC_TEXTURE mode was
+  deleted after the glyph was rendered if GLC_GL_OBJECTS was disabled. This
+  could lead to unexpected results if the user tried to encapsulate the
+  glcRenderChar() call in a glcNewList/glcEndList pair.
+- In order to accelerate the rendering of glyphs in GLC_LINE and GLC_TRIANGLE
+  modes, outline curves that lie outside the viewport are replaced by a
+  piecewise linear curve that joins the control points.
+- The criterion that is used by the de Casteljau algorithm is now computed in
+  pixel distance rather than in object space distance whenever no display list
+  is building. This leads to a more optimal number of vertices which depends on
+  the actual size of the glyph on the viewport.
+- Scaling of glyphs for the GLC_BITMAP style is now detected thus allowing to
+  pass the correct character size to FreeType (instead of the fixed arbitrary
+  size GLC_POINT_SIZE) when the character is rendered. This optimizes the grid-
+  fitting of the glyph and provides slightly enhanced character rendering at
+  small sizes.
+- Transformation matrices that lead to degenerate cases for the GLC_BITMAP style
+  are now correctly handled.
+- The 'data' and 'length' members of __glcArray are now accessed through macros
+  (GLC_ARRAY_DATA and GLC_ARRAY_LENGTH) instead of explicit pointer
+  dereferencement thus providing some kind of encapsulation for the __glcArray
+  object.
+- Arrays that store the vertices and control points during the rendering of
+  GLC_LINE and GLC_TRIANGLE styles are now handled by the context state. Hence
+  they are not created and deleted each time a glyph is rendered thus saving
+  memory allocation/deallocation.
+- The buffer that stores the measured characters is now an array of variable
+  size (__glcArray)
+- Fixed a bug in measurement commands where bounding boxes and baselines did not
+  take the GLC_RESOLUTION value into account.
+- The de Casteljau algorithm now uses the chordal distance of the control points
+  of the spline rather than the chordal distance of the midpoint of the spline
+  to determine if the curve needs to be broken or not, thus leading to a better
+  handling of antisymmetric cubic curves (such as S-shaped curves). This is also
+  a more severe criterion : some spline curves may now be broken into more
+  segment curves than before.
+- Revamped the implementation of de Casteljau's algorithm : hard-coded limits of
+  arrays have been removed. Data are now handled by arrays of variable size
+  (__glcArray).
+- Charmaps now use arrays of variable size (__glcArray)
+
+Changes made from the "0.2" release to the "0.3" release:
+-----------------------------------------------------------
+
+- Fixed a bug in glcRenderChar(), glcRenderString() and glcRenderCountedString()
+  that prevented the replacement code or the character sequence '\<hexcode>' to
+  be displayed when QuesoGLC failed to find a font that maps a character code.
+- A GLC_PARAMETER_ERROR is raised if the string type is GLC_UTF8_QSO and one of
+  the following functions is called :
+    * glcGeti(GLC_REPLACEMENT_CODE)
+    * the callback function defined by glcCallbackFunc()
+    * glcFontMap()
+    * glcGetFontMap()
+    * glcGetMasterMap()
+    * glcGetCharMetric()
+    * glcRenderChar()
+    * glcReplacementCode()
+- Fixed several issues that prevented QuesoGLC to compile and run on 64 bits
+  platforms
+- Improved the mechanism that determine the format of font files
+- Added support for the GLC_SGI_full_name extension
+- Fixed glcGetMaxCharMetric() where the maximum size of the characters were
+  computed in EM units thus leading to wrong results if the different
+  characters did not have the same EM square size.
+- General management of header files has been moved to internal.h (most source
+  files now just need to include a unique header file "internal.h")
+- Modified glcResolution() so that the resolution of every font of the
+  GLC_CURRENT_FONT_LIST is updated whenever glcResolution() is called
+- The GLC_IS_FIXED_PITCH attribute is now managed per font, not per master
+- The verification of master parameters has been moved to the specific function
+  __glcVerifyMasterParameters(). This simplified the code
+- The management of the header file assert.h has been moved to internal.h
+- Fixed glcIsFont() so that it does not raise GLC_PARAMETER_ERROR when 'inFont'
+  is not the ID of a font
+- Fixed glcGetFonti() so that it returns the font attributes instead of the
+  parent master attributes
+- Fixed glcGenFontID() so that it returns sensible results when it is called
+  several times in a row
+- Fixed glcFontFace() so that the face of every fonts of GLC_CURRENT_FONT_LIST
+  are set to the face identified by 'inFace' if 'inFont' is zero (previously
+  only one face was modified when 'inFont' was zero)
+- Fixed glcFont() so that the client state is left unchanged if an error occurs
+- The UTF-8 support is an extension of QuesoGLC, hence the GLC_UTF8 enumerant
+  has been appended with 'QSO' (like 'QueSO GLC extension'). The enumerant has
+  also been modified which broke the ABI compatibility with version 0.2
+- Brandon Casey removed the hard-coded limit of the charMap array for fonts
+- Brandon Casey modified the allocation and the management of the
+  measurementCharBuffer. It is now dynamically allocated instead of statically
+  defined.
+- Brandon Casey fixed a bug in glclogo.c where GLC_GL_OBJECTS was not disabled
+  hence preventing the display lists to be correctly built.
+- Brandon Casey modified testrender.c so that a box is drawn around the text
+  rendered in GLC_BITMAP style in order to demonstrate proper rotation. This
+  example is analogous to the test that shows failure of SGI's GLC to properly
+  perform this operation (http://www.opengl.org/resources/features/fontsurvey)
+- Fixed a bug in glcFontMap() which screwed the charMap array when a character
+  was removed from the font map (bug reported by Brandon Casey)
+- Textures in the GLC_TEXTURE mode are now stored in GL_ALPHA format in order
+  to nicely superimpose the glyph on the background instead of rendering it
+  over a black box (bug reported by Brandon Casey)
+- Fixed all GLC functions that uses individual character : if the current
+  string type is GLC_UTF8, the GLint code is now correctly handled
+- Fixed a bug in the detection of the filename extension of font files
+- Fixed the master creation when glcGenContext() is called : no void master
+  should be created anymore
+- Fixed a bug so that display lists created by QuesoGLC are now deleted when
+  glcDeleteGLObjects() is called or when a master is destroyed
+- Strings returned by glcGetc() are now converted into the relevant Unicode
+  format
+- Added an "uninstall" target to the makefile
+- When the shared library is built, the version number is appended to the
+  library name and the corresponding links are created when QuesoGLC is
+  installed. This allows several different versions of QuesoGLC to coexist
+  on most *nix (feature suggested by Pablo Barbáchano).
+- Pablo Barbáchano fixed the install process of QuesoGLC
+
+Changes made from the "0.1" release to the "0.2" release:
+-----------------------------------------------------------
+
+- Textures in GLC_TEXTURE mode are now of variable size instead of fixed size
+  (previously 64x64).It both optimizes the texture memory and removes the
+  garbage that could appear when rendering some fonts.
+- Added UTF-8 support
+- QuesoGLC does not open anymore the font files at font creation. Instead, font
+  files are opened when the fonts are added to GLC_CURRENT_FONT_LIST. It lowers
+  the number of font files that are simultaneously opened.
+- Every strings are now stored internally in Unicode UTF-8 format. Strings are
+  converted back to the current GLC_STRING_TYPE "on the fly".
+- Get rid of the string list objects (files ostrlst.[ch]) and the Unicode
+  character object (files ounichar.[ch]). This simplified the code.
+- Now uses standard predefined macros to detect Mac OSX platforms
+- QuesoGLC now uses Fontconfig to locate and examine fonts
+- Fixed invalid preprocessing tokens of test4 that prevented it to be compiled
+  with pedantic-errors enabled.
+- QuesoGLC now uses Doxygen for its documentation.
+
+Changes made from the "Birth" release to the "0.1" release:
+-----------------------------------------------------------
+
+- Get rid of NDBM : Unicode names are now stored in a const array which is
+  automagically built from buildDB.py
+- FreeType lists are now used for the string list object, master lists,
+  font lists, current font lists and texture object lists.
+- A mutex is now used for every access to the database since NDBM is not
+  thread-safe.
+- Fixed a bug where the content returned by dbm_fetch() was freed. This
+  behaviour was wrong since dbm_fetch() returns static data.
+- Now uses NDBM (which is much more portable) instead of GDBM
+- Fixed a bug in glcDeleteContext() where QuesoGLC tried to destroy the GL
+  objects of the current context instead of those of the context to be deleted.
+- Contexts are now stored in a linked list and their number is not limited to
+  16 anymore.
+- Fixed glcGetAllContexts() which returned wrong context IDs and did not zero-
+  terminate the array.
+- Fixed the error path in __glcInitLibrary where glcCommonArea was freed before
+  its members.
+- Added many comments to the sources.
+- Removed the stupid parameter GLC_INTERNAL_ERROR
+- QuesoGLC now computes automatically the resolution of the screen in DPI using
+  X window commands.
+- The GLC_RESOLUTION parameter now provides a way for the user to choose the
+  precision of de Casteljau's algorithm.
+- Fixed a bug that occured when a context was deleted : its entry was not
+  deleted from the 'stateList' array.
+- QuesoGLC now has the ability to use custom memory manager routines
+  (see __glcFree, __glcMalloc and __glcRealloc)
+- FreeType2 now uses a custom memory manager based on __glcFree, __glcMalloc
+  and __glcRealloc. This helps debugging and detection of memory leaks.
+- Variables GLC_MIN_MAPPED_CODE, GLC_MAX_MAPPED_CODE, GLC_CHAR_COUNT and the
+  list GLC_CHAR_LIST are now updated when a new font file is added to a master.
+- Changed license of QuesoGLC to LGPL
+- Fixed glcAppendFont() so that it raises GLC_PARAMETER_ERROR if the font is an
+  element of GLC_CURENT_FONT_LIST at the beginning of the command execution.
+- Fixed glcFont() so that it behaves correctly if the font parameter is zero.
+- Fixed glcFontFace() so that it leaves the current face unchanged if it fails
+  to set a new face.
+- Fixed glcFontMap() so that it checks if the character to be mapped is an
+  element of the list GLC_CHAR_LIST.
+- Fixed glcFontMap() so that if no character name is given then the code
+  'inCode' is removed from the charmap.
+- Fixed glcRenderCountedString(), so that it raises GLC_PARAMETER_ERROR if the
+  parameter inCount is less than zero.
+- Fixed glcReplacementCode() so that it can use a code other than
+  GLC_REPLACEMENT_CODE.
+- Translated C++ code to pure ANSI C (i.e. get rid of C++)
+- QuesoGLC can now be built as a shared library.

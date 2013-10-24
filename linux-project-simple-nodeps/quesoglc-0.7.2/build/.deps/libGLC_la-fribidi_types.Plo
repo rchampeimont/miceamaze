@@ -1,0 +1,11 @@
+libGLC_la-fribidi_types.lo: ../src/fribidi/fribidi_types.c \
+ ../include/qglc_config.h ../src/fribidi/fribidi.h \
+ ../src/fribidi/fribidi_types.h ../src/fribidi/fribidi_types.i
+
+../include/qglc_config.h:
+
+../src/fribidi/fribidi.h:
+
+../src/fribidi/fribidi_types.h:
+
+../src/fribidi/fribidi_types.i:

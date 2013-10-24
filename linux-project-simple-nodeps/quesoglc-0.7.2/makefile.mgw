@@ -1,0 +1,90 @@
+#
+# Values to be updated if needed...
+#
+
+# The DLL name
+LIB_NAME=glc32
+
+# The FreeType and Fontconfig libraries
+SUBLIBRARIES=-lfreetype -lfontconfig
+
+# OpenGL libraries (those are quite standard and should not need to be changed)
+OPENGL_LIBS=-lopengl32 -lglu32
+
+# The PATH to the include directory of MinGW
+MINGW_INCLUDE=c:\mingw\include
+
+# The PATH to the include directory of FreeType
+FREETYPE_INCLUDE=c:\mingw\include\freetype2
+
+# Some special flags may be needed to compile with GLUT
+# May be -D_STDCALL_SUPPORTED -D_M_IX86 or nothing at all
+GLUT_FLAGS=-DGLUT_DISABLE_ATEXIT_HACK 
+
+# The PATH to the GLUT library (may depend on your implementation of GLUT)
+# May be c:\[...]\libglut32.lib
+GLUT_LIBS=c:\mingw\lib\libglut.a
+######################################
+#                                    #
+# No value needs to be changed below #
+#                                    #
+######################################
+
+QUESOGLC_VERSION=0.7.1
+
+C_FILES=context.c database.c except.c font.c global.c master.c measure.c misc.c oarray.c ocharmap.c ocontext.c \
+	  ofacedesc.c ofont.c oglyph.c render.c scalable.c transform.c texture.c unicode.c glew.c omaster.c
+FRIBIDI_FILES=fribidi.c fribidi_char_type.c fribidi_types.c fribidi_mirroring.c
+TESTS=test1 test4 test5 test6 test7 test8 test10 testcontex testfont testmaster testrender
+EXAMPLES=glcdemo glclogo tutorial tutorial2 unicode demo
+
+C_SOURCE=$(addprefix src/,$(C_FILES)) $(addprefix src/fribidi/,$(FRIBIDI_FILES))
+LIB_OBJECTS=$(addprefix build/,$(C_FILES:.c=.o)) $(addprefix build/,$(FRIBIDI_FILES:.c=.o))
+TESTS_OBJECTS=$(addprefix tests/,$(addsuffix .exe, $(TESTS)))
+EXAMPLES_OBJECTS=$(addprefix examples/,$(addsuffix .exe, $(EXAMPLES)))
+GLUT_FLAGS+=-Iinclude
+GLUT_LIBS+=$(OPENGL_LIBS)
+LDFLAGS=-Lbuild
+
+LIBRARY=$(LIB_NAME).dll
+SUBLIBRARIES+=$(OPENGL_LIBS)
+LIBS=$(LDFLAGS) -l$(LIB_NAME)
+CC=gcc
+ifdef DEBUGMODE
+CFLAGS=-g -Wall -Werror -DDEBUGMODE
+else
+CFLAGS=-O2 -fomit-frame-pointer -ffast-math
+endif
+CPPFLAGS=-Iinclude -Isrc -I$(MINGW_INCLUDE) -I$(FREETYPE_INCLUDE)
+
+.PHONY : all
+all: $(TESTS_OBJECTS) $(EXAMPLES_OBJECTS)
+
+.PHONY : clean
+clean:
+	del build\*.o
+	del build\*.a
+	del build\$(LIBRARY)
+	del examples\*.exe
+	del tests\*.exe
+
+tests/%.exe : tests/%.c build/$(LIBRARY)
+	$(CC) $(CFLAGS) $(GLUT_FLAGS) -DGLEW_MX -DQUESOGLC_VERSION=\"$(QUESOGLC_VERSION)\" $< -o $@ $(LIBS) $(GLUT_LIBS)
+
+build/trackball.o : examples/trackball.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+examples/demo.exe : examples/demo.c build/trackball.o
+	$(CC) $(CFLAGS) $(GLUT_FLAGS) -o $@ $^ $(LIBS) $(GLUT_LIBS)
+
+examples/%.exe : examples/%.c build/$(LIBRARY)
+	$(CC) $(CFLAGS) $(GLUT_FLAGS) $< -o $@ $(LIBS) $(GLUT_LIBS)
+
+build/%.o : src/fribidi/%.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) -Isrc/fribidi $< -o $@
+
+build/%.o : src/%.c
+	$(CC) -c $(CFLAGS) -DGLEW_MX -DGLEW_BUILD $(CPPFLAGS) -DQUESOGLC_VERSION=\"$(QUESOGLC_VERSION)\" $< -o $@
+
+build/$(LIBRARY): $(LIB_OBJECTS)
+	$(CC) -shared -o build/$(LIBRARY) -Wl,--output-def,build/$(LIB_NAME).def,--out-implib,build/lib$(LIB_NAME).a $(LIB_OBJECTS) $(SUBLIBRARIES)
