@@ -12,6 +12,8 @@
 *.la
 *.a
 
+Thumbs.db
+
 # Specific files
 linux-project/data/images/eagle.png
 linux-project/data/images/eagle2.png
