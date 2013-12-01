@@ -1,3 +1,6 @@
+New in version 1.11:
+  * Add music
+
 New in version 1.10:
   * Fix OpenGL error 1280 in menu "about" and "how to play" on some computers
     (caused by trying to render an empty string)

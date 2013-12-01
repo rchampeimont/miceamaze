@@ -28,15 +28,15 @@
 #include "Sound.h"
 
 Sound::Sound() {
-	enabled = true;
+	musicPlaying = -1;
 }
 
 Sound::~Sound() {
-
 }
 
 void Sound::init() {
-
+	music.push_back(loadMusic("DST-Azum.mp3"));
+	music.push_back(loadMusic("DST-DistantMessage.mp3"));
 }
 
 Mix_Chunk *Sound::loadSample(string filename) {
@@ -48,9 +48,28 @@ Mix_Chunk *Sound::loadSample(string filename) {
 }
 
 Mix_Music *Sound::loadMusic(string filename) {
-	Mix_Music *sample = Mix_LoadMUS((Program::getInstance()->dataPath + "/sound/" + filename).c_str());
+	Mix_Music *sample = Mix_LoadMUS((Program::getInstance()->dataPath + "/music/" + filename).c_str());
 	if (!sample) {
 		Functions::error(Mix_GetError());
 	}
 	return sample;
+}
+
+void Sound::playMusic(int musicIndex) {
+	if (Program::getInstance()->config.music) {
+		if (musicPlaying != musicIndex) {
+			if (Mix_FadeInMusic(music[musicIndex], -1, 1000) != 0) {
+				Functions::error(Mix_GetError());
+			}
+			musicPlaying = musicIndex;
+		}
+	}
+}
+
+void Sound::playGameMusic() {
+	playMusic(1);
+}
+
+void Sound::playMenuMusic() {
+	playMusic(0);
 }

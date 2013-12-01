@@ -218,6 +218,8 @@ void Game::run() {
 	// Prepare rendering
 	prepareRender();
 
+	Program::getInstance()->sound->playGameMusic();
+
 	// Game main loop
 	while (true) {
 		if (initVideoCounter != Program::getInstance()->initVideoCounter) {

@@ -31,10 +31,13 @@
 
 class Sound {
 	vector<Mix_Music *> music;
+	int musicPlaying;
 
 public:
-	bool enabled;
 
+	void playMusic(int musicIndex);
+	void playMenuMusic();
+	void playGameMusic();
 	void init();
 	Mix_Chunk *loadSample(string filename);
 	Mix_Music *loadMusic(string filename);

@@ -90,6 +90,8 @@ void MenuMain::run() {
 	// Prepare rendering
 	prepareRender();
 
+	Program::getInstance()->sound->playMenuMusic();
+
 	while (true) {
 		if (initVideoCounter != Program::getInstance()->initVideoCounter) {
 			// Video was reinitialized, so we need to resend display lists
