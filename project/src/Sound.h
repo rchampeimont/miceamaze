@@ -1,10 +1,10 @@
 // Copyright (c) 2012, Raphael CHAMPEIMONT
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
-// 
+//
 // * Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright
@@ -24,31 +24,23 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef SOUND_H_
+#define SOUND_H_
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
+#include "Program.h"
 
-#include <iostream>
+class Sound {
+	vector<Mix_Music *> music;
 
-using namespace std;
-
-class Config {
 public:
-	string path;
+	bool enabled;
 
-	// -1 = 100 FPS, 0 = 200 FPS, 1 = MAX FPS
-	int fpsBehaviour;
-	bool showFPS;
-	bool music;
-	bool sound;
-
-	Config();
-	void load();
-	void save();
-	string configFilePath() {
-		return path + "/config.txt";
-	}
+	void init();
+	Mix_Chunk *loadSample(string filename);
+	Mix_Music *loadMusic(string filename);
+	Sound();
+	~Sound();
 };
 
 
-#endif /* CONFIG_H_ */
+#endif /* SOUND_H_ */

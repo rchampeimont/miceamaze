@@ -31,6 +31,8 @@ Config::Config() {
 	fpsBehaviour = 0;
 	showFPS = false;
 	path = "";
+	music = true;
+	sound = true;
 }
 
 void Config::load() {
@@ -91,6 +93,10 @@ void Config::load() {
 							Program::getInstance()->fullscreen = atoi(value.c_str());
 						} else if (strcasecmp(option.c_str(), "showfps") == 0) {
 							showFPS = atoi(value.c_str()) != 0;
+						} else if (strcasecmp(option.c_str(), "music") == 0) {
+							music = atoi(value.c_str()) != 0;
+						} else if (strcasecmp(option.c_str(), "sound") == 0) {
+							sound = atoi(value.c_str()) != 0;
 						}
 					}
 					// prepare for next line
@@ -148,6 +154,8 @@ void Config::save() {
 	f << "fpsbehaviour=" << fpsBehaviour << "\r\n";
 	f << "fullscreen=" << (Program::getInstance()->fullscreen?1:0) << "\r\n";
 	f << "showfps=" << (showFPS ? 1 : 0) << "\r\n";
+	f << "music=" << (music ? 1 : 0) << "\r\n";
+	f << "sound=" << (sound ? 1 : 0) << "\r\n";
 
 	f.close();
 }

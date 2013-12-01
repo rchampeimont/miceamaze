@@ -59,9 +59,9 @@ void MenuOptions::prepareRender() {
 	glScalef(0.15, 0.15, 1);
 	RenderFlatText::render("Options", 0);
 
-	string optionsNames[] = {"Display mode", "FPS in game", "Show FPS count"};
+	string optionsNames[] = {"Display mode", "FPS in game", "Show FPS count", "Music", "Sound"};
 
-	for (int i=0; i<3; i++) {
+	for (int i=0; i<5; i++) {
 		float y = 0.4-0.2*i;
 		glLoadIdentity();
 		if (i == 0) {
@@ -70,6 +70,10 @@ void MenuOptions::prepareRender() {
 			glColor3f(0, 0.3, 0);
 		} else if (i == 2) {
 			glColor3f(0.3, 0, 0);
+		} else if (i == 3) {
+			glColor3f(0.3, 0.3, 0);
+		} else if (i == 4) {
+			glColor3f(0.3, 0, 0.4);
 		}
 		Functions::drawSquare(-1, y-0.05, 2, 0.2);
 
@@ -116,6 +120,18 @@ void MenuOptions::selectOption(int option) {
 	case 7:
 		Program::getInstance()->config.showFPS = false;
 		break;
+	case 8:
+		Program::getInstance()->config.music = true;
+		break;
+	case 9:
+		Program::getInstance()->config.music = false;
+		break;
+	case 10:
+		Program::getInstance()->config.sound = true;
+		break;
+	case 11:
+		Program::getInstance()->config.sound = false;
+		break;
 	default:
 		return;
 	}
@@ -138,11 +154,13 @@ void MenuOptions::run() {
 	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
 	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "No", textSizeFactor));
 
-#ifndef _WIN32
-	// This option only works on Windows,
-	// so don't display it on other OSs.
-	buttons[5].shown = false;
-#endif
+	i=3;
+	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
+	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "No", textSizeFactor));
+
+	i=4;
+	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
+	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "No", textSizeFactor));
 
 	int pressedButton = -1;
 
@@ -175,6 +193,10 @@ void MenuOptions::run() {
 		buttons[5].select(Program::getInstance()->config.fpsBehaviour == 1);
 		buttons[6].select(Program::getInstance()->config.showFPS);
 		buttons[7].select(!Program::getInstance()->config.showFPS);
+		buttons[8].select(Program::getInstance()->config.music);
+		buttons[9].select(!Program::getInstance()->config.music);
+		buttons[10].select(Program::getInstance()->config.sound);
+		buttons[11].select(!Program::getInstance()->config.sound);
 
 		// render buttons
 		for (int b=0; b<(int) buttons.size(); b++) {

@@ -65,6 +65,7 @@
 
 // SDL
 #include "SDL.h"
+#include "SDL_mixer.h"
 
 // OpenGL
 #ifdef __APPLE__

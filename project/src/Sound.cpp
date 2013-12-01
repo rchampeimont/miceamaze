@@ -1,10 +1,10 @@
 // Copyright (c) 2012, Raphael CHAMPEIMONT
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
-// 
+//
 // * Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
 // * Redistributions in binary form must reproduce the above copyright
@@ -25,30 +25,32 @@
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#ifndef CONFIG_H_
-#define CONFIG_H_
+#include "Sound.h"
 
-#include <iostream>
+Sound::Sound() {
+	enabled = true;
+}
 
-using namespace std;
+Sound::~Sound() {
 
-class Config {
-public:
-	string path;
+}
 
-	// -1 = 100 FPS, 0 = 200 FPS, 1 = MAX FPS
-	int fpsBehaviour;
-	bool showFPS;
-	bool music;
-	bool sound;
+void Sound::init() {
 
-	Config();
-	void load();
-	void save();
-	string configFilePath() {
-		return path + "/config.txt";
+}
+
+Mix_Chunk *Sound::loadSample(string filename) {
+	Mix_Chunk *sample = Mix_LoadWAV((Program::getInstance()->dataPath + "/sound/" + filename).c_str());
+	if (!sample) {
+		Functions::error(Mix_GetError());
 	}
-};
+	return sample;
+}
 
-
-#endif /* CONFIG_H_ */
+Mix_Music *Sound::loadMusic(string filename) {
+	Mix_Music *sample = Mix_LoadMUS((Program::getInstance()->dataPath + "/sound/" + filename).c_str());
+	if (!sample) {
+		Functions::error(Mix_GetError());
+	}
+	return sample;
+}

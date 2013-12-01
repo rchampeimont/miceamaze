@@ -68,6 +68,8 @@ Program::Program(int _argc, char *_argv[]) {
 Program::~Program() {
 	if (fps != NULL)
 		delete fps;
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_FreeCursor(emptyCursor);
 	SDL_Quit();
 	instance = NULL;
@@ -344,8 +346,21 @@ void Program::run() {
 
 	SDL_SetCursor(Program::getInstance()->emptyCursor);
 
-
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+	// Sound
+	int flags = MIX_INIT_MP3;
+	int initted = Mix_Init(flags);
+	if ((initted&flags) != flags) {
+		string err = "Sound init error ";
+		err = err + Mix_GetError();
+	    Functions::error(err);
+	}
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) != 0) {
+		Functions::error(Mix_GetError());
+	}
+	sound = new Sound();
+	sound->init();
 
 	// Set FPS limit depending if battery/AC
 	fps = new FPS();

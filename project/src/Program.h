@@ -50,9 +50,10 @@
 #include "FPS.h"
 #include "RenderFlatText.h"
 #include "Button.h"
+#include "Sound.h"
 
 class FPS;
-
+class Sound;
 
 using namespace std;
 
@@ -75,6 +76,7 @@ public:
 	IntXY resizedWindow;
 	FPS *fps;
 	string dataPath;
+	Sound *sound;
 
 	Program(int argc, char *argv[]);
 	void run();
