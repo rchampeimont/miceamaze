@@ -1,3 +1,6 @@
+New in version 1.9:
+  * Change FPS options to 100, 200 and MAX (default is 200)
+
 New in version 1.8:
   * New "How to play" screen
   * Windows version: Now an installer is provided instead of a ZIP file

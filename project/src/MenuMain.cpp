@@ -103,7 +103,7 @@ void MenuMain::run() {
 		glCallList(fixedObjectsDisplayList);
 
 		// show FPS counter
-		Program::getInstance()->fps->render();
+		Program::getInstance()->fps->renderInMenu();
 
 
 
@@ -210,8 +210,7 @@ void MenuMain::run() {
 		}
 
 		// Count FPS and wait some time before rendering next frame
-		Program::getInstance()->fps->update();
-		Program::getInstance()->fps->waitStandard();
+		Program::getInstance()->fps->waitInMenu();
 
 	}
 }

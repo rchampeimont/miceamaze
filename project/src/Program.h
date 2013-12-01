@@ -70,7 +70,7 @@ public:
 	Config config;
 	IntXY nativeResolution;
 	int initVideoCounter;
-	int scene, runningScene;
+	int scene;
 	string mazeToLoad;
 	IntXY resizedWindow;
 	FPS *fps;
@@ -95,8 +95,6 @@ public:
 	static Program *getInstance() {
 		return instance;
 	}
-
-	static void mainLoopIteration();
 
 	void glCoordsFromWindowCoords(int x, int y, float *xgl, float *ygl) {
 		if (xgl != NULL) *xgl = (float) (x-screenOffsetX) / screenWidth * 2 - 1;

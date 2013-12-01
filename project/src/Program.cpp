@@ -272,14 +272,9 @@ void Program::run() {
 	}
 
 	// request video hardware information
-#ifndef EMSCRIPTEN
 	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
 	nativeResolution.x = videoInfo->current_w;
 	nativeResolution.y = videoInfo->current_h;
-#else
-	nativeResolution.x = 1024;
-	nativeResolution.y = 768,
-#endif
 
 	// initialize display
 	SDL_WM_SetCaption(Functions::getAppName().c_str(), Functions::getAppName().c_str());
@@ -287,10 +282,8 @@ void Program::run() {
 	SDL_Surface *icon = SDL_LoadBMP((Program::getInstance()->dataPath + "/images/icon32.bmp").c_str());
 	SDL_WM_SetIcon(icon, NULL);
 
-#ifndef EMSCRIPTEN
 	char s[] = "SDL_VIDEO_CENTERED=center";
 	SDL_putenv(s);
-#endif
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
@@ -305,7 +298,6 @@ void Program::run() {
 	loadAllTextures();
 	RenderFlatText::init();
 
-#ifndef EMSCRIPTEN
 	const char *arrow2[] = {
 			/* width height num_colors chars_per_pixel */
 			"    32    32        3            1",
@@ -352,7 +344,6 @@ void Program::run() {
 
 	SDL_SetCursor(Program::getInstance()->emptyCursor);
 
-#endif
 
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -364,13 +355,6 @@ void Program::run() {
 	srand(SDL_GetTicks());
 
 	scene = 0;
-	runningScene = -1;
-
-#ifdef EMSCRIPTEN
-
-  emscripten_set_main_loop(mainLoopIteration, 0, 1);
-
-#else
 
 	while (true) {
 		switch (scene) {
@@ -426,7 +410,6 @@ void Program::run() {
 		}
 	}
 
-#endif
 }
 
 // General event handling valid in any situation:
@@ -466,12 +449,3 @@ void Program::generalEventHandler(SDL_Event *event) {
 	}
 }
 
-
-void Program::mainLoopIteration() {
-	/*
-	Program *program = Program::getInstance();
-	if (runningScene ! scene) {
-
-	}
-	*/
-}

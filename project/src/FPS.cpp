@@ -32,7 +32,8 @@ FPS::FPS() {
 	fps = -1;
 	framesSinceLastSecond = 0;
 	lastSecond = SDL_GetTicks();
-	limitFPS = false;
+	limitFPS = 0;
+	frameDelay = 0;
 }
 
 FPS::~FPS() {
@@ -42,28 +43,15 @@ FPS::~FPS() {
 void FPS::decideLimitFPS() {
 	// Config explicitly decides between powersave or max FPS?
 	if (Program::getInstance()->config.fpsBehaviour == 1) {
-		limitFPS = false;
-		return;
+		limitFPS = 0;
 	} else if (Program::getInstance()->config.fpsBehaviour == -1) {
-		limitFPS = true;
-		return;
+		limitFPS = 100;
+	} else {
+		limitFPS = 200;
 	}
-
-	// Max FPS unless we have a reason to set otherwise
-	limitFPS = false;
-	// Detect if we are on battery
-#ifdef _WIN32
-	SYSTEM_POWER_STATUS powerStatus;
-	if (GetSystemPowerStatus(&powerStatus)) {
-		if (powerStatus.ACLineStatus == 0) {
-			// We are on battery, so limit FPS to save energy
-			limitFPS = true;
-		}
-	}
-#endif
 }
 
-void FPS::render() {
+void FPS::renderInMenu() {
 	if (!Program::getInstance()->config.showFPS) return;
 	glLoadIdentity();
 	glTranslatef(0.72, -0.99, 0);
@@ -73,10 +61,8 @@ void FPS::render() {
 	else
 		glColor3f(0.8, 0.7, 0.4);
 	if (fps >= 0) {
-		string s = "FPS: " + Functions::toString(fps) + " (lim)";
+		string s = "FPS: " + Functions::toString(fps) + " (5 ms)";
 		RenderFlatText::render(s);
-	} else {
-		RenderFlatText::render("FPS: ");
 	}
 }
 
@@ -93,10 +79,43 @@ void FPS::renderInGame() {
 	if (fps >= 0) {
 		string s = "FPS: " + Functions::toString(fps);
 		if (limitFPS) {
-			s += " (lim)";
+			//s += " (lim)";
+			s += " (" + Functions::toString(frameDelay) + " ms)";
 		}
 		RenderFlatText::render(s);
-	} else {
-		RenderFlatText::render("FPS: ");
 	}
+}
+
+void FPS::waitInGame() {
+	// Count FPS
+	update();
+
+	if (limitFPS != 0) {
+		// Adjust frame delay
+		if (framesSinceLastSecond == 0) {
+			if (fps > limitFPS) {
+				frameDelay++;
+			} else if (fps < limitFPS) {
+				frameDelay--;
+			}
+			if (frameDelay < 0)
+				frameDelay = 0;
+		}
+
+		// Wait for the computed delay
+		if (frameDelay > 0) {
+			SDL_Delay(frameDelay);
+		}
+	}
+
+}
+
+// Wait between two frames in menu-like things
+// that don't need dynamic delay adjustment.
+// This is useful to prevent coil noise when FPS are very high
+// (as menus are rendered very fast - like 1000 FPS),
+// and it also saves power since we don't need thousands of FPS in a menu.
+void FPS::waitInMenu() {
+	update();
+	SDL_Delay(5);
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.debug.160178043">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.debug.160178043" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -21,6 +23,7 @@
 								<option id="gnu.both.asm.option.include.paths.873294745" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/include/SDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.197409200" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -31,6 +34,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.2094416548" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/include/SDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1151174300" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="WINVER=0x500"/>
@@ -43,6 +47,7 @@
 								<option id="gnu.c.compiler.option.include.paths.2054329708" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/include/SDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.2112861265" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="WINVER=0x500"/>
@@ -55,6 +60,7 @@
 								<option id="gnu.cpp.link.option.paths.1238689330" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/lib/x86}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1975232120" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="gdi32"/>
@@ -64,6 +70,7 @@
 									<listOptionValue builtIn="false" value="glu32"/>
 									<listOptionValue builtIn="false" value="SOIL"/>
 									<listOptionValue builtIn="false" value="opengl32"/>
+									<listOptionValue builtIn="false" value="SDL_mixer"/>
 								</option>
 								<option id="gnu.cpp.link.option.userobjs.197934057" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="windows.res"/>
@@ -104,6 +111,7 @@
 								<option id="gnu.both.asm.option.include.paths.105269506" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/include/SDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2143480056" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -114,6 +122,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1372542882" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/include/SDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1317123133" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="WINVER=0x500"/>
@@ -126,6 +135,7 @@
 								<option id="gnu.c.compiler.option.include.paths.1486825367" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/include/SDL}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.790937302" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -Wl,-subsystem,windows" valueType="string"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.2109554730" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
@@ -139,6 +149,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL-1.2.15/lib}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\MinGW\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SOIL/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/miceamaze/SDL_mixer-1.2.12/lib/x86}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1919802655" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="gdi32"/>
@@ -148,6 +159,7 @@
 									<listOptionValue builtIn="false" value="glu32"/>
 									<listOptionValue builtIn="false" value="SOIL"/>
 									<listOptionValue builtIn="false" value="opengl32"/>
+									<listOptionValue builtIn="false" value="SDL_mixer"/>
 								</option>
 								<option id="gnu.cpp.link.option.userobjs.767511065" name="Other objects" superClass="gnu.cpp.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="windows.res"/>
@@ -172,13 +184,8 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="miceamaze.cdt.managedbuild.target.gnu.mingw.exe.330744541" name="Executable" projectType="cdt.managedbuild.target.gnu.mingw.exe"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/miceamaze"/>
-		</configuration>
-		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/miceamaze"/>
-		</configuration>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/miceamaze"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
@@ -220,11 +227,11 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.160178043;cdt.managedbuild.config.gnu.mingw.exe.debug.160178043.9171010;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.763482176;cdt.managedbuild.tool.gnu.c.compiler.input.831917869">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.879957923;cdt.managedbuild.config.gnu.mingw.exe.release.879957923.253635927;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.1156929905;cdt.managedbuild.tool.gnu.cpp.compiler.input.1077970069">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.160178043;cdt.managedbuild.config.gnu.mingw.exe.debug.160178043.403106342;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.1308311465;cdt.managedbuild.tool.gnu.c.compiler.input.343286975">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.879957923;cdt.managedbuild.config.gnu.mingw.exe.release.879957923.253635927;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.1156929905;cdt.managedbuild.tool.gnu.cpp.compiler.input.1077970069">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

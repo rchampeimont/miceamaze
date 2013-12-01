@@ -21,4 +21,5 @@ linux-project/miceamaze
 linux-project/miceamaze.6.gz
 linux-project/miceamaze.png
 linux-project/miceamaze.xpm
-
+project/Debug
+project/Release

@@ -35,12 +35,19 @@ public:
 	int fps;
 	int framesSinceLastSecond;
 	Uint32 lastSecond;
-	bool limitFPS;
+	int limitFPS;
+	int frameDelay;
 
 	FPS();
 	~FPS();
-	void render();
+	void decideLimitFPS();
+	void renderInMenu();
 	void renderInGame();
+	void waitInMenu();
+	void waitInGame();
+
+private:
+	// Function to count FPS
 	void update() {
 		Functions::clearGlErrors();
 		framesSinceLastSecond++;
@@ -50,17 +57,6 @@ public:
 			lastSecond = t;
 			framesSinceLastSecond = 0;
 		}
-	}
-
-	void decideLimitFPS();
-
-	// "Standard" wait between two frames in menu-like things
-	// that don't need dynamic delay adjustment.
-	// This is useful to prevent coil noise when FPS are very high
-	// (as menus are rendered very fast - like 1000 FPS),
-	// and it also saves power since we don't need thousands of FPS in a menu.
-	void waitStandard() {
-		SDL_Delay(5);
 	}
 };
 

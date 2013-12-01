@@ -99,15 +99,15 @@ void MenuOptions::selectOption(int option) {
 		}
 		break;
 	case 3:
-		Program::getInstance()->config.fpsBehaviour = 1;
-		Program::getInstance()->fps->decideLimitFPS();
-		break;
-	case 4:
 		Program::getInstance()->config.fpsBehaviour = -1;
 		Program::getInstance()->fps->decideLimitFPS();
 		break;
-	case 5:
+	case 4:
 		Program::getInstance()->config.fpsBehaviour = 0;
+		Program::getInstance()->fps->decideLimitFPS();
+		break;
+	case 5:
+		Program::getInstance()->config.fpsBehaviour = 1;
 		Program::getInstance()->fps->decideLimitFPS();
 		break;
 	case 6:
@@ -130,9 +130,9 @@ void MenuOptions::run() {
 	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "Window", textSizeFactor));
 
 	i=1;
-	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Max FPS", textSizeFactor));
-	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "Powersave", textSizeFactor));
-	buttons.push_back(Button(+0.4, 0.4-0.2*i, 0.3, 0.10, "Max only on AC", textSizeFactor));
+	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "100 (low)", textSizeFactor));
+	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "200 (default)", textSizeFactor));
+	buttons.push_back(Button(+0.4, 0.4-0.2*i, 0.3, 0.10, "MAX", textSizeFactor));
 
 	i=2;
 	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
@@ -165,14 +165,14 @@ void MenuOptions::run() {
 		glCallList(fixedObjectsDisplayList);
 
 		// show FPS counter
-		Program::getInstance()->fps->render();
+		Program::getInstance()->fps->renderInMenu();
 
 		// which buttons are selected
 		buttons[1].select(Program::getInstance()->fullscreen);
 		buttons[2].select(!Program::getInstance()->fullscreen);
-		buttons[3].select(Program::getInstance()->config.fpsBehaviour == 1);
-		buttons[4].select(Program::getInstance()->config.fpsBehaviour == -1);
-		buttons[5].select(Program::getInstance()->config.fpsBehaviour == 0);
+		buttons[3].select(Program::getInstance()->config.fpsBehaviour == -1);
+		buttons[4].select(Program::getInstance()->config.fpsBehaviour == 0);
+		buttons[5].select(Program::getInstance()->config.fpsBehaviour == 1);
 		buttons[6].select(Program::getInstance()->config.showFPS);
 		buttons[7].select(!Program::getInstance()->config.showFPS);
 
@@ -235,8 +235,7 @@ void MenuOptions::run() {
 		}
 
 		// Count FPS and wait some time before rendering next frame
-		Program::getInstance()->fps->update();
-		Program::getInstance()->fps->waitStandard();
+		Program::getInstance()->fps->waitInMenu();
 
 	}
 }

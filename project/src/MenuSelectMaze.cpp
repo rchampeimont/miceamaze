@@ -163,7 +163,7 @@ void MenuSelectMaze::run() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// show FPS counter
-		Program::getInstance()->fps->render();
+		Program::getInstance()->fps->renderInMenu();
 
 		// render mazes
 		int sel = -1;
@@ -295,8 +295,7 @@ void MenuSelectMaze::run() {
 		}
 
 		// Count FPS and wait some time before rendering next frame
-		Program::getInstance()->fps->update();
-		Program::getInstance()->fps->waitStandard();
+		Program::getInstance()->fps->waitInMenu();
 
 	}
 }

@@ -45,9 +45,7 @@ public:
 	bool ended;
 	Uint32 lastSecond;
 	Uint32 lastGameTick;
-	int framesSinceLastSecond;
 	int ticksSinceLastSecond;
-	int frameDelay;
 	Maze maze;
 	vector<Cursor*> cursors;
 	vector<int> scores;

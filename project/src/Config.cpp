@@ -28,17 +28,12 @@
 #include "Program.h"
 
 Config::Config() {
-#ifdef _WIN32
 	fpsBehaviour = 0;
-#else
-	fpsBehaviour  = 1;
-#endif
 	showFPS = false;
 	path = "";
 }
 
 void Config::load() {
-#ifndef EMSCRIPTEN
 #ifdef _WIN32
 	char appDataPath[MAX_PATH];
 	Functions::verify(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, appDataPath) == S_OK);
@@ -116,12 +111,6 @@ void Config::load() {
 			f.close();
 		}
 	}
-#else
-	// Emscripten mode
-	fpsBehaviour = 1;
-	Program::getInstance()->fullscreen = true;
-	showFPS = true;
-#endif
 
 	// Command-line options overwrite config file options
 	char **argv = Program::getInstance()->argv;
@@ -133,19 +122,11 @@ void Config::load() {
 		if (strcasecmp(argv[i], "-f") == 0 || strcasecmp(argv[i], "-fullscreen") == 0 || strcasecmp(argv[i], "--fullscreen") == 0) {
 			Program::getInstance()->fullscreen = true;
 		}
-		if (strcasecmp(argv[i], "-powersave") == 0 || strcasecmp(argv[i], "--powersave") == 0) {
-			fpsBehaviour = -1;
-		}
-		if (strcasecmp(argv[i], "-maxfps") == 0 || strcasecmp(argv[i], "--maxfps") == 0) {
-			fpsBehaviour = 1;
-		}
 		if (strcasecmp(argv[i], "-h") == 0 || strcasecmp(argv[i], "-help") == 0 || strcasecmp(argv[i], "--help") == 0 || strcasecmp(argv[i], "/?") == 0) {
 			cout << Functions::getAppName() << " " << Functions::getVersion() << endl;
 			cout << "Command-line options:" << endl;
 			cout << "--window (or -w): start in window mode (not fullscreen)" << endl;
 			cout << "--fullscreen (or -f): start in fullscreen mode" << endl;
-			cout << "--powersave: limit number of FPS to save energy" << endl;
-			cout << "--maxfps: run in max FPS even if on battery" << endl;
 			exit(0);
 		}
 	}
@@ -153,7 +134,6 @@ void Config::load() {
 }
 
 void Config::save() {
-#ifndef EMSCRIPTEN
 	if (path.empty()) {
 		Functions::error("could not save config");
 		return;
@@ -170,5 +150,4 @@ void Config::save() {
 	f << "showfps=" << (showFPS ? 1 : 0) << "\r\n";
 
 	f.close();
-#endif
 }

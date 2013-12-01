@@ -36,7 +36,7 @@ class Config {
 public:
 	string path;
 
-	// -1 = powersave, 1 = max FPS, 0 = automatic (max on AC power / save on battery)
+	// -1 = 100 FPS, 0 = 200 FPS, 1 = MAX FPS
 	int fpsBehaviour;
 
 	bool showFPS;

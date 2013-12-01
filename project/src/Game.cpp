@@ -178,12 +178,6 @@ void Game::run() {
 	lastGameTick = SDL_GetTicks();
 	ticksSinceLastSecond = 0;
 
-	frameDelay = 0;
-	if (Program::getInstance()->fps->limitFPS) {
-		// Set to an initial approximation, will be updated live.
-		frameDelay = 5;
-	}
-
 	// mouse (input device)
 	Cursor* mouseControlledCursor = NULL;
 	for (int p=0; p<4; p++) {
@@ -529,29 +523,8 @@ void Game::run() {
 			}
 		}
 
-		// Count FPS
-		{
-			Program::getInstance()->fps->update();
-
-			if (Program::getInstance()->fps->framesSinceLastSecond == 0) {
-				// If FPS is limited, compute new frame delay
-				if (Program::getInstance()->fps->limitFPS) {
-					if (Program::getInstance()->fps->fps > 100) {
-						frameDelay++;
-					} else if (Program::getInstance()->fps->fps < 100) {
-						frameDelay--;
-					}
-					if (frameDelay < 0)
-						frameDelay = 0;
-					//cout << Program::getInstance()->fps->fps << " " << Program::getInstance()->fpsLimit << " " << frameDelay << endl;
-				}
-			}
-		}
-
-
-		if (Program::getInstance()->fps->limitFPS && frameDelay > 0) {
-			SDL_Delay(frameDelay);
-		}
+		// Wait the correct delay to reach the correct number of FPS
+		Program::getInstance()->fps->waitInGame();
 
 		if (running && time > timeLimit) {
 			running = false;
