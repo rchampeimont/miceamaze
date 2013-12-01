@@ -79,8 +79,8 @@ void Mouse::render() {
 	float x1 = maze->x0 + x*maze->cellWidth;
 	float y1 = maze->y0 + y*maze->cellHeight;
 	glTranslatef(x1, y1, 0);
-	glRotatef(angle - 90, 0, 0, 1);
 	glScalef(maze->cellWidth*0.5, maze->cellHeight*0.5, 0);
+	glRotatef(angle - 90, 0, 0, 1);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);

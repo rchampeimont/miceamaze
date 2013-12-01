@@ -59,10 +59,11 @@ void MenuAbout::prepareRender() {
 	glScalef(0.15, 0.15, 1);
 	RenderFlatText::render("About " + Functions::getAppName(), 0);
 
-	// render version
+
 	vector<string> lines;
 	lines.push_back(Functions::getAppName() + " " + Functions::getVersion());
 	lines.push_back(Functions::getCopyright());
+
 	string license = Functions::getLicense();
 	int a = 0, b = 0;
 	for (int i=0; i<(int) license.length(); i++) {
@@ -72,6 +73,8 @@ void MenuAbout::prepareRender() {
 			a = i+1;
 		}
 	}
+
+
 	for (unsigned int i=0; i<lines.size(); i++) {
 		glLoadIdentity();
 		glTranslatef(-0.935, 0.57-0.05*i, 0);
@@ -80,6 +83,7 @@ void MenuAbout::prepareRender() {
 	}
 
 	glEndList();
+	Functions::clearGlErrors("MenuAbout::prepareRender");
 
 	initVideoCounter = Program::getInstance()->initVideoCounter;
 }

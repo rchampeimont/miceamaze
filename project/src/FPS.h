@@ -49,7 +49,7 @@ public:
 private:
 	// Function to count FPS
 	void update() {
-		Functions::clearGlErrors();
+		Functions::clearGlErrors("FPS::update()");
 		framesSinceLastSecond++;
 		Uint32 t = SDL_GetTicks();
 		if (t - lastSecond > 1000) {

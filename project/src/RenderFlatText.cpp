@@ -119,6 +119,7 @@ void RenderFlatText::reinit() {
 // align:  0 = center (original position = middle of the text)
 // align:  1 = right (original position = right of the text)
 void RenderFlatText::render(string s, int align) {
+	if (s.length() == 0) return;
 #ifdef FONT_WIN
 	glScalef(1.2*0.75, 1.2, 1);
 

@@ -1,3 +1,9 @@
+New in version 1.10:
+  * Fix OpenGL error 1280 in menu "about" and "how to play" on some computers
+    (caused by trying to render an empty string)
+  * New mouse image
+  * Fix image ratio for mice
+
 New in version 1.9:
   * Change FPS options to 100, 200 and MAX (default is 200)
 

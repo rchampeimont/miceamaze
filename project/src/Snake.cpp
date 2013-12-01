@@ -59,8 +59,9 @@ void Snake::render() {
 	float x1 = maze->x0 + x*maze->cellWidth;
 	float y1 = maze->y0 + y*maze->cellHeight;
 	glTranslatef(x1, y1, 0);
-	glRotatef(angle - 90, 0, 0, 1);
 	glScalef(maze->cellWidth*0.6, maze->cellHeight*0.6, 0);
+	glRotatef(angle - 90, 0, 0, 1);
+	glScalef(1, 1.2, 0);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);

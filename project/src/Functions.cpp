@@ -28,43 +28,49 @@
 #include "Functions.h"
 
 void Functions::message(string message) {
+#ifdef _WIN32
+	MessageBox(NULL, message.c_str(), Functions::getAppName().c_str(), MB_OK | MB_ICONINFORMATION);
+#else
 	cout << message << endl;
-	#ifdef _WIN32
-			MessageBox(NULL, message.c_str(), Functions::getAppName().c_str(), MB_OK | MB_ICONINFORMATION);
-	#endif
+#endif
 }
 void Functions::message(const char *message) {
+#ifdef _WIN32
+	MessageBox(NULL, message, Functions::getAppName().c_str(), MB_OK | MB_ICONINFORMATION);
+#else
 	cout << message << endl;
-	#ifdef _WIN32
-			MessageBox(NULL, message, Functions::getAppName().c_str(), MB_OK | MB_ICONINFORMATION);
-	#endif
+#endif
 }
 
 void Functions::error(string message) {
+#ifdef _WIN32
+	MessageBox(NULL, message.c_str(), (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
+#else
 	cerr << "Error: " << message << endl;
-	#ifdef _WIN32
-			MessageBox(NULL, message.c_str(), (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
-	#endif
+#endif
 }
 void Functions::error(const char *message) {
+#ifdef _WIN32
+	MessageBox(NULL, message, (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
+#else
 	cerr << "Error: " << message << endl;
-	#ifdef _WIN32
-			MessageBox(NULL, message, (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
-	#endif
+#endif
 }
 
 void Functions::fatalError(string message) {
+#ifdef _WIN32
+	MessageBox(NULL, message.c_str(), (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
+#else
 	cerr << "Fatal error: " << message << endl;
-	#ifdef _WIN32
-			MessageBox(NULL, message.c_str(), (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
-	#endif
+#endif
 	exit(1);
 }
 void Functions::fatalError(const char *message) {
+#ifdef _WIN32
+	MessageBox(NULL, message, (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
+#else
 	cerr << "Fatal error: " << message << endl;
-	#ifdef _WIN32
-			MessageBox(NULL, message, (Functions::getAppName() + " error").c_str(), MB_OK | MB_ICONERROR);
-	#endif
+#endif
 	exit(1);
 }
 
@@ -82,48 +88,48 @@ vector<string> Functions::listFiles(string path) {
 		}
 	}
 #else
-    DIR *dp;
-    struct dirent *dirp;
-    if((dp  = opendir(path.c_str())) == NULL) {
-    	Functions::error(string("could not list files in ") + path);
-        cout << "Error(" << errno << ") opening " << path << endl;
-        return files;
-    }
+	DIR *dp;
+	struct dirent *dirp;
+	if((dp  = opendir(path.c_str())) == NULL) {
+		Functions::error(string("could not list files in ") + path);
+		cout << "Error(" << errno << ") opening " << path << endl;
+		return files;
+	}
 
-    while ((dirp = readdir(dp)) != NULL) {
-        files.push_back(string(dirp->d_name));
-    }
-    closedir(dp);
+	while ((dirp = readdir(dp)) != NULL) {
+		files.push_back(string(dirp->d_name));
+	}
+	closedir(dp);
 #endif
 
-    for (unsigned k=0; k<files.size(); k++) {
-    	if (files[k].compare(".") != 0 && files[k].compare("..") != 0) {
-    		files2.push_back(files[k]);
-    	}
-    }
-    return files2;
+	for (unsigned k=0; k<files.size(); k++) {
+		if (files[k].compare(".") != 0 && files[k].compare("..") != 0) {
+			files2.push_back(files[k]);
+		}
+	}
+	return files2;
 }
 
 string Functions::getLicense() {
 	return "All rights reserved.\n"
-"\n"
-"Redistribution and use in source and binary forms, with or without modification,\n"
-"are permitted provided that the following conditions are met:\n"
-"\n"
-"* Redistributions of source code must retain the above copyright notice,\n"
-"  this list of conditions and the following disclaimer.\n"
-"* Redistributions in binary form must reproduce the above copyright notice,\n"
-"  this list of conditions and the following disclaimer in the documentation\n"
-"  and/or other materials provided with the distribution.\n"
-"\n"
-"THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n"
-"AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,\n"
-"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
-"PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS\n"
-"BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\n"
-"CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE\n"
-"GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)\n"
-"HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n"
-"OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"
-"OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n";
+			"\n"
+			"Redistribution and use in source and binary forms, with or without modification,\n"
+			"are permitted provided that the following conditions are met:\n"
+			"\n"
+			"* Redistributions of source code must retain the above copyright notice,\n"
+			"  this list of conditions and the following disclaimer.\n"
+			"* Redistributions in binary form must reproduce the above copyright notice,\n"
+			"  this list of conditions and the following disclaimer in the documentation\n"
+			"  and/or other materials provided with the distribution.\n"
+			"\n"
+			"THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n"
+			"AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,\n"
+			"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+			"PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS\n"
+			"BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\n"
+			"CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE\n"
+			"GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)\n"
+			"HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n"
+			"OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"
+			"OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n";
 }

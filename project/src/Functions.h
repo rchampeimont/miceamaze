@@ -172,10 +172,10 @@ public:
 	static void fatalError(string message);
 	static void fatalError(const char *message);
 
-	static void clearGlErrors() {
+	static void clearGlErrors(const char * at) {
 		GLenum errorCode;
 		while ((errorCode = glGetError()) != GL_NO_ERROR) {
-			error("OpenGL error: " + toString(errorCode));
+			error("OpenGL error: " + toString(errorCode) + " at " + at);
 		}
 	}
 
