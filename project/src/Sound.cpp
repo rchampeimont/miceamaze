@@ -35,8 +35,8 @@ Sound::~Sound() {
 }
 
 void Sound::init() {
-	music.push_back(loadMusic("DST-Azum.mp3"));
-	music.push_back(loadMusic("DST-DistantMessage.mp3"));
+	music.push_back(loadMusic("DST-Azum.ogg"));
+	music.push_back(loadMusic("DST-DistantMessage.ogg"));
 }
 
 Mix_Chunk *Sound::loadSample(string filename) {

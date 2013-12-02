@@ -349,7 +349,7 @@ void Program::run() {
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	// Sound
-	int flags = MIX_INIT_MP3;
+	int flags = MIX_INIT_OGG;
 	int initted = Mix_Init(flags);
 	if ((initted&flags) != flags) {
 		string err = "Sound init error ";
