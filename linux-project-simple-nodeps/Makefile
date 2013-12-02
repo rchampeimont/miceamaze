@@ -1,5 +1,5 @@
 CXXFLAGS+=-Wall -DDATAPATH=\"${DATAPATH}\" $(shell sdl-config --cflags) -I.
-LDLIBS=-Wall $(shell sdl-config --libs) -lGL -lm -lfontconfig -lGLU
+LDLIBS=-Wall $(shell sdl-config --libs) -lSDL_mixer -lGL -lm -lfontconfig -lGLU
 QUESODIR=quesoglc-0.7.2
 QUESOLIB=$(QUESODIR)/build/.libs/libGLC.a
 

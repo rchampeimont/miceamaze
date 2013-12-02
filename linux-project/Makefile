@@ -8,7 +8,7 @@ PIXPATH=${PREFIX}/share/pixmaps
 MENUPATH=${PREFIX}/share/applications
 ICONPATH=${PREFIX}/share/icons/hicolor/64x64/apps
 CXXFLAGS+=-Wall -DDATAPATH=\"${DATAPATH}\" $(shell sdl-config --cflags)
-LDLIBS=-Wall -lGLC -lSOIL $(shell sdl-config --libs)
+LDLIBS=-Wall -lGLC -lSOIL $(shell sdl-config --libs) -lSDL_mixer
 ifeq ($(UNAME), Darwin)
   LDLIBS+=-framework OpenGL -lm
 else
