@@ -73,3 +73,8 @@ void Sound::playGameMusic() {
 void Sound::playMenuMusic() {
 	playMusic(0);
 }
+
+void Sound::stopMusic() {
+	musicPlaying = -1;
+	Mix_HaltMusic();
+}

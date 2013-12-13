@@ -122,9 +122,11 @@ void MenuOptions::selectOption(int option) {
 		break;
 	case 8:
 		Program::getInstance()->config.music = true;
+		Program::getInstance()->sound->playMenuMusic();
 		break;
 	case 9:
 		Program::getInstance()->config.music = false;
+		Program::getInstance()->sound->stopMusic();
 		break;
 	case 10:
 		Program::getInstance()->config.sound = true;

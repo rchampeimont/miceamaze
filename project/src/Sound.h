@@ -38,6 +38,7 @@ public:
 	void playMusic(int musicIndex);
 	void playMenuMusic();
 	void playGameMusic();
+	void stopMusic();
 	void init();
 	Mix_Chunk *loadSample(string filename);
 	Mix_Music *loadMusic(string filename);
