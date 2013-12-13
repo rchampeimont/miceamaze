@@ -61,7 +61,8 @@ void MenuOptions::prepareRender() {
 
 	string optionsNames[] = {"Display mode", "FPS in game", "Show FPS count", "Music", "Sound"};
 
-	for (int i=0; i<5; i++) {
+	//for (int i=0; i<5; i++) {
+	for (int i=0; i<4; i++) {
 		float y = 0.4-0.2*i;
 		glLoadIdentity();
 		if (i == 0) {
@@ -160,9 +161,9 @@ void MenuOptions::run() {
 	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
 	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "No", textSizeFactor));
 
-	i=4;
-	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
-	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "No", textSizeFactor));
+	//i=4;
+	//buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "Yes", textSizeFactor));
+	//buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "No", textSizeFactor));
 
 	int pressedButton = -1;
 
@@ -197,8 +198,8 @@ void MenuOptions::run() {
 		buttons[7].select(!Program::getInstance()->config.showFPS);
 		buttons[8].select(Program::getInstance()->config.music);
 		buttons[9].select(!Program::getInstance()->config.music);
-		buttons[10].select(Program::getInstance()->config.sound);
-		buttons[11].select(!Program::getInstance()->config.sound);
+		//buttons[10].select(Program::getInstance()->config.sound);
+		//buttons[11].select(!Program::getInstance()->config.sound);
 
 		// render buttons
 		for (int b=0; b<(int) buttons.size(); b++) {

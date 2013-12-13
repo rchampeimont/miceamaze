@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MiceAmaze"
-#define MyAppVersion "1.8"
+#define MyAppVersion "2.0"
 #define MyAppPublisher "Raphaël Champeimont"
 #define MyAppURL "http://www.miceamaze.com/"
 #define MyAppExeName "MiceAmaze.exe"
@@ -43,7 +43,6 @@ Name: "hebrew"; MessagesFile: "compiler:Languages\Hebrew.isl"
 Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
-Name: "nepali"; MessagesFile: "compiler:Languages\Nepali.islu"
 Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
