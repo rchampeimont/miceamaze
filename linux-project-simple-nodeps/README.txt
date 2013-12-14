@@ -6,5 +6,5 @@ Removed dependencies:
 - QuesoGLC (compiled and linked statically)
 Dependencies that still apply:
 - OpenGL
-- SDL
+- SDL, SDL_mixer
 - fontconfig (added for QuesoGLC)

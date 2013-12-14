@@ -6,6 +6,7 @@ You need:
 - GCC C++ compiler and GNU Make
 - OpenGL
 - SDL
+- SDL_mixer
 - SOIL
 - QuesoGLC
 - DejaVu font installed
