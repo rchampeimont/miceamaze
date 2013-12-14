@@ -74,10 +74,11 @@ void HowToPlay::prepareRender() {
 	lines.push_back("If a snake reaches your house, you loose 10 points.");
 	lines.push_back("");
 	lines.push_back("The golden mouse will trigger a special event for 10 seconds. These are:");
-	lines.push_back(" - mouse mania (much more mice appear),");
-	lines.push_back(" - snake attack (many snakes appear),");
-	lines.push_back(" - color madness (new mice are randomly colored),");
-	lines.push_back(" - eagle (you get the eagle which protects you from snakes).");
+	lines.push_back(" - Mouse Mania (much more mice appear),");
+	lines.push_back(" - Snake Attack (many snakes appear),");
+	lines.push_back(" - Color Madness (new mice are randomly colored),");
+	lines.push_back(" - Eagle (you get the eagle which protects you from snakes),");
+	lines.push_back(" - Black Death (mice are sick).");
 	lines.push_back("");
 	lines.push_back("Sick mice make you loose 1 point if they reach your house.");
 	for (unsigned int i=0; i<lines.size(); i++) {
@@ -173,7 +174,7 @@ void HowToPlay::run() {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		glLoadIdentity();
-		glTranslatef(-0.9, -0.49, 0);
+		glTranslatef(-0.9, -0.55, 0);
 		glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 		glRotatef(-90, 0, 0, 1);
 		glBindTexture(GL_TEXTURE_2D, Mouse::sickMouseTexture);

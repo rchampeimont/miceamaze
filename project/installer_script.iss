@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MiceAmaze"
-#define MyAppVersion "2.1"
+#define MyAppVersion "3.0"
 #define MyAppPublisher "Raphaël Champeimont"
 #define MyAppURL "http://www.miceamaze.com/"
 #define MyAppExeName "MiceAmaze.exe"

@@ -8,3 +8,4 @@ copy Release\*.exe MiceAmaze
 copy LICENSE.txt MiceAmaze
 copy ChangeLog.txt MiceAmaze
 xcopy rundir\*.* MiceAmaze /E
+pause
