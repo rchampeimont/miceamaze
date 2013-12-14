@@ -25,30 +25,30 @@
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#ifndef MOUSEWITHDISTANCE_H_
-#define MOUSEWITHDISTANCE_H_
+#ifndef ANIMALWITHDISTANCE_H_
+#define ANIMALWITHDISTANCE_H_
 
-class Mouse;
+class Animal;
 
-class MouseWithDistance {
-	Mouse *mouse;
+class AnimalWithDistance {
+	Animal *animal;
 public:
 	int distance;
 
-	Mouse *getMouse() {
-		return mouse;
+	Animal *getAnimal() {
+		return animal;
 	}
 
-	MouseWithDistance(Mouse *m, int d) {
-		mouse = m;
+	AnimalWithDistance(Animal *m, int d) {
+		animal = m;
 		distance = d;
 	}
 
-    bool operator < (const MouseWithDistance& otherMouse) const
+    bool operator < (const AnimalWithDistance& otherAnimal) const
     {
-        return (distance < otherMouse.distance);
+        return (distance < otherAnimal.distance);
     }
 };
 
 
-#endif /* MOUSEWITHDISTANCE_H_ */
+#endif /* ANIMALWITHDISTANCE_H_ */

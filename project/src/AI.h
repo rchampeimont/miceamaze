@@ -32,7 +32,7 @@
 
 #include "AIVertex.h"
 #include "AIVertexHeap.h"
-#include "MouseWithDistance.h"
+#include "AnimalWithDistance.h"
 
 using namespace std;
 
@@ -47,7 +47,7 @@ public:
 	vector<int> pathToHome;
 	vector<bool> dijkstraVisited;
 	AIVertexHeap dijkstraQ;
-	vector<MouseWithDistance> sortedMice;
+	vector<AnimalWithDistance> sortedAnimals;
 	AI(int, Maze*);
 	~AI();
 	void init();

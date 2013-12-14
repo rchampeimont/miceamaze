@@ -324,15 +324,15 @@ void AI::play() {
 	computeDistances();
 
 	// Sort mice by their distance
-	vector<MouseWithDistance> sortedMice;
-	sortedMice.reserve(maze->mice.size());
+	vector<AnimalWithDistance> sortedAnimals;
+	sortedAnimals.reserve(maze->mice.size());
 	for (unsigned m=0; m<maze->mice.size(); m++) {
 		Mouse *mouse = &maze->mice[m];
 		int i, j;
 		mouse->getFutureCell(&i, &j);
 		int vertexIndex = vertexIndexFromCoords(i, j, mouse->direction);
 		int dist = getDistance(vertexIndex);
-		sortedMice.push_back(MouseWithDistance(mouse, dist));
+		sortedAnimals.push_back(AnimalWithDistance(mouse, dist));
 
 		// debug: color mouse by distance
 		/*
@@ -345,17 +345,17 @@ void AI::play() {
 		}
 		*/
 	}
-	sort(sortedMice.begin(), sortedMice.end());
+	sort(sortedAnimals.begin(), sortedAnimals.end());
 
-	for (unsigned m=0; m<sortedMice.size(); m++) {
-		Mouse *mouse = sortedMice[m].getMouse();
+	for (unsigned m=0; m<sortedAnimals.size(); m++) {
+		Animal *animal = sortedAnimals[m].getAnimal();
 
 		// debug: color target mouse
 		//mouse->color = Program::getInstance()->playerColors[player];
 
 		int i, j, dir;
-		mouse->getFutureCell(&i, &j);
-		int vertexIndex = vertexIndexFromCoords(i, j, mouse->direction);
+		animal->getFutureCell(&i, &j);
+		int vertexIndex = vertexIndexFromCoords(i, j, animal->direction);
 		while (true) {
 			vertexCoords(vertexIndex, &i, &j, &dir);
 			if (i == homeI && j == homeJ) {
