@@ -58,6 +58,7 @@ Mix_Music *Sound::loadMusic(string filename) {
 void Sound::playMusic(int musicIndex) {
 	if (Program::getInstance()->config.music) {
 		if (musicPlaying != musicIndex) {
+			Mix_VolumeMusic(64);
 			if (Mix_FadeInMusic(music[musicIndex], -1, 1000) != 0) {
 				Functions::error(Mix_GetError());
 			}

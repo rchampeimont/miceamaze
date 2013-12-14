@@ -27,11 +27,13 @@
 
 #include "Program.h"
 
-AI::AI(int p, Maze *m) : dijkstraQ(m->width * m->height * 4) {
+AI::AI(int p, Maze *m, Game *g) : dijkstraQ(m->width * m->height * 4) {
 	player = p;
 	maze = m;
+	game = g;
 	homeI = 0;
 	homeJ = 0;
+	snakeMode = false;
 }
 
 AI::~AI() {
@@ -75,11 +77,34 @@ void AI::updateGraph() {
 	}
 
 
-	// Where is the player's house?
-	for (unsigned k=0; k<maze->houses.size(); k++) {
-		if (maze->houses[k].player == player) {
-			homeI = maze->houses[k].i;
-			homeJ = maze->houses[k].j;
+	if (snakeMode) {
+		// choose a victim
+		int victim = -1;
+		int bestScore = 0;
+		for (int k=0; k<game->players; k++) {
+			if (k == player) {
+				// Do not choose myself as the victim
+				continue;
+			}
+			if (victim < 0 || game->scores[k] > bestScore) {
+				victim = k;
+				bestScore = game->scores[k];
+			}
+		}
+		// Where is the victim's house?
+		for (unsigned k=0; k<maze->houses.size(); k++) {
+			if (maze->houses[k].player == victim) {
+				homeI = maze->houses[k].i;
+				homeJ = maze->houses[k].j;
+			}
+		}
+	} else {
+		// Where is the player's house?
+		for (unsigned k=0; k<maze->houses.size(); k++) {
+			if (maze->houses[k].player == player) {
+				homeI = maze->houses[k].i;
+				homeJ = maze->houses[k].j;
+			}
 		}
 	}
 
@@ -169,7 +194,7 @@ void AI::updateGraph() {
 
 
 	// Take in account other's players houses:
-	// A mouse can't "escape" such a cell.
+	// An animal can't "escape" such a cell.
 	for (unsigned k=0; k<maze->houses.size(); k++) {
 		House *house = &maze->houses[k];
 		if (house->player != player) {
@@ -317,34 +342,49 @@ void AI::computeDistances() {
 
 // Allow AI to place one arrow
 void AI::play() {
+	// Decide between two strategies: gathering mice or sending snakes on others
+	snakeMode = maze->snakes.size() >= maze->mice.size()/10;
+
 	// Make a graph that represents the maze
 	updateGraph();
 
 	// Compute distances to house from vertex in the graph
 	computeDistances();
 
-	// Sort mice by their distance
 	vector<AnimalWithDistance> sortedAnimals;
-	sortedAnimals.reserve(maze->mice.size());
-	for (unsigned m=0; m<maze->mice.size(); m++) {
-		Mouse *mouse = &maze->mice[m];
-		int i, j;
-		mouse->getFutureCell(&i, &j);
-		int vertexIndex = vertexIndexFromCoords(i, j, mouse->direction);
-		int dist = getDistance(vertexIndex);
-		sortedAnimals.push_back(AnimalWithDistance(mouse, dist));
-
-		// debug: color mouse by distance
-		/*
-		{
-			float rdist = dist / 50.0f;
-			if (rdist > 1) rdist = 1;
-			mouse->color.r = rdist;
-			mouse->color.g = 1 - rdist;
-			mouse->color.b = 0;
+	if (snakeMode) {
+		sortedAnimals.reserve(maze->snakes.size());
+		for (unsigned m=0; m<maze->snakes.size(); m++) {
+			Animal *animal = &maze->snakes[m];
+			int i, j;
+			animal->getFutureCell(&i, &j);
+			int vertexIndex = vertexIndexFromCoords(i, j, animal->direction);
+			int dist = getDistance(vertexIndex);
+			sortedAnimals.push_back(AnimalWithDistance(animal, dist));
 		}
-		*/
+	} else {
+		// Sort mice by their distance
+		sortedAnimals.reserve(maze->mice.size());
+		for (unsigned m=0; m<maze->mice.size(); m++) {
+			Animal *animal = &maze->mice[m];
+			int i, j;
+			animal->getFutureCell(&i, &j);
+			int vertexIndex = vertexIndexFromCoords(i, j, animal->direction);
+			int dist = getDistance(vertexIndex);
+			sortedAnimals.push_back(AnimalWithDistance(animal, dist));
+			// debug: color mouse by distance
+			/*
+			{
+				float rdist = dist / 50.0f;
+				if (rdist > 1) rdist = 1;
+				mouse->color.r = rdist;
+				mouse->color.g = 1 - rdist;
+				mouse->color.b = 0;
+			}
+			*/
+		}
 	}
+
 	sort(sortedAnimals.begin(), sortedAnimals.end());
 
 	for (unsigned m=0; m<sortedAnimals.size(); m++) {

@@ -39,16 +39,18 @@ using namespace std;
 class AI {
 public:
 	Maze *maze;
+	Game *game;
 	int player;
 	vector<AIVertex> graph;
 	int homeI, homeJ;
+	bool snakeMode;
 
 	// Dijkstra's algo stuff
 	vector<int> pathToHome;
 	vector<bool> dijkstraVisited;
 	AIVertexHeap dijkstraQ;
 	vector<AnimalWithDistance> sortedAnimals;
-	AI(int, Maze*);
+	AI(int, Maze*, Game*);
 	~AI();
 	void init();
 	void play();

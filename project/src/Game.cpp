@@ -194,7 +194,7 @@ void Game::run() {
 
 	for (int p=0; p<4; p++) {
 		if (MenuPlayers::playerControls[p] == 2) {
-			AIs.push_back(AI(p, &maze));
+			AIs.push_back(AI(p, &maze, this));
 		}
 	}
 

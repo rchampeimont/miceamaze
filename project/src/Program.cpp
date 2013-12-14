@@ -362,7 +362,7 @@ void Program::run() {
 	sound = new Sound();
 	sound->init();
 
-	// Set FPS limit depending if battery/AC
+	// Set FPS limit
 	fps = new FPS();
 	fps->decideLimitFPS();
 
