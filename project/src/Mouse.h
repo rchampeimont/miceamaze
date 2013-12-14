@@ -47,6 +47,12 @@ public:
 	void makeMagic();
 	void makeSick();
 	Color adjustColor(Color);
+	bool isMagic() {
+		return magic;
+	}
+	bool isSick() {
+		return sick;
+	}
 };
 
 #endif /* MOUSE_H_ */

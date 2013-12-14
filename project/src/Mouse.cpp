@@ -29,6 +29,7 @@
 #include "Program.h"
 
 unsigned int Mouse::mouseTexture = 0;
+unsigned int Mouse::sickMouseTexture = 0;
 
 Mouse::Mouse(Maze *m, int x0, int y0, int dir): Animal(m, x0, y0, dir) {
 	color.r = (rand() % 1000) / 1000.0;
@@ -43,16 +44,23 @@ void Mouse::makeMagic() {
 }
 
 void Mouse::makeSick() {
-	magic = true;
+	sick = true;
+	if (color.r < 0.3) {
+		color.r = color.g = color.b = 0.3;
+	}
 }
 
 void Mouse::loadTexture() {
 	mouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/mouse.png");
-	sickMouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/sickmouse.png");
+	sickMouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/sick_mouse.png");
 }
 
 bool Mouse::reachedHouse(Game *game, int player) {
-	game->scores[player]++;
+	if (sick) {
+		game->scores[player]--;
+	} else {
+		game->scores[player]++;
+	}
 	if (magic) {
 		game->magicHappens(player);
 	}
@@ -60,6 +68,11 @@ bool Mouse::reachedHouse(Game *game, int player) {
 }
 
 int Mouse::isKilled() {
+	if (sick) {
+		if (rand() % 1000 == 0) {
+			return 1;
+		}
+	}
 	for (unsigned int k=0; k<maze->snakes.size(); k++) {
 		Snake *snake = &maze->snakes[k];
 		int snake_dxu = snake->direction == 0 ? 1 : (snake->direction == 2 ? -1 : 0);
@@ -90,7 +103,11 @@ void Mouse::render() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, mouseTexture);
+	if (sick) {
+		glBindTexture(GL_TEXTURE_2D, sickMouseTexture);
+	} else {
+		glBindTexture(GL_TEXTURE_2D, mouseTexture);
+	}
 	glBegin(GL_QUADS);
 	if (magic) {
 		adjustColor(Color(1, 0.7, 0)).gl();

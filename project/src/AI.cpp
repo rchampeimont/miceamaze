@@ -343,7 +343,17 @@ void AI::computeDistances() {
 // Allow AI to place one arrow
 void AI::play() {
 	// Decide between two strategies: gathering mice or sending snakes on others
-	snakeMode = maze->snakes.size() >= maze->mice.size()/10;
+	int goodAnimals=0, badAnimals=0;
+	for (unsigned m=0; m<maze->mice.size(); m++) {
+		Mouse *mouse = &maze->mice[m];
+		if (mouse->isSick()) {
+			badAnimals++;
+		} else {
+			goodAnimals++;
+		}
+	}
+	badAnimals = badAnimals + 10*maze->snakes.size();
+	snakeMode = badAnimals > goodAnimals;
 
 	// Make a graph that represents the maze
 	updateGraph();
@@ -366,12 +376,15 @@ void AI::play() {
 		// Sort mice by their distance
 		sortedAnimals.reserve(maze->mice.size());
 		for (unsigned m=0; m<maze->mice.size(); m++) {
-			Animal *animal = &maze->mice[m];
+			Mouse *mouse = &maze->mice[m];
+			if (mouse->isSick()) {
+				continue;
+			}
 			int i, j;
-			animal->getFutureCell(&i, &j);
-			int vertexIndex = vertexIndexFromCoords(i, j, animal->direction);
+			mouse->getFutureCell(&i, &j);
+			int vertexIndex = vertexIndexFromCoords(i, j, mouse->direction);
 			int dist = getDistance(vertexIndex);
-			sortedAnimals.push_back(AnimalWithDistance(animal, dist));
+			sortedAnimals.push_back(AnimalWithDistance(mouse, dist));
 			// debug: color mouse by distance
 			/*
 			{

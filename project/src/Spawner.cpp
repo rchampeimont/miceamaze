@@ -65,24 +65,7 @@ void Spawner::loadTexture() {
 }
 
 void Spawner::tick(Game *game) {
-	if (game->specialMode == 0 || game->specialMode == 3) {
-		// Normal mode
-		if (counter % 100 == 0) {
-			if (rand() % 100 == 0) {
-				maze->snakes.push_back(Snake(maze, j, i, getNextDir()));
-			} else {
-				Mouse mouse = Mouse(maze, j, i, getNextDir());
-				if (game->specialMode == 3) {
-					mouse.color.g = (rand() % 1000) / 1000.0;
-					mouse.color.b = (rand() % 1000) / 1000.0;
-				}
-				if (rand() % 100 == 0) {
-					mouse.makeMagic();
-				}
-				maze->mice.push_back(mouse);
-			}
-		}
-	} else if (game->specialMode == 1) {
+	if (game->specialMode == 1) {
 		// Mouse mania
 		if (counter % 20 == 0) {
 			maze->mice.push_back(Mouse(maze, j, i, getNextDir()));
@@ -91,6 +74,27 @@ void Spawner::tick(Game *game) {
 		// Snake attack
 		if (counter % 500 == 0) {
 			maze->snakes.push_back(Snake(maze, j, i, getNextDir()));
+		}
+	} else {
+		// Normal mode
+		if (counter % 100 == 0) {
+			if (rand() % 100 == 0) {
+				maze->snakes.push_back(Snake(maze, j, i, getNextDir()));
+			} else {
+				Mouse mouse = Mouse(maze, j, i, getNextDir());
+				if (rand() % 100 == 0) {
+					mouse.makeMagic();
+				}
+				if (!mouse.isMagic()) {
+					if (game->specialMode == 3) {
+						mouse.color.g = (rand() % 1000) / 1000.0;
+						mouse.color.b = (rand() % 1000) / 1000.0;
+					} else if (game->specialMode == 4) {
+						mouse.makeSick();
+					}
+				}
+				maze->mice.push_back(mouse);
+			}
 		}
 	}
 

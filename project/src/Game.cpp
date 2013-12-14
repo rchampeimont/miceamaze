@@ -84,7 +84,8 @@ void Game::togglePause() {
 }
 
 void Game::magicHappens(int player) {
-	switch (rand() % 4) {
+	int m = rand() % 5;
+	switch (m) {
 	case 0:
 		eagleOwner = player;
 		showMessage("Got the eagle");
@@ -107,6 +108,11 @@ void Game::magicHappens(int player) {
 		specialModeStart = time;
 		specialMode = 3;
 		showMessage("Color madness");
+		break;
+	case 4:
+		specialModeStart = time;
+		specialMode = 4;
+		showMessage("Black Death");
 		break;
 	}
 
@@ -276,7 +282,7 @@ void Game::run() {
 		// show eagle
 		if (eagleOwner < 0) {
 			glLoadIdentity();
-			glTranslatef(0.62, -0.8, -0.0005);
+			glTranslatef(0.62, -0.8, 0);
 			glScalef(0.15, 0.15, 1);
 			glColor3f(1, 0.9, 0.5);
 			Images::renderImage(0);
