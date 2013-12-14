@@ -23,7 +23,7 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 LicenseFile=MICEAMAZE_LICENSE.txt
 OutputDir=installer
-OutputBaseFilename=Install MiceAmaze
+OutputBaseFilename=Install_MiceAmaze
 Compression=lzma
 SolidCompression=yes
 
