@@ -36,14 +36,16 @@ class Maze;
 // Class for mouse (the animal, not the input device)
 class Mouse: public Animal {
 	 bool magic;
+	 bool sick;
 public:
-	static unsigned int mouseTexture;
+	static unsigned int mouseTexture, sickMouseTexture;
 	static void loadTexture();
 	Mouse(Maze *, int, int, int);
 	bool reachedHouse(Game*, int);
 	void render();
 	int isKilled();
 	void makeMagic();
+	void makeSick();
 	Color adjustColor(Color);
 };
 

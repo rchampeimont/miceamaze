@@ -35,14 +35,20 @@ Mouse::Mouse(Maze *m, int x0, int y0, int dir): Animal(m, x0, y0, dir) {
 	color.g = color.r;
 	color.b = color.r;
 	magic = false;
+	sick = false;
 }
 
 void Mouse::makeMagic() {
 	magic = true;
 }
 
+void Mouse::makeSick() {
+	magic = true;
+}
+
 void Mouse::loadTexture() {
 	mouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/mouse.png");
+	sickMouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/sickmouse.png");
 }
 
 bool Mouse::reachedHouse(Game *game, int player) {
