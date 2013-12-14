@@ -152,6 +152,27 @@ void MenuMain::run() {
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);
 
+		// render snakes
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_TEXTURE_2D);
+		for (int k=0; k<2; k++) {
+			glLoadIdentity();
+			glTranslatef(-0.8+1.6*k, 0.6, 0);
+			glScalef(0.06, 0.06f*4.0f/3.0f, 0);
+			glRotatef(-(SDL_GetTicks()/7)%360, 0, 0, 1);
+			glBindTexture(GL_TEXTURE_2D, Snake::snakeTexture);
+			glBegin(GL_QUADS);
+			glColor3f(1, 1, 1);
+			glTexCoord2f(0, 0); glVertex2f(-1, -1);
+			glTexCoord2f(0, 1); glVertex2f(-1, 1);
+			glTexCoord2f(1, 1); glVertex2f(1, 1);
+			glTexCoord2f(1, 0); glVertex2f(1, -1);
+			glEnd();
+		}
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_BLEND);
+
 		// render cursor
 		cursor.render();
 

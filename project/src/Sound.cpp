@@ -37,6 +37,7 @@ Sound::~Sound() {
 void Sound::init() {
 	music.push_back(loadMusic("DST-Azum.ogg"));
 	music.push_back(loadMusic("DST-DistantMessage.ogg"));
+	music.push_back(loadMusic("Dj_Rkod_Pulse_(George_Ellinas_Remix).ogg"));
 }
 
 Mix_Chunk *Sound::loadSample(string filename) {
@@ -68,7 +69,7 @@ void Sound::playMusic(int musicIndex) {
 }
 
 void Sound::playGameMusic() {
-	playMusic(1);
+	playMusic(1 + rand() % 2);
 }
 
 void Sound::playMenuMusic() {
