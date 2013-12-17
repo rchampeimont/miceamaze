@@ -1,3 +1,9 @@
+miceamaze (3.0-1) unstable; urgency=low
+
+  * New upstream release 3.0
+
+ -- Raphael Champeimont <almacha@almacha.org>  Tue, 17 Dec 2013 12:49:28 +0100
+
 miceamaze (1.8-2) unstable; urgency=low
 
   * Change priority to extra

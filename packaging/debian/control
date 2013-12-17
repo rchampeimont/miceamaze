@@ -9,6 +9,7 @@ Build-Depends:
  libglc-dev,
  librsvg2-bin,
  libsdl1.2-dev,
+ libsdl-mixer1.2-dev,
  libsoil-dev,
  mesa-common-dev
 Homepage: http://www.miceamaze.org/
