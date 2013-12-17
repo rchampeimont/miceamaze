@@ -27,6 +27,7 @@ project/MiceAmaze
 linux-project-simple-nodeps/miceamaze
 linux-project-simple-nodeps/quesoglc-0.7.2
 miceamaze-*.tar.gz
+packaging/miceamaze*
 
 # VI files
 *~
