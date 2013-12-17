@@ -43,4 +43,12 @@ http://openclipart.org/detail/16226/bald-eagle-by-gerald_g-16226
 http://openclipart.org/detail/168358/eagle-silhouettes-by-mathec
 
 
+The music files DST-Azum.ogg and DST-DistantMessage.ogg
+are from http://www.nosoapradio.us/
+They are licensed under the Creative Commons Attribution License:
+http://creativecommons.org/licenses/by/3.0/
+
+The music file Dj_Rkod_Pulse_(George_Ellinas_Remix).ogg
+is from http://dig.ccmixter.org/
+License: http://creativecommons.org/licenses/by/3.0/
 
