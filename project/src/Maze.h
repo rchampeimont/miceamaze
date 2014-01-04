@@ -63,6 +63,7 @@ public:
 	GLfloat modelMatrix[16];
 	GLuint fixedObjectsDisplayList;
 	string name, description;
+	int maxArrowsByPlayer;
 
 	Maze();
 	~Maze();
@@ -77,7 +78,6 @@ public:
 	IntXY nextCell(int,int,int);
 	bool crossesWall(int,int,int,int);
 	int addArrow(int,int,int,int);
-	int maxArrowsByPlayer;
 	void save(string);
 	void load(string);
 	void prepare();
