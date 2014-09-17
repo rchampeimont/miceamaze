@@ -63,3 +63,5 @@ ifeq ($(INSTALL_ICONS), 1)
 	rm -f ${DESTDIR}${ICONPATH}/miceamaze.png
 	rm -f ${DESTDIR}${PIXPATH}/miceamaze.xpm
 endif
+
+re: clean all
