@@ -11,7 +11,7 @@ You need:
 - QuesoGLC
 - DejaVu font installed
 - rsvg
-
+-ImageMagick
 
 Without installing:
 make
