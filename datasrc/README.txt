@@ -1,1 +1,1 @@
-Data source files, ie. files necessary to make the data files provided with the program.
+Data source files, ie. files not distributed to the users but used by the developpers.
