@@ -189,8 +189,17 @@ void Game::run() {
 	// Save maze as last maze
 	//maze.save(Program::getInstance()->config.path + "/tmp_last_maze.txt");
 
-	// Random house placement
+// Random house placement
 	maze.randomizeHouses();
+
+	for (int h = 0; h < (int)maze.houses.size(); h++)
+	{
+		if (MenuPlayers::playerControls[maze.houses[h].player] == 3)
+		{
+			maze.houses.erase(maze.houses.begin()+h);
+			h--;
+		}
+	}
 
 	running = true;
 	lastGameTick = SDL_GetTicks();
