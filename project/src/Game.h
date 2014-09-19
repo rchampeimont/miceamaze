@@ -60,6 +60,7 @@ public:
 	int messageTime;
 	vector<AI> AIs;
 	Cursor cursor;
+	int cheatFutureEvent;
 
 	Game();
 	~Game();

@@ -30,6 +30,7 @@
 
 unsigned int Mouse::mouseTexture = 0;
 unsigned int Mouse::sickMouseTexture = 0;
+unsigned int Mouse::drillMouseTexture = 0;
 
 Mouse::Mouse(Maze *m, int x0, int y0, int dir): Animal(m, x0, y0, dir) {
 	color.r = (rand() % 1000) / 1000.0;
@@ -37,6 +38,7 @@ Mouse::Mouse(Maze *m, int x0, int y0, int dir): Animal(m, x0, y0, dir) {
 	color.b = color.r;
 	magic = false;
 	sick = false;
+	drill = false;
 }
 
 void Mouse::makeMagic() {
@@ -50,9 +52,15 @@ void Mouse::makeSick() {
 	}
 }
 
+void Mouse::makeDrill() {
+	drill = true;
+	color.r = color.g = color.b = 1;
+}
+
 void Mouse::loadTexture() {
 	mouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/mouse.png");
 	sickMouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/sick_mouse.png");
+	drillMouseTexture = Program::getInstance()->loadTexture(Program::getInstance()->dataPath + "/images/drill_mouse.png");
 }
 
 bool Mouse::reachedHouse(Game *game, int player) {
@@ -100,28 +108,26 @@ void Mouse::render() {
 	glTranslatef(x1, y1, 0);
 	glScalef(maze->cellWidth*0.5, maze->cellHeight*0.5, 0);
 	glRotatef(angle - 90, 0, 0, 1);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	if (sick) {
 		glBindTexture(GL_TEXTURE_2D, sickMouseTexture);
+	} else if (drill) {
+		glBindTexture(GL_TEXTURE_2D, drillMouseTexture);
 	} else {
 		glBindTexture(GL_TEXTURE_2D, mouseTexture);
 	}
 	glBegin(GL_QUADS);
 	if (magic) {
 		adjustColor(Color(1, 0.7, 0)).gl();
-		glTexCoord2f(0, 0); glVertex2f(-1, -1);
-		glTexCoord2f(0, 1); glVertex2f(-1, 1);
-		glTexCoord2f(1, 1); glVertex2f(1, 1);
-		glTexCoord2f(1, 0); glVertex2f(1, -1);
 	} else {
 		adjustColor(color).gl();
-		glTexCoord2f(0, 0); glVertex2f(-1, -1);
-		glTexCoord2f(0, 1); glVertex2f(-1, 1);
-		glTexCoord2f(1, 1); glVertex2f(1, 1);
-		glTexCoord2f(1, 0); glVertex2f(1, -1);
 	}
+	glTexCoord2f(0, 0); glVertex2f(-1, -1);
+	glTexCoord2f(0, 1); glVertex2f(-1, 1);
+	glTexCoord2f(1, 1); glVertex2f(1, 1);
+	glTexCoord2f(1, 0); glVertex2f(1, -1);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
@@ -138,6 +144,3 @@ Color Mouse::adjustColor(Color c) {
 	}
 	return c;
 }
-
-
-

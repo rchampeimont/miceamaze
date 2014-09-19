@@ -45,8 +45,8 @@ void Spawner::render() {
 	float y1 = maze->y0 + (i+0.5)*maze->cellHeight;
 	glTranslatef(x1, y1, -0.0005);
 	glScalef(maze->cellWidth*0.4, maze->cellHeight*0.4, 0);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
@@ -91,6 +91,8 @@ void Spawner::tick(Game *game) {
 						mouse.color.b = (rand() % 1000) / 1000.0;
 					} else if (game->specialMode == 4) {
 						mouse.makeSick();
+					} else if (game->specialMode == 5) {
+						mouse.makeDrill();
 					}
 				}
 				maze->mice.push_back(mouse);
@@ -106,45 +108,45 @@ void Spawner::tick(Game *game) {
 
 char Spawner::getLetterCode() {
 	switch (direction) {
-	case 0:
-		return 'R';
-	case 1:
-		return 'U';
-	case 2:
-		return 'L';
-	case 3:
-		return 'D';
-	default:
-		return 'S';
+		case 0:
+			return 'R';
+		case 1:
+			return 'U';
+		case 2:
+			return 'L';
+		case 3:
+			return 'D';
+		default:
+			return 'S';
 	}
 }
 
 int Spawner::directionFromLetterCode(char code) {
 	switch (code) {
-	case 'R':
-		return 0;
-	case 'U':
-		return 1;
-	case 'L':
-		return 2;
-	case 'D':
-		return 3;
-	case 'S':
-		return -1;
-	default:
-		return -1;
+		case 'R':
+			return 0;
+		case 'U':
+			return 1;
+		case 'L':
+			return 2;
+		case 'D':
+			return 3;
+		case 'S':
+			return -1;
+		default:
+			return -1;
 	}
 }
 
 bool Spawner::isSpawnerLetterCode(char code) {
 	switch (code) {
-	case 'R':
-	case 'U':
-	case 'L':
-	case 'D':
-	case 'S':
-		return true;
-	default:
-		return false;
+		case 'R':
+		case 'U':
+		case 'L':
+		case 'D':
+		case 'S':
+			return true;
+		default:
+			return false;
 	}
 }

@@ -37,8 +37,9 @@ class Maze;
 class Mouse: public Animal {
 	 bool magic;
 	 bool sick;
+	 bool drill;
 public:
-	static unsigned int mouseTexture, sickMouseTexture;
+	static unsigned int mouseTexture, sickMouseTexture, drillMouseTexture;
 	static void loadTexture();
 	Mouse(Maze *, int, int, int);
 	bool reachedHouse(Game*, int);
@@ -46,12 +47,16 @@ public:
 	int isKilled();
 	void makeMagic();
 	void makeSick();
+	void makeDrill();
 	Color adjustColor(Color);
 	bool isMagic() {
 		return magic;
 	}
 	bool isSick() {
 		return sick;
+	}
+	bool isDrill() {
+	return drill;
 	}
 };
 

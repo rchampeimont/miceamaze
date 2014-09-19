@@ -84,36 +84,47 @@ void Game::togglePause() {
 }
 
 void Game::magicHappens(int player) {
-	int m = rand() % 5;
+	int m;
+	if (cheatFutureEvent != -1) {
+		m = cheatFutureEvent;
+		cheatFutureEvent = -1;
+	}
+	else {
+		m = rand() % 6;
+	}
 	switch (m) {
-	case 0:
-		eagleOwner = player;
-		showMessage("Got the eagle");
-		break;
-	case 1:
-		specialModeStart = time;
-		specialMode = 1;
-		showMessage("Mouse mania");
-		// remove all snakes
-		for (unsigned int k=0; k<maze.snakes.size(); k++) {
-			maze.snakes[k].dying = true;
-		}
-		break;
-	case 2:
-		specialModeStart = time;
-		specialMode = 2;
-		showMessage("Snake attack");
-		break;
-	case 3:
-		specialModeStart = time;
-		specialMode = 3;
-		showMessage("Color madness");
-		break;
-	case 4:
-		specialModeStart = time;
-		specialMode = 4;
-		showMessage("Black Death");
-		break;
+		case 0:
+			eagleOwner = player;
+			showMessage("Got the eagle");
+			break;
+		case 1:
+			specialModeStart = time;
+			specialMode = 1;
+			showMessage("Mouse mania");
+			// remove all snakes
+			for (unsigned int k=0; k<maze.snakes.size(); k++) {
+				maze.snakes[k].dying = true;
+			}
+			break;
+		case 2:
+			specialModeStart = time;
+			specialMode = 2;
+			showMessage("Snake attack");
+			break;
+		case 3:
+			specialModeStart = time;
+			specialMode = 3;
+			showMessage("Color madness");
+			break;
+		case 4:
+			specialModeStart = time;
+			specialMode = 4;
+			showMessage("Black Death");
+			break;
+		case 5:
+			specialModeStart = time;
+			specialMode = 5;
+			showMessage("Destruction time");
 	}
 
 }
@@ -156,6 +167,7 @@ void Game::prepareRender() {
 void Game::run() {
 	vector<Button> buttons;
 	int pressedButton = -1;
+	cheatFutureEvent = -1;
 
 	buttons.push_back(Button(-0.7, -0.6, 1.4, 0.15, "Play the same maze again"));
 	buttons[buttons.size()-1].shown = false; // hidden before game end
@@ -362,141 +374,154 @@ void Game::run() {
 		while (SDL_PollEvent(&event)) {
 			Program::getInstance()->generalEventHandler(&event);
 			switch (event.type) {
-			case SDL_KEYUP:
-				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					Program::getInstance()->scene = 0;
-					return;
-				}
-				break;
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_PAUSE
-						|| event.key.keysym.sym == SDLK_p) {
-					togglePause();
-				}
-				if (keyboardControlledCursor != NULL) {
-					float newX = keyboardControlledCursor->x;
-					float newY = keyboardControlledCursor->y;
-					bool changed = false;
-					bool arrowAdded = false;
-					int direction = 0;
-					if (event.key.keysym.sym == SDLK_LEFT) {
-						newX -= maze.cellWidth;
-						changed = true;
-					} else if (event.key.keysym.sym == SDLK_RIGHT) {
-						newX += maze.cellWidth;
-						changed = true;
-					} else if (event.key.keysym.sym == SDLK_UP) {
-						newY += maze.cellHeight;
-						changed = true;
-					} else if (event.key.keysym.sym == SDLK_DOWN) {
-						newY -= maze.cellHeight;
-						changed = true;
-					} else if (event.key.keysym.sym == SDLK_i) {
-						arrowAdded = true;
-						direction = 1;
-					} else if (event.key.keysym.sym == SDLK_j) {
-						arrowAdded = true;
-						direction = 2;
-					} else if (event.key.keysym.sym == SDLK_k) {
-						arrowAdded = true;
-						direction = 3;
-					} else if (event.key.keysym.sym == SDLK_l) {
-						arrowAdded = true;
-						direction = 0;
+				case SDL_KEYUP:
+					if (event.key.keysym.sym == SDLK_ESCAPE) {
+						Program::getInstance()->scene = 0;
+						return;
 					}
+					break;
+				case SDL_KEYDOWN:
+					if (event.key.keysym.sym == SDLK_PAUSE
+							|| event.key.keysym.sym == SDLK_p) {
+						togglePause();
+					}
+					if (keyboardControlledCursor != NULL) {
+						float newX = keyboardControlledCursor->x;
+						float newY = keyboardControlledCursor->y;
+						bool changed = false;
+						bool arrowAdded = false;
+						int direction = 0;
+						if (event.key.keysym.sym == SDLK_LEFT) {
+							newX -= maze.cellWidth;
+							changed = true;
+						} else if (event.key.keysym.sym == SDLK_RIGHT) {
+							newX += maze.cellWidth;
+							changed = true;
+						} else if (event.key.keysym.sym == SDLK_UP) {
+							newY += maze.cellHeight;
+							changed = true;
+						} else if (event.key.keysym.sym == SDLK_DOWN) {
+							newY -= maze.cellHeight;
+							changed = true;
+						} else if (event.key.keysym.sym == SDLK_i) {
+							arrowAdded = true;
+							direction = 1;
+						} else if (event.key.keysym.sym == SDLK_j) {
+							arrowAdded = true;
+							direction = 2;
+						} else if (event.key.keysym.sym == SDLK_k) {
+							arrowAdded = true;
+							direction = 3;
+						} else if (event.key.keysym.sym == SDLK_l) {
+							arrowAdded = true;
+							direction = 0;
+						} else if (event.key.keysym.sym == SDLK_0) {
+							cheatFutureEvent = 0;
+						} else if (event.key.keysym.sym == SDLK_1) {
+							cheatFutureEvent = 1;
+						} else if (event.key.keysym.sym == SDLK_2) {
+							cheatFutureEvent = 2;
+						} else if (event.key.keysym.sym == SDLK_3) {
+							cheatFutureEvent = 3;
+						} else if (event.key.keysym.sym == SDLK_4) {
+							cheatFutureEvent = 4;
+						} else if (event.key.keysym.sym == SDLK_5) {
+							cheatFutureEvent = 5;
+						}
 
-					if (changed) {
-						if (newX >= maze.x0 && newX <= maze.x0 + maze.width*maze.cellWidth) {
-							keyboardControlledCursor->x = newX;
-						}
-						if (newY >= maze.y0 && newY <= maze.y0 + maze.height*maze.cellHeight) {
-							keyboardControlledCursor->y = newY;
-						}
-					}
 
-					if (arrowAdded && running) {
-						maze.addArrow(
-								keyboardControlledCursor->getCellI(&maze),
-								keyboardControlledCursor->getCellJ(&maze),
-								keyboardControlledCursor->getPlayer(), direction);
-					}
-				}
-				break;
-			case SDL_MOUSEMOTION:
-				cursor.setFromWindowXY(event.motion.x, event.motion.y);
-				if (mouseControlledCursor != NULL) {
-					mouseControlledCursor->setFromWindowXY(event.motion.x, event.motion.y);
-				}
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				if (event.button.button == SDL_BUTTON_LEFT || event.button.button == SDL_BUTTON_RIGHT) {
-					for (int b=0; b<(int) buttons.size(); b++) {
-						if (buttons[b].over(cursor.x, cursor.y)) {
-							pressedButton = b;
-						}
-					}
-				}
-				if (!ended && mouseControlledCursor != NULL) {
-					mouseDownX = mouseControlledCursor->x;
-					mouseDownY = mouseControlledCursor->y;
-					mouseDownI = mouseControlledCursor->getCellI(&maze);
-					mouseDownJ = mouseControlledCursor->getCellJ(&maze);
-				}
-				break;
-			case SDL_MOUSEBUTTONUP:
-				if (event.button.button == SDL_BUTTON_LEFT || event.button.button == SDL_BUTTON_RIGHT) {
-					if (pressedButton >= 0) {
-						if (buttons[pressedButton].over(cursor.x, cursor.y)) {
-							if (pressedButton == 0) {
-								return;
-							} else if (pressedButton == 1) {
-								Program::getInstance()->scene = 0;
-								return;
-							} else if (pressedButton == 2) {
-								togglePause();
-							} else if (pressedButton == 3) {
-								Program::getInstance()->scene = 0;
-								return;
+						if (changed) {
+							if (newX >= maze.x0 && newX <= maze.x0 + maze.width*maze.cellWidth) {
+								keyboardControlledCursor->x = newX;
+							}
+							if (newY >= maze.y0 && newY <= maze.y0 + maze.height*maze.cellHeight) {
+								keyboardControlledCursor->y = newY;
 							}
 						}
-						pressedButton = -1;
+
+						if (arrowAdded && running) {
+							maze.addArrow(
+									keyboardControlledCursor->getCellI(&maze),
+									keyboardControlledCursor->getCellJ(&maze),
+									keyboardControlledCursor->getPlayer(), direction);
+						}
 					}
-				}
-				if (!ended && mouseControlledCursor != NULL && mouseDownI != -1 && mouseDownJ != -1) {
-					int direction = -1;
-					float delta1 = (mouseControlledCursor->x - mouseDownX) / maze.cellWidth;
-					if (delta1 < 0) delta1 = -delta1;
-					float delta2 = (mouseControlledCursor->y - mouseDownY) / maze.cellHeight;
-					if (delta2 < 0) delta2 = -delta2;
-					//cout << delta1 << delta2 << endl;
-					if (delta1 > delta2 && delta1 > 0.2) {
-						if (mouseControlledCursor->x > mouseDownX) {
-							direction = 0;
+					break;
+				case SDL_MOUSEMOTION:
+					cursor.setFromWindowXY(event.motion.x, event.motion.y);
+					if (mouseControlledCursor != NULL) {
+						mouseControlledCursor->setFromWindowXY(event.motion.x, event.motion.y);
+					}
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					if (event.button.button == SDL_BUTTON_LEFT || event.button.button == SDL_BUTTON_RIGHT) {
+						for (int b=0; b<(int) buttons.size(); b++) {
+							if (buttons[b].over(cursor.x, cursor.y)) {
+								pressedButton = b;
+							}
+						}
+					}
+					if (!ended && mouseControlledCursor != NULL) {
+						mouseDownX = mouseControlledCursor->x;
+						mouseDownY = mouseControlledCursor->y;
+						mouseDownI = mouseControlledCursor->getCellI(&maze);
+						mouseDownJ = mouseControlledCursor->getCellJ(&maze);
+					}
+					break;
+				case SDL_MOUSEBUTTONUP:
+					if (event.button.button == SDL_BUTTON_LEFT || event.button.button == SDL_BUTTON_RIGHT) {
+						if (pressedButton >= 0) {
+							if (buttons[pressedButton].over(cursor.x, cursor.y)) {
+								if (pressedButton == 0) {
+									return;
+								} else if (pressedButton == 1) {
+									Program::getInstance()->scene = 0;
+									return;
+								} else if (pressedButton == 2) {
+									togglePause();
+								} else if (pressedButton == 3) {
+									Program::getInstance()->scene = 0;
+									return;
+								}
+							}
+							pressedButton = -1;
+						}
+					}
+					if (!ended && mouseControlledCursor != NULL && mouseDownI != -1 && mouseDownJ != -1) {
+						int direction = -1;
+						float delta1 = (mouseControlledCursor->x - mouseDownX) / maze.cellWidth;
+						if (delta1 < 0) delta1 = -delta1;
+						float delta2 = (mouseControlledCursor->y - mouseDownY) / maze.cellHeight;
+						if (delta2 < 0) delta2 = -delta2;
+						//cout << delta1 << delta2 << endl;
+						if (delta1 > delta2 && delta1 > 0.2) {
+							if (mouseControlledCursor->x > mouseDownX) {
+								direction = 0;
+							} else {
+								direction = 2;
+							}
+						} else if (delta1 < delta2 && delta2 > 0.2) {
+							if (mouseControlledCursor->y > mouseDownY) {
+								direction = 1;
+							} else {
+								direction = 3;
+							}
 						} else {
-							direction = 2;
+							if (event.button.button == SDL_BUTTON_LEFT) {
+								direction = 2;
+							} else if (event.button.button == SDL_BUTTON_RIGHT) {
+								direction = 0;
+							} else if (event.button.button == SDL_BUTTON_WHEELUP) {
+								direction = 1;
+							} else if (event.button.button == SDL_BUTTON_WHEELDOWN) {
+								direction = 3;
+							}
 						}
-					} else if (delta1 < delta2 && delta2 > 0.2) {
-						if (mouseControlledCursor->y > mouseDownY) {
-							direction = 1;
-						} else {
-							direction = 3;
-						}
-					} else {
-						if (event.button.button == SDL_BUTTON_LEFT) {
-							direction = 2;
-						} else if (event.button.button == SDL_BUTTON_RIGHT) {
-							direction = 0;
-						} else if (event.button.button == SDL_BUTTON_WHEELUP) {
-							direction = 1;
-						} else if (event.button.button == SDL_BUTTON_WHEELDOWN) {
-							direction = 3;
+						if (direction != -1 && running) {
+							maze.addArrow(mouseDownI, mouseDownJ, mouseControlledCursor->getPlayer(), direction);
 						}
 					}
-					if (direction != -1 && running) {
-						maze.addArrow(mouseDownI, mouseDownJ, mouseControlledCursor->getPlayer(), direction);
-					}
-				}
-				break;
+					break;
 			}
 		}
 
@@ -524,8 +549,10 @@ void Game::run() {
 				}
 				k++;
 			}
-
-			if (specialMode != 0 && time > specialModeStart + 1000) {
+			if (specialMode == 5 && time > specialModeStart + 100) {
+				specialMode = 0;
+			}
+			else if (specialMode != 0 && time > specialModeStart + 1000) {
 				specialMode = 0;
 				showMessage("Back to normal");
 			}
