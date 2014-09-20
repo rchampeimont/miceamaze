@@ -217,7 +217,37 @@ void Maze::prepareRender(Game *game) {
 	}
 	glEnd();
 
+	// draw spawners
+	for (vector<Spawner>::iterator spawner = spawners.begin(); spawner != spawners.end(); ++spawner) {
+		spawner->render();
+	}
+
+	// show maze credit
+	if (game != NULL) {
+		glLoadMatrixf(modelMatrix);
+		glTranslatef(-0.2, -0.98, 0);
+		glScalef(0.06, 0.05, 1);
+		glColor3f(0.8, 0.7, 0.4);
+		if (description.length() == 0) {
+			RenderFlatText::render(name, 0);
+		} else {
+			RenderFlatText::render(name + " - " + description, 0);
+		}
+	}
+
+
+	glEndList();
+}
+
+// game argument may be NULL
+void Maze::render(Game *game) {
+	glLoadMatrixf(modelMatrix);
+
+	// Render fixed parts of the maze
+	glCallList(fixedObjectsDisplayList);
+
 	// draw walls
+	glLoadMatrixf(modelMatrix);
 	glColor3f(0.8, 0.5, 0.1);
 	glBegin(GL_QUADS);
 	{
@@ -247,36 +277,6 @@ void Maze::prepareRender(Game *game) {
 		}
 	}
 	glEnd();
-
-
-	// draw spawners
-	for (vector<Spawner>::iterator spawner = spawners.begin(); spawner != spawners.end(); ++spawner) {
-		spawner->render();
-	}
-
-	// show maze credit
-	if (game != NULL) {
-		glLoadMatrixf(modelMatrix);
-		glTranslatef(-0.2, -0.98, 0);
-		glScalef(0.06, 0.05, 1);
-		glColor3f(0.8, 0.7, 0.4);
-		if (description.length() == 0) {
-			RenderFlatText::render(name, 0);
-		} else {
-			RenderFlatText::render(name + " - " + description, 0);
-		}
-	}
-
-
-	glEndList();
-}
-
-// game argument may be NULL
-void Maze::render(Game *game) {
-	glLoadMatrixf(modelMatrix);
-
-	// Render fixed parts of the maze
-	glCallList(fixedObjectsDisplayList);
 
 	// draw arrows
 	for (vector<Arrow>::iterator arrow = arrows.begin(); arrow != arrows.end(); ++arrow) {
