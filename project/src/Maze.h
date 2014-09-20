@@ -76,6 +76,7 @@ public:
 	}
 	IntXY nextCell(int,int,int);
 	bool crossesWall(int,int,int,int);
+	bool destroyWall(int, int, int, int);
 	int addArrow(int,int,int,int);
 	void save(string);
 	void load(string);

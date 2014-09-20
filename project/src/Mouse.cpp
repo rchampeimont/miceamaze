@@ -38,7 +38,6 @@ Mouse::Mouse(Maze *m, int x0, int y0, int dir): Animal(m, x0, y0, dir) {
 	color.b = color.r;
 	magic = false;
 	sick = false;
-	drill = false;
 }
 
 void Mouse::makeMagic() {

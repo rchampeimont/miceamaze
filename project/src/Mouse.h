@@ -37,7 +37,7 @@ class Maze;
 class Mouse: public Animal {
 	 bool magic;
 	 bool sick;
-	 bool drill;
+
 public:
 	static unsigned int mouseTexture, sickMouseTexture, drillMouseTexture;
 	static void loadTexture();

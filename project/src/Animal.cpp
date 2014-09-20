@@ -46,6 +46,7 @@ Animal::Animal(Maze *m, int x0, int y0, int dir) {
 	dying = false;
 	inHouse = 0;
 	life = 1;
+	drill = false;
 }
 
 // Returns 0 if mouse is still walking,
@@ -162,42 +163,54 @@ int Animal::walk(Game *game) {
 			if (!rotating) {
 				// Does the mouse face a wall?
 				if (maze->crossesWall(j, i,  noseFutureJ, noseFutureI)) {
-					// Smart mice: Can I go left or right without being stopped by a wall?
-					IntXY left = maze->nextCell(j, i, direction == 3 ? 0 : direction + 1);
-					bool leftOK = !maze->crossesWall(j, i, left.x, left.y);
-					IntXY right = maze->nextCell(j, i, direction == 0 ? 3 : direction - 1);
-					bool rightOK = !maze->crossesWall(j, i, right.x, right.y);
-
-					if (leftOK && !rightOK) {
-						rotating = 1;
-					} else if (rightOK && !leftOK) {
-						rotating = -1;
-					} else if (rightOK && leftOK) {
-						// Can go both left and right, so choose at random
-						if (rand() % 2 == 0) {
-							rotating = 1;
-						} else {
-							rotating = -1;
+					bool takeWallIntoAccount = true;
+					if (drill) {
+						if (maze->destroyWall(j, i, noseFutureJ, noseFutureI))
+						{
+							takeWallIntoAccount = false;
+							drill = false;
 						}
-					} else {
-						// Mouse will have to U-turn
-						rotating = 1;
 					}
 
-					// Rotate
-					if (rotating == 1) {
-						// rotate left
-						direction++;
-						if (direction == 4)
-							direction = 0;
-					} else {
-						// rotate right
-						direction--;
-						if (direction == -1)
-							direction = 3;
+					if (takeWallIntoAccount)
+					{
+						// Smart mice: Can I go left or right without being stopped by a wall?
+						IntXY left = maze->nextCell(j, i, direction == 3 ? 0 : direction + 1);
+						bool leftOK = !maze->crossesWall(j, i, left.x, left.y);
+						IntXY right = maze->nextCell(j, i, direction == 0 ? 3 : direction - 1);
+						bool rightOK = !maze->crossesWall(j, i, right.x, right.y);
+
+						if (leftOK && !rightOK) {
+							rotating = 1;
+						} else if (rightOK && !leftOK) {
+							rotating = -1;
+						} else if (rightOK && leftOK) {
+							// Can go both left and right, so choose at random
+							if (rand() % 2 == 0) {
+								rotating = 1;
+							} else {
+								rotating = -1;
+							}
+						} else {
+							// Mouse will have to U-turn
+							rotating = 1;
+						}
+
+						// Rotate
+						if (rotating == 1) {
+							// rotate left
+							direction++;
+							if (direction == 4)
+								direction = 0;
+						} else {
+							// rotate right
+							direction--;
+							if (direction == -1)
+								direction = 3;
+						}
+						x = ((int) x) + 0.5;
+						y = ((int) y) + 0.5;
 					}
-					x = ((int) x) + 0.5;
-					y = ((int) y) + 0.5;
 				}
 			}
 		}

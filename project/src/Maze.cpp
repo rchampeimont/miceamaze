@@ -348,6 +348,39 @@ bool Maze::crossesWall(int x, int y, int nx, int ny) {
 	}
 }
 
+bool Maze::destroyWall(int x, int y, int nx, int ny) {
+	if (x != nx) {
+		for (vector<Wall>::iterator wall = vWalls.begin(); wall != vWalls.end(); ++wall) {
+			if (y == wall->i) {
+				if ((nx == wall->j && x < nx) || (x == wall->j && x > nx)) {
+					if (wall->j == 0 || wall->j == size){
+						return false;
+					} else {
+						vWalls.erase(wall);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	} else if (y != ny) {
+		for (vector<Wall>::iterator wall = hWalls.begin(); wall != hWalls.end(); ++wall) {
+			if (x == wall->j) {
+				if ((ny == wall->i && y < ny) || (y == wall->i && y > ny)) {
+					if (wall->i == 0 || wall->i == size) {
+						return false;
+					} else {
+						hWalls.erase(wall);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	} else {
+		return false;
+	}
+}
 
 // Returns:
 // 0 if no arrow added

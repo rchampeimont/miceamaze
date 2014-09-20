@@ -34,6 +34,8 @@ class Maze;
 class Game;
 
 class Animal {
+protected:
+bool drill;
 public:
 	static int loadTexture(const char*);
 	float x;
