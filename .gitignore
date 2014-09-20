@@ -39,3 +39,4 @@ project/miceamaze_private.h
 project/miceamaze_private.rc
 project/miceamaze.layout
 project/Makefile.win
+project/miceamaze_private.res
