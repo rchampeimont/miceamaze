@@ -38,3 +38,4 @@ project/rundir/libstdc++-6.dll
 project/miceamaze_private.h
 project/miceamaze_private.rc
 project/miceamaze.layout
+project/Makefile.win
