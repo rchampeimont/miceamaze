@@ -46,11 +46,10 @@ class Game;
 
 class Maze {
 	bool hasDisplayList;
+
 public:
 	int size, width, height;
 	vector<Wall> vWalls, hWalls;
-	vector<vector<int> > hWallsAsMatrix;
-	vector<vector<int> > vWallsAsMatrix;
 	vector<Mouse> mice;
 	vector<Snake> snakes;
 	vector<Arrow> arrows;
@@ -80,7 +79,6 @@ public:
 	int addArrow(int,int,int,int);
 	void save(string);
 	void load(string);
-	void prepare();
 	void prepareRender(Game *game);
 	void randomizeHouses();
 };

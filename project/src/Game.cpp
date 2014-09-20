@@ -558,7 +558,7 @@ void Game::run() {
 				}
 				k++;
 			}
-			if (specialMode == 5 && time > specialModeStart + 100) {
+			if (specialMode == 5 && time >= specialModeStart + 100) {
 				specialMode = 0;
 			}
 			else if (specialMode != 0 && time > specialModeStart + 1000) {

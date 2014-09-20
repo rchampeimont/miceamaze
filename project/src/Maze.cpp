@@ -138,8 +138,6 @@ void Maze::load(string path) {
 			}
 		}
 	}
-
-	prepare();
 }
 
 void Maze::save(string path) {
@@ -187,25 +185,6 @@ void Maze::save(string path) {
 	f << description << "\r\n";
 	f.close();
 }
-
-void Maze::prepare() {
-	hWallsAsMatrix.clear();
-	vWallsAsMatrix.clear();
-	for (int i=0; i<size; i++) {
-		vWallsAsMatrix.push_back(vector<int>(size+1, 0));
-	}
-	for (int i=0; i<=size; i++) {
-		hWallsAsMatrix.push_back(vector<int>(size, 0));
-	}
-
-	for (vector<Wall>::iterator wall = vWalls.begin(); wall != vWalls.end(); ++wall) {
-		vWallsAsMatrix[wall->i][wall->j] = 1;
-	}
-	for (vector<Wall>::iterator wall = hWalls.begin(); wall != hWalls.end(); ++wall) {
-		hWallsAsMatrix[wall->i][wall->j] = 1;
-	}
-}
-
 // Call this function in the same OpenGL context as you will do the rendering,
 // but only once.
 void Maze::prepareRender(Game *game) {
