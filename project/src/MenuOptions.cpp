@@ -149,8 +149,8 @@ void MenuOptions::run() {
 	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "Window", textSizeFactor));
 
 	i=1;
-	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "100 (low)", textSizeFactor));
-	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "200 (default)", textSizeFactor));
+	buttons.push_back(Button(-0.4, 0.4-0.2*i, 0.3, 0.10, "60 (low)", textSizeFactor));
+	buttons.push_back(Button(-0.0, 0.4-0.2*i, 0.3, 0.10, "120 (normal)", textSizeFactor));
 	buttons.push_back(Button(+0.4, 0.4-0.2*i, 0.3, 0.10, "MAX", textSizeFactor));
 
 	i=2;

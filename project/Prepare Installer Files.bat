@@ -3,9 +3,8 @@
 rd /S /Q MiceAmaze
 
 md MiceAmaze
-copy Release\*.dll MiceAmaze
-copy Release\*.exe MiceAmaze
+copy "C:\MinGW\bin\libgcc_s_dw2-1.dll" MiceAmaze
+copy "C:\MinGW\bin\libstdc++-6.dll" MiceAmaze
 copy LICENSE.txt MiceAmaze
-copy ChangeLog.txt MiceAmaze
 xcopy rundir\*.* MiceAmaze /E
 pause

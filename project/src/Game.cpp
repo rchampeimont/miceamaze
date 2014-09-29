@@ -40,7 +40,11 @@ Game::Game() : cursor(-1) {
 		cur->x = 0.9;
 		cur->y = -1 + (i+1)/10.0;
 		cursors.push_back(cur);
-		scores.push_back(0);
+		if (MenuPlayers::playerControls[i] != 3) {
+			scores.push_back(0);
+		} else {
+			scores.push_back(INT_MIN);
+		}
 	}
 
 	time = 0;
@@ -264,11 +268,13 @@ void Game::run() {
 
 		// show scores
 		for (int p=0; p<players; p++) {
-			glLoadIdentity();
-			glTranslatef(0.9, 0.6-0.15*p, 0);
-			glScalef(0.2, 0.15, 1);
-			Program::getInstance()->playerColors[p].gl();
-			RenderFlatText::render(Functions::toString(scores[p]), 1);
+			if (MenuPlayers::playerControls[p] != 3) {
+				glLoadIdentity();
+				glTranslatef(0.9, 0.6-0.15*p, 0);
+				glScalef(0.2, 0.15, 1);
+				Program::getInstance()->playerColors[p].gl();
+				RenderFlatText::render(Functions::toString(scores[p]), 1);
+			}
 		}
 
 
@@ -394,6 +400,21 @@ void Game::run() {
 							|| event.key.keysym.sym == SDLK_p) {
 						togglePause();
 					}
+					
+					if (event.key.keysym.sym == SDLK_0) {
+						cheatFutureEvent = 0;
+					} else if (event.key.keysym.sym == SDLK_1) {
+						cheatFutureEvent = 1;
+					} else if (event.key.keysym.sym == SDLK_2) {
+						cheatFutureEvent = 2;
+					} else if (event.key.keysym.sym == SDLK_3) {
+						cheatFutureEvent = 3;
+					} else if (event.key.keysym.sym == SDLK_4) {
+						cheatFutureEvent = 4;
+					} else if (event.key.keysym.sym == SDLK_5) {
+						cheatFutureEvent = 5;
+					}
+					
 					if (keyboardControlledCursor != NULL) {
 						float newX = keyboardControlledCursor->x;
 						float newY = keyboardControlledCursor->y;
@@ -424,20 +445,7 @@ void Game::run() {
 						} else if (event.key.keysym.sym == SDLK_l) {
 							arrowAdded = true;
 							direction = 0;
-						} else if (event.key.keysym.sym == SDLK_0) {
-							cheatFutureEvent = 0;
-						} else if (event.key.keysym.sym == SDLK_1) {
-							cheatFutureEvent = 1;
-						} else if (event.key.keysym.sym == SDLK_2) {
-							cheatFutureEvent = 2;
-						} else if (event.key.keysym.sym == SDLK_3) {
-							cheatFutureEvent = 3;
-						} else if (event.key.keysym.sym == SDLK_4) {
-							cheatFutureEvent = 4;
-						} else if (event.key.keysym.sym == SDLK_5) {
-							cheatFutureEvent = 5;
 						}
-
 
 						if (changed) {
 							if (newX >= maze.x0 && newX <= maze.x0 + maze.width*maze.cellWidth) {

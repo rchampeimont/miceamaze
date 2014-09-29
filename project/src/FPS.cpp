@@ -45,9 +45,9 @@ void FPS::decideLimitFPS() {
 	if (Program::getInstance()->config.fpsBehaviour == 1) {
 		limitFPS = 0;
 	} else if (Program::getInstance()->config.fpsBehaviour == -1) {
-		limitFPS = 100;
+		limitFPS = 60;
 	} else {
-		limitFPS = 200;
+		limitFPS = 120;
 	}
 }
 

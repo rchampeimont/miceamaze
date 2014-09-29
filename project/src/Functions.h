@@ -47,6 +47,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <limits.h>
 
 #ifdef _WIN32
 // Windows
@@ -112,11 +113,11 @@ public:
 	static string getVersion() {
 		return VERSION;
 	}
-	static string getCopyrightASCII() {
-		return "(c) 2012-2013 Raphael Champeimont";
-	}
+	//static string getCopyrightASCII() {
+	//	return "(c) 2012-2014 Raphael Champeimont";
+	//}
 	static string getCopyright() {
-		return "\xa9 2012-2013 Rapha\xebl Champeimont";
+		return "\xa9 2012-2014 Rapha\xebl Champeimont";
 	}
 	static string getLicense();
 

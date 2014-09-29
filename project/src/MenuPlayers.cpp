@@ -29,7 +29,7 @@
 #include "Program.h"
 #include "RenderFlatText.h"
 
-int MenuPlayers::playerControls[4] = {0, 1, 2, 2};
+int MenuPlayers::playerControls[4] = {0, 1, 2, 3};
 
 MenuPlayers::MenuPlayers() : cursor(-1) {
 	hasDisplayList = false;

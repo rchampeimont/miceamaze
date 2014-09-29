@@ -62,7 +62,7 @@ void MenuMain::prepareRender() {
 	glLoadIdentity();
 	glTranslatef(0, -0.96, 0);
 	glScalef(0.06, 0.05, 1);
-	RenderFlatText::render(Functions::getAppName() + " " + Functions::getVersion() + " " + Functions::getCopyright(), 0);
+	RenderFlatText::render(Functions::getAppName() + " " + Functions::getVersion() + " by Rapha\xebl Champeimont ", 0);
 
 	glEndList();
 
