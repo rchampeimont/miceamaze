@@ -65,17 +65,6 @@ Program::Program(int _argc, char *_argv[]) {
 	screenOffsetY = 0;
 }
 
-Program::~Program() {
-	if (fps != NULL)
-		delete fps;
-	Mix_CloseAudio();
-	Mix_Quit();
-	SDL_FreeCursor(emptyCursor);
-	SDL_Quit();
-	instance = NULL;
-}
-
-
 // Called when changing video settings
 void Program::reinitVideo() {
 	initVideo();

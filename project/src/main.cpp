@@ -29,15 +29,8 @@
 
 using namespace std;
 
-void end() {
-	if (Program::getInstance() != NULL) {
-		delete Program::getInstance();
-	}
-}
-
 int main(int argc, char *argv[]) {
 	Program *mainInstance = new Program(argc, argv);
-	//atexit(end); // removed to avoid crash in Linux VM at exit
 	mainInstance->run();
 	return 0;
 }

@@ -81,7 +81,6 @@ public:
 	Program(int argc, char *argv[]);
 	void run();
 	void titleScreen();
-	~Program();
 	SDL_Cursor *init_system_cursor(const char *[]);
 	void initVideo();
 	void autoDetectFps();
