@@ -79,11 +79,14 @@ void HowToPlay::prepareRender() {
 	lines.push_back(" - Color Madness (new mice are randomly colored),");
 	lines.push_back(" - Eagle (you get the eagle which protects you from snakes),");
 	lines.push_back(" - Black Death (mice are sick).");
+	lines.push_back(" - Drill mice (see below).");
 	lines.push_back("");
 	lines.push_back("Sick mice make you loose 1 point if they reach your house.");
+	lines.push_back("");
+	lines.push_back("A drill mouse destroys one wall, then becomes a normal mouse.");
 	for (unsigned int i=0; i<lines.size(); i++) {
 		glLoadIdentity();
-		glTranslatef(-0.83, 0.57-0.06*i, 0);
+		glTranslatef(-0.83, 0.67-0.06*i, 0);
 		glScalef(0.05, 0.05, 1);
 		RenderFlatText::render(lines[i], -1);
 	}
@@ -134,7 +137,7 @@ void HowToPlay::run() {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		glLoadIdentity();
-		glTranslatef(-0.9, 0.57, 0);
+		glTranslatef(-0.9, 0.67, 0);
 		glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 		glRotatef(-90, 0, 0, 1);
 		glBindTexture(GL_TEXTURE_2D, Mouse::mouseTexture);
@@ -155,7 +158,7 @@ void HowToPlay::run() {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		glLoadIdentity();
-		glTranslatef(-0.9, -0.15, 0);
+		glTranslatef(-0.9, -0.05, 0);
 		glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 		glRotatef(-90, 0, 0, 1);
 		glBindTexture(GL_TEXTURE_2D, Mouse::mouseTexture);
@@ -174,7 +177,7 @@ void HowToPlay::run() {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		glLoadIdentity();
-		glTranslatef(-0.9, -0.55, 0);
+		glTranslatef(-0.9, -0.5, 0);
 		glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 		glRotatef(-90, 0, 0, 1);
 		glBindTexture(GL_TEXTURE_2D, Mouse::sickMouseTexture);
@@ -190,13 +193,32 @@ void HowToPlay::run() {
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);
+		
+		// render drill mouse
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_TEXTURE_2D);
+		glLoadIdentity();
+		glTranslatef(-0.9, -0.63, 0);
+		glScalef(0.05, 0.05f*4.0f/3.0f, 0);
+		glRotatef(-90, 0, 0, 1);
+		glBindTexture(GL_TEXTURE_2D, Mouse::drillMouseTexture);
+		glBegin(GL_QUADS);
+		glColor3f(1, 1, 1);
+		glTexCoord2f(0, 0); glVertex2f(-1, -1);
+		glTexCoord2f(0, 1); glVertex2f(-1, 1);
+		glTexCoord2f(1, 1); glVertex2f(1, 1);
+		glTexCoord2f(1, 0); glVertex2f(1, -1);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_BLEND);
 
 		// render snake
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
 		glLoadIdentity();
-		glTranslatef(-0.9, 0, 0);
+		glTranslatef(-0.9, 0.15, 0);
 		glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 		glRotatef(-90, 0, 0, 1);
 		glBindTexture(GL_TEXTURE_2D, Snake::snakeTexture);
@@ -215,7 +237,7 @@ void HowToPlay::run() {
 
 		// render arrow
 		glLoadIdentity();
-		glTranslatef(-0.9, 0.4, 0);
+		glTranslatef(-0.9, 0.5, 0);
 		arrow.player = (SDL_GetTicks() / 1000) % 4;
 		arrow.render();
 
