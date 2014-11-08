@@ -37,7 +37,7 @@ void end() {
 
 int main(int argc, char *argv[]) {
 	Program *mainInstance = new Program(argc, argv);
-	atexit(end);
+	//atexit(end); // removed to avoid crash in Linux VM at exit
 	mainInstance->run();
 	return 0;
 }
