@@ -137,7 +137,7 @@ void MenuMain::run() {
 		glEnable(GL_TEXTURE_2D);
 		for (int k=0; k<4; k++) {
 			glLoadIdentity();
-			glTranslatef(((SDL_GetTicks()/5 + decoMice[k]) % 2200)/1000.0f - 1.1, 0.4, 0);
+			glTranslatef(((SDL_GetTicks()/5 + decoMice[k]) % 2200)/2000.0f - 1.1, 0.4, 0);
 			glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 			glRotatef(-90, 0, 0, 1);
 			glBindTexture(GL_TEXTURE_2D, Mouse::mouseTexture);

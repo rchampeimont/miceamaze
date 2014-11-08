@@ -51,20 +51,7 @@ void FPS::decideLimitFPS() {
 	}
 }
 
-void FPS::renderInMenu() {
-	if (!Program::getInstance()->config.showFPS) return;
-	glLoadIdentity();
-	glTranslatef(0.72, -0.99, 0);
-	glScalef(0.04, 0.04, 1);
-	if (fps < 20 && fps >= 0)
-		glColor3f(1, 0, 0);
-	else
-		glColor3f(0.8, 0.7, 0.4);
-	if (fps >= 0) {
-		string s = "FPS: " + Functions::toString(fps) + " (5 ms)";
-		RenderFlatText::render(s);
-	}
-}
+
 
 
 void FPS::renderInGame() {
@@ -80,7 +67,7 @@ void FPS::renderInGame() {
 		string s = "FPS: " + Functions::toString(fps);
 		if (limitFPS) {
 			//s += " (lim)";
-			s += " (" + Functions::toString(frameDelay) + " ms)";
+			s += " [" + Functions::toString(frameDelay) + " ms]";
 		}
 		RenderFlatText::render(s);
 	}
@@ -110,6 +97,7 @@ void FPS::waitInGame() {
 
 }
 
+
 // Wait between two frames in menu-like things
 // that don't need dynamic delay adjustment.
 // This is useful to prevent coil noise when FPS are very high
@@ -117,5 +105,20 @@ void FPS::waitInGame() {
 // and it also saves power since we don't need thousands of FPS in a menu.
 void FPS::waitInMenu() {
 	update();
-	SDL_Delay(5);
+	SDL_Delay(2);
+}
+
+void FPS::renderInMenu() {
+	if (!Program::getInstance()->config.showFPS) return;
+	glLoadIdentity();
+	glTranslatef(0.72, -0.99, 0);
+	glScalef(0.04, 0.04, 1);
+	if (fps < 20 && fps >= 0)
+		glColor3f(1, 0, 0);
+	else
+		glColor3f(0.8, 0.7, 0.4);
+	if (fps >= 0) {
+		string s = "FPS: " + Functions::toString(fps) + " [2 ms]";
+		RenderFlatText::render(s);
+	}
 }
