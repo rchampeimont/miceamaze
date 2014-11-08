@@ -81,8 +81,8 @@ void MenuMain::run() {
 	buttons.push_back(Button(-0.8, y0-3*delta, 1.6, 0.15, "How to play"));
 	int pressedButton = -1;
 
-	int decoMice[4] = {0, 300, 1000, 1500};
-	float decoMiceColors[4] = {1, 0.5, 0.3, 0.7};
+	int decoMice[] = {0, 300, 1000, 1500, 1700, 2000, 3000, 3800};
+	float decoMiceColors[] = {1, 0.5, 0.3, 0.7, 1, 0.1, 0.3, 0.2};
 
 	// place cursor at correct position
 	cursor.setFromMouse();
@@ -135,9 +135,9 @@ void MenuMain::run() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_TEXTURE_2D);
-		for (int k=0; k<4; k++) {
+		for (int k=0; k<8; k++) {
 			glLoadIdentity();
-			glTranslatef(((SDL_GetTicks()/5 + decoMice[k]) % 2200)/2000.0f - 1.1, 0.4, 0);
+			glTranslatef(((SDL_GetTicks()/5 + decoMice[k]) % 4000)/1000.0f - 2, 0.4, 0);
 			glScalef(0.05, 0.05f*4.0f/3.0f, 0);
 			glRotatef(-90, 0, 0, 1);
 			glBindTexture(GL_TEXTURE_2D, Mouse::mouseTexture);
