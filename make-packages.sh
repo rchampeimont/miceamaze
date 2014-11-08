@@ -14,12 +14,3 @@ tar cfz ${OUTDIR}.tar.gz $OUTDIR || exit 1
 rm -rf $OUTDIR
 echo ""
 
-OUTDIR=miceamaze-$VERSION-nodeps
-echo "==== Making ${OUTDIR}.tar.gz ===="
-rm -rf $OUTDIR ${OUTDIR}.tar.gz
-make -C linux-project-simple-nodeps clean || exit 1
-cp -RL linux-project-simple-nodeps $OUTDIR || exit 1
-tar cfz ${OUTDIR}.tar.gz $OUTDIR || exit 1
-rm -rf $OUTDIR
-
-
