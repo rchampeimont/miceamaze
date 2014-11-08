@@ -1,6 +1,6 @@
-====================================
-HOW TO COMPILE AND INSTALL MICEAMAZE
-====================================
+=============================================
+HOW TO COMPILE AND INSTALL MICEAMAZE ON LINUX
+=============================================
 
 You need:
 - GCC C++ compiler and GNU Make
