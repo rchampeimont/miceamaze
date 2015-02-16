@@ -29,7 +29,7 @@ miceamaze.xpm: data/images/mouse.png
 	convert -scale 32x32 $^ $@
 
 miceamaze.png: data/images/mouse.png
-	convert -scale 64x64 $^ $@
+	convert -scale 64x64 $^ +set date:create +set date:modify -define png:exclude-chunk=time $@
 
 miceamaze.6.gz: man/miceamaze.6
 	gzip -nc $^ > $@
