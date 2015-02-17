@@ -24,3 +24,4 @@ The music file Dj_Rkod_Pulse_(George_Ellinas_Remix).ogg
 is from http://dig.ccmixter.org/
 License: http://creativecommons.org/licenses/by/3.0/
 
+All mazes ("mazes" directory in "data") are in the public domain.
