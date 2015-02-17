@@ -1,3 +1,8 @@
+New in version 3.0:
+  * Sick mice
+  * New music
+  * A.I. now sends snakes to other's houses
+
 New in version 2.1:
   * Better AI: now uses snakes
 
