@@ -17,7 +17,7 @@ Homepage: http://www.miceamaze.org/
 Package: miceamaze
 Architecture: any
 Depends:
- ttf-dejavu-core,
+ fonts-dejavu-core | ttf-dejavu-core,
  ${misc:Depends},
  ${shlibs:Depends}
 Description: video game with mice in a maze
