@@ -1,7 +1,7 @@
 New in version 4.0:
   * New special mouse: the "drill mouse" destroys walls
- * Only houses from selected players are present in the maze
- * Better FPS setting: your computer heats less while playing the game
+  * Only houses from selected players are present in the maze
+  * Better FPS setting: your computer heats less while playing the game
 
 New in version 3.0:
   * Sick mice
