@@ -146,7 +146,7 @@ public:
 	// Check condition is true, otherwise exit.
 	static void verify(int condition) {
 		if (!condition) {
-			fatalError("A fatal error occured.");
+			fatalError("A fatal error occurred.");
 		}
 	}
 	static void verify(int condition, const char *message) {

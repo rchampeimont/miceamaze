@@ -30,7 +30,7 @@
 
 
 // In our graph, a vertex is a (cell, direction) couple.
-// The vertices are number first by row, then by colum, then by direction.
+// The vertices are number first by row, then by column, then by direction.
 class AIVertex {
 public:
 	// cost (in number of arrows to place) to go to directions
