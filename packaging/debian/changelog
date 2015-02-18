@@ -2,7 +2,7 @@ miceamaze (4.2-1) experimental; urgency=low
 
   * New upstram release 4.2 (Closes: #766820)
     - Remove creation timestamp in PNG generation (Closes: #778491)
-    - Bump Standards-Version, no changes needed
+  * Bump Standards-Version, no changes needed
 
  -- Raphael Champeimont <almacha@almacha.org>  Mon, 16 Feb 2015 14:18:29 +0100
 
