@@ -35,11 +35,20 @@ License: public-domain
  The changes made by the author are also in the public domain.
 
 Files: data/mazes/*.txt
+Copyright: Raphael Champeimont, Sarah Coudert
 License: public-domain
+ All maze authors agree to release them in the public domain.
 
 Files: data/music/DST-DistantMessage.ogg data/music/DST-Azum.ogg
 Copyright: 2010-2011 Deceased Superior Technician
 Source: http://www.nosoapradio.us/
+License: CC-BY-3.0
+
+Files: data/music/Dj_Rkod_Pulse_(George_Ellinas_Remix).ogg
+Copyright: 2008 George Ellinas
+Source: http://ccmixter.org/files/George_Ellinas/14073-
+License: CC-BY-3.0
+
 License: CC-BY-3.0
  Creative Commons Attribution 3.0 Unported
  .
@@ -375,7 +384,3 @@ License: CC-BY-3.0
  .
  Creative Commons may be contacted at http://creativecommons.org/.
 
-Files: data/music/Dj_Rkod_Pulse_(George_Ellinas_Remix).ogg
-Copyright: 2008 George Ellinas
-Source: http://ccmixter.org/files/George_Ellinas/14073-
-License: CC-BY-3.0
