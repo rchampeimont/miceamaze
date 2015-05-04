@@ -1,8 +1,8 @@
 New in version 4.2:
- * Fix title screen for 16:9 screens
+  * Fix title screen for 16:9 screens
  
 New in version 4.1:
- * More FPS in menus
+  * More FPS in menus
 
 New in version 4.0:
   * New special mouse: the "drill mouse" destroys walls
