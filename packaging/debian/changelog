@@ -1,3 +1,9 @@
+miceamaze (4.2.1-2) unstable; urgency=low
+
+  * Upload to unstable now that the freeze is over
+
+ -- Raphael Champeimont <almacha@almacha.org>  Mon, 04 May 2015 20:08:00 +0200
+
 miceamaze (4.2.1-1) experimental; urgency=low
 
   * New upstram release 4.2 (Closes: #766820)
