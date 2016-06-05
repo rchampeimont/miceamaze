@@ -1,0 +1,14 @@
+Author: Reiner Herrmann <reiner@reiner-h.de>
+Description: Sort object files for deterministic linking order
+
+--- a/Makefile
++++ b/Makefile
+@@ -17,7 +17,7 @@
+ SVGCOMMAND=rsvg-convert
+ SVGOPTIONS=-w 500
+ 
+-OBJS := $(patsubst src/%.cpp,src/%.o,$(wildcard src/*.cpp))
++OBJS := $(sort $(patsubst src/%.cpp,src/%.o,$(wildcard src/*.cpp)))
+ BUILTDATA := data/images/eagle.png data/images/eagle2.png
+ 
+ all: miceamaze miceamaze.xpm miceamaze.png miceamaze.6.gz $(BUILTDATA)

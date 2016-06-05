@@ -1,3 +1,11 @@
+miceamaze (4.2.1-3) unstable; urgency=low
+
+  * Change maintainer to Sarah COUDERT
+  * Apply patch sent by Reiner Herrmann (Closes: #825634)
+  * Bump Standards-Version, no changes needed
+
+ -- Sarah COUDERT <sarah.coudert@student.42.fr>  Sun, 05 Jun 2016 14:12:00 +0200
+
 miceamaze (4.2.1-2) unstable; urgency=low
 
   * Upload to unstable now that the freeze is over

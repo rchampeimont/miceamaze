@@ -1,8 +1,8 @@
 Source: miceamaze
-Maintainer: Raphael Champeimont <almacha@almacha.org>
+Maintainer: Sarah COUDERT <sarah.coudert@student.42.fr>
 Section: games
 Priority: extra
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Build-Depends:
  debhelper (>= 9),
  imagemagick,
