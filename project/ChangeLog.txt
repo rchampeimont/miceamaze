@@ -1,3 +1,7 @@
+New in version 4.2.2:
+  * Make build reproducible by sorting files in Makefile (for Debian)
+  * Remove GPU test maze (makes the game look experimental)
+
 New in version 4.2:
   * Fix title screen for 16:9 screens
  
