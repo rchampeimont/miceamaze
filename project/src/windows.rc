@@ -7,11 +7,11 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "CompanyName", "Raphael Champeimont"
+      VALUE "CompanyName", "River Champeimont"
       VALUE "FileDescription", "MiceAmaze"
       VALUE "FileVersion", "1.0"
       VALUE "InternalName", "MiceAmaze"
-      VALUE "LegalCopyright", "Copyright (c) 2012 Raphael Champeimont"
+      VALUE "LegalCopyright", "Copyright (c) 2012 River Champeimont"
       VALUE "OriginalFilename", "MiceAmaze.exe"
       VALUE "ProductName", "MiceAmaze"
       VALUE "ProductVersion", "1.0"

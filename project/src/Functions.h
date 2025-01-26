@@ -1,4 +1,4 @@
-// Copyright (c) 2012, Raphael CHAMPEIMONT
+// Copyright (c) 2012, River CHAMPEIMONT
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
@@ -114,7 +114,7 @@ public:
 		return VERSION;
 	}
 	//static string getCopyrightASCII() {
-	//	return "(c) 2012-2014 Raphael Champeimont";
+	//	return "(c) 2012-2014 River Champeimont";
 	//}
 	static string getCopyright() {
 		return "\xa9 2012-2014 Rapha\xebl Champeimont";

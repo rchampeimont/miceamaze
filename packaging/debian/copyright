@@ -1,10 +1,10 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: MiceAmaze
-Upstream-Contact: Raphael Champeimont <almacha@almacha.org>
+Upstream-Contact: River Champeimont <almacha@almacha.org>
 Source: http://www.miceamaze.org/source-packages/
 
 Files: *
-Copyright: 2015 Raphael Champeimont
+Copyright: 2015 River Champeimont
 License: BSD-2-clause
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions
@@ -35,7 +35,7 @@ License: public-domain
  The changes made by the author are also in the public domain.
 
 Files: data/mazes/*.txt
-Copyright: Raphael Champeimont, Sarah Coudert
+Copyright: River Champeimont, Sarah Coudert
 License: public-domain
  All maze authors agree to release them in the public domain.
 

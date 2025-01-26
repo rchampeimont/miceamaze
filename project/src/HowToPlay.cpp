@@ -1,4 +1,4 @@
-// Copyright (c) 2013, Raphael CHAMPEIMONT
+// Copyright (c) 2013, River CHAMPEIMONT
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
